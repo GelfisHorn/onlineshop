@@ -1,27 +1,67 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
+body, html {
+    height: 100%;
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+    font-family: 'Montserrat', sans-serif;
+}
+
+img {
+    -webkit-user-drag: none;
+    -khtml-user-drag: none;
+    -moz-user-drag: none;
+    -o-user-drag: none;
+    user-drag: none;
+}
+
+section {
+    margin: 3rem 10rem;
+}
+
+@media (max-width: 1024px) {
+    section {
+        margin: 3rem 5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    section {
+        margin: 3rem 2rem;
+    }
+}
+
+.image-hover {
+    transition-property: all;
+    transition-duration: .35s;
+    transition-timing-function: ease-in-out;
+}
+
+.image-hover:hover {
+    transform: scale(102%);
+}
+
+.no-scroll html {
+    overflow: hidden;
+}
+
+.no-scroll body {
+    overflow: hidden;
+}
+
+.image-container {
+    width: 100%;
+    position: relative !important;
+}
+
+.image-container .image {
+    object-fit: contain;
+    width: 100% !important;
+    position: relative !important;
+    height: unset !important;
 }

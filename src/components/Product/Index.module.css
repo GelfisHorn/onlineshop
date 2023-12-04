@@ -1,0 +1,4 @@
+.card:hover .name {
+    color: rgb(202 164 46);
+    text-decoration: underline;
+}

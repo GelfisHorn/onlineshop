@@ -1,0 +1,51 @@
+// Nextjs
+import Link from "next/link"
+// Hooks
+import useAppContext from "@/hooks/useAppContext"
+import useGetLang from "@/hooks/useGetLang";
+
+export default function Footer() {
+
+    const { lang: contextLang } = useAppContext();
+    const lang = useGetLang();
+    
+    return (
+        <footer className={"border-t"}>
+            <div className={"flex items-start justify-between px-40 py-20"}>
+                <Column title={lang.footer.columns.navigation.title} items={[
+                    { name: lang.footer.columns.navigation.items.home, href: `/${contextLang}/` },
+                    { name: lang.footer.columns.navigation.items.wigs, href: `/${contextLang}/collections/wigs` },
+                    { name: lang.footer.columns.navigation.items.extensions, href: `/${contextLang}/collections/extensions` },
+                ]} />
+                <Column title={lang.footer.columns.legal.title} items={[
+                    { name: lang.footer.columns.legal.items.impressum, href: `/${contextLang}/impressum` },
+                    { name: lang.footer.columns.legal.items.datenschutz, href: `/${contextLang}/datenschutz` }
+                ]} />
+                <Column title={lang.footer.columns.socials.title} items={[
+                    { name: lang.footer.columns.socials.items.facebook, href: `#`, icon: "fa-brands fa-square-facebook" },
+                    { name: lang.footer.columns.socials.items.instagram, href: `#`, icon: "fa-brands fa-instagram" },
+                    { name: lang.footer.columns.socials.items.tiktok, href: `#`, icon: "fa-brands fa-tiktok" }
+                ]} />
+            </div>
+            <div className={"border-t py-2 text-center"}>
+                <span className={"text-sm text-neutral-600"}>© 2023 OnlineShop</span>
+            </div>
+        </footer>
+    )
+}
+
+function Column({ title, items }) {
+    return (
+        <div className={"flex flex-col gap-4"}>
+            <span className={"uppercase font-medium text-lg"}>{title}</span>
+            <div className={"flex flex-col gap-1"}>
+                {items.map((item, index) => (
+                    <Link key={index} href={item.href} className={"flex items-center gap-2 w-fit hover:text-main transition-colors"}>
+                        {item.icon && <i className={`${item.icon} text-xl`} />}
+                        <div className={"hover:underline"}>{item.name}</div>
+                    </Link>
+                ))}
+            </div>
+        </div>
+    )
+}

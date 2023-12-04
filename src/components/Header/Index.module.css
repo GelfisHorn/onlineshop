@@ -1,0 +1,18 @@
+.cartButton:hover {
+    background-color: #CAA42E;
+    color: #fff;
+}
+
+.cartButton:hover .cartCount{
+    background-color: #876700;
+}
+
+.cartCount {
+    position: absolute;
+    top: -5px;
+    right: -10px;
+    font-size: 9px;
+    font-weight: 500;
+    background-color: #CAA42E;
+    color: #fff;
+}
