@@ -33,7 +33,7 @@ export default function ProductPage() {
 
     const [ productCount, setProductCount ] = useState(1);
 
-    const handleAddToCart = () => {
+    const HandleAddToCart = () => {
         useAddToCart({
             id: product.id,
             name: product.name,
@@ -66,7 +66,7 @@ export default function ProductPage() {
                         </div>
                         <ProductCount count={productCount} setCount={setProductCount} />
                         <div className={"flex flex-col gap-3"}>
-                            <button onClick={handleAddToCart} className={"border border-main h-12 hover:bg-main hover:text-white text-main transition-colors rounded-md"}>{lang.product.addToCart}</button>
+                            <button onClick={HandleAddToCart} className={"border border-main h-12 hover:bg-main hover:text-white text-main transition-colors rounded-md"}>{lang.product.addToCart}</button>
                             <button className={"h-12 bg-main text-white transition-all rounded-md"}>Comprar</button>
                             <PayPalButton />
                         </div>

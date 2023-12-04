@@ -22,7 +22,7 @@ function Collection({ collection }) {
     return (
         <Link href={`/${lang}/collections/${href}`} className={"flex flex-col gap-2"}>
             <div className={"image-container overflow-hidden aspect-square rounded-md"}>
-                <Image src={image} className={"image image-hover"} fill />
+                <Image src={image} className={"image image-hover"} fill alt={"Product image"} />
             </div>
             <div className={"flex items-center gap-2"}>
                 <span>{name}</span>

@@ -18,7 +18,7 @@ export default function Product({ product }) {
     const { currency, setCart } = useAppContext();
     const lang = useGetLang();
 
-    const handleAddToCart = () => {
+    const HandleAddToCart = () => {
         useAddToCart({
             id,
             name,
@@ -43,7 +43,7 @@ export default function Product({ product }) {
             </Link>
             <div className={"flex items-end justify-between"}>
                 <span className={"text-main text-2xl font-semibold"}>{useCurrencyFormatter(currency).format(price)}</span>
-                <button onClick={handleAddToCart} className={"flex items-end font-medium text-main gap-2"}>
+                <button onClick={HandleAddToCart} className={"flex items-end font-medium text-main gap-2"}>
                     <i className="fa-regular fa-bag-shopping text-lg"></i>
                     <span>{lang.product.addToCart}</span>
                 </button>

@@ -85,6 +85,8 @@ export default function CheckOut() {
         }
     }, [paymentDetails])
 
+    const CurrencyFormatter = (price) => useCurrencyFormatter(currency).format(price);
+
     return (
         <Layout title={lang.pages.checkout.headTitle}>
             <Toaster />
@@ -166,13 +168,13 @@ export default function CheckOut() {
                             <div className={"flex flex-col divide-y"}>
                                 <div className={"flex items-center justify-between py-3"}>
                                     <div>Subtotal</div>
-                                    <div className={"font-semibold"}>{useCurrencyFormatter(currency).format(total)}</div>
+                                    <div className={"font-semibold"}>{CurrencyFormatter(total)}</div>
                                 </div>
                                 <div className={"flex items-center justify-between py-3"}>
                                     <div className={"font-semibold text-lg"}>Total</div>
                                     <div className={"flex items-center gap-2"}>
                                         <span className={"text-sm text-neutral-600"}>{currency}</span>
-                                        <span className={"font-semibold"}>{useCurrencyFormatter(currency).format(total)}</span>
+                                        <span className={"font-semibold"}>{CurrencyFormatter(total)}</span>
                                     </div>
                                 </div>
                             </div>

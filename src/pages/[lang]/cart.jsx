@@ -32,6 +32,8 @@ export default function Cart() {
         setProductsTotal(total);
     }, [cart])
 
+    const CurrencyFormatter = (price) => useCurrencyFormatter(currency).format(price);
+
     return (
         <Layout title={lang.pages.cart.headTitle}>
             <section className={"flex flex-col"}>
@@ -68,7 +70,7 @@ export default function Cart() {
                     <div className={"flex flex-col items-end gap-5 py-10"}>
                         <div className={"flex items-end gap-3"}>
                             <div className={"uppercase font-medium"}>{lang.pages.cart.total}</div>
-                            <div>{useCurrencyFormatter(currency).format(productsTotal || 0)}</div>
+                            <div>{CurrencyFormatter(productsTotal || 0)}</div>
                         </div>
                         <Link href={`/${contextLang}/checkout`} className={"w-fit px-16 py-3 bg-main hover:bg-main-hover transition-colors text-white rounded-sm"}>{lang.pages.cart.payButton}</Link>
                     </div>
@@ -103,6 +105,8 @@ function Product({ p, updateProducts, handleRemove }) {
         setCount(count);
     }
 
+    const CurrencyFormatter = (price) => useCurrencyFormatter(currency).format(price);
+
     return (
         <div className={"flex items-start justify-between"}>
             <div className={"flex items-start gap-5 w-[60%]"}>
@@ -112,7 +116,7 @@ function Product({ p, updateProducts, handleRemove }) {
                 <div className={"flex flex-col justify-between h-full"}>
                     <div className={"flex flex-col"}>
                         <div className={"font-medium text-lg"}>{name}</div>
-                        <div className={"font-semibold text-lg"}>{useCurrencyFormatter(currency).format(price)}</div>
+                        <div className={"font-semibold text-lg"}>{CurrencyFormatter(price)}</div>
                     </div>
                     <button onClick={() => handleRemove(id)} className={"font-medium w-fit text-red-700 hover:text-red-800 transition-colors"}>{lang.pages.cart.removeProduct}</button>
                 </div>
@@ -120,7 +124,7 @@ function Product({ p, updateProducts, handleRemove }) {
             <div className={"w-[25%]"}>
                 <ProductCount count={count} setCount={handleSetCount} />
             </div>
-            <div className={"w-[15%] text-right"}>{useCurrencyFormatter(currency).format(price * count)}</div>
+            <div className={"w-[15%] text-right"}>{CurrencyFormatter(price * count)}</div>
         </div>
     )
 }

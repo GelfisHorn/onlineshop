@@ -76,6 +76,8 @@ export function ProductFilters({ availability, price, sortBy, highestPrice, prod
         router.replace({ pathname, query: params.toString() });
     };
 
+    const CurrencyFormatter = (price) => useCurrencyFormatter(currency).format(price);
+
     return (
         <div className={"flex flex-col gap-3"}>
             <div className={"border-b md:px-[5rem] lg:px-[10rem] py-5 md:h-20"}>
@@ -107,7 +109,7 @@ export function ProductFilters({ availability, price, sortBy, highestPrice, prod
                                         {highestPrice > 0 && (
                                             <>
                                                 <span>{lang.product.filters.highestPrice}</span>
-                                                <span>{useCurrencyFormatter(currency).format(highestPrice)}</span>
+                                                <span>{CurrencyFormatter(highestPrice)}</span>
                                             </>
                                         )}
                                     </div>
@@ -165,8 +167,8 @@ export function ProductFilters({ availability, price, sortBy, highestPrice, prod
             </div>
             <div className={"flex items-center gap-2 px-[10rem]"}>
                 {availability.get != null ? <Tag>{lang.product.filters.availability}: {availability.get == 0 ? lang.product.filters.outOfStock : lang.product.filters.inStock}</Tag> : null}
-                {price.get.from ? <Tag>{`${lang.product.filters.price} (MIN): ${useCurrencyFormatter(currency).format(price.get.from || 0)}`}</Tag> : null}
-                {price.get.to ? <Tag>{`${lang.product.filters.price} (MAX): ${useCurrencyFormatter(currency).format(price.get.to || 0)}`}</Tag> : null}
+                {price.get.from ? <Tag>{`${lang.product.filters.price} (MIN): ${CurrencyFormatter(price.get.from || 0)}`}</Tag> : null}
+                {price.get.to ? <Tag>{`${lang.product.filters.price} (MAX): ${CurrencyFormatter(price.get.to || 0)}`}</Tag> : null}
                 {sortBy.get ? <Tag>{`${lang.product.filters.sortBy} ${lang.product.filters[sortBy.get]}`}</Tag> : null}
             </div>
         </div>

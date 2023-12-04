@@ -24,7 +24,7 @@ export function AppContextProvider({ children }) {
     const [ cart, setCart ] = useState([]);
 
     function initContext() {
-        getProfile();
+        GetProfile();
         loadLanguage();
         // Load currency
         setCurrency(localStorage.getItem('currency') || "EUR");
@@ -47,7 +47,7 @@ export function AppContextProvider({ children }) {
         }
     }
 
-    async function getProfile() {
+    async function GetProfile() {
         try {
             const config = useAuthHeaders();
             const { data } = await axios.post('/api/user/getProfile', config);
