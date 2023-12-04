@@ -10,8 +10,8 @@ export default function Footer() {
     const lang = useGetLang();
     
     return (
-        <footer className={"border-t"}>
-            <div className={"flex items-start justify-between px-40 py-20"}>
+        <footer className={"flex flex-col items-center border-t"}>
+            <div className={"flex flex-col lg:flex-row gap-10 lg:gap-0 items-start justify-between lg:px-40 py-20 w-fit lg:w-full"}>
                 <Column title={lang.footer.columns.navigation.title} items={[
                     { name: lang.footer.columns.navigation.items.home, href: `/${contextLang}/` },
                     { name: lang.footer.columns.navigation.items.wigs, href: `/${contextLang}/collections/wigs` },
@@ -27,7 +27,7 @@ export default function Footer() {
                     { name: lang.footer.columns.socials.items.tiktok, href: `#`, icon: "fa-brands fa-tiktok" }
                 ]} />
             </div>
-            <div className={"border-t py-2 text-center"}>
+            <div className={"border-t py-2 text-center w-full"}>
                 <span className={"text-sm text-neutral-600"}>© 2023 OnlineShop</span>
             </div>
         </footer>
@@ -36,9 +36,9 @@ export default function Footer() {
 
 function Column({ title, items }) {
     return (
-        <div className={"flex flex-col gap-4"}>
-            <span className={"uppercase font-medium text-lg"}>{title}</span>
-            <div className={"flex flex-col gap-1"}>
+        <div className={"flex flex-col gap-4 w-full"}>
+            <span className={"uppercase font-medium text-lg text-center lg:text-left"}>{title}</span>
+            <div className={"flex flex-col gap-1 items-center lg:items-start"}>
                 {items.map((item, index) => (
                     <Link key={index} href={item.href} className={"flex items-center gap-2 w-fit hover:text-main transition-colors"}>
                         {item.icon && <i className={`${item.icon} text-xl`} />}

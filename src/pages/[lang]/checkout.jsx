@@ -6,13 +6,15 @@ import Image from "next/image";
 import Link from "next/link";
 // Components
 import Layout from "@/components/Layout";
+import PayPalButton from "@/components/PayPalButton";
 // Hooks
 import useAppContext from "@/hooks/useAppContext";
 import useCurrencyFormatter from "@/hooks/useCurrencyFormatter";
 import useGetLang from "@/hooks/useGetLang";
 // Notifications
 import toast, { Toaster } from 'react-hot-toast';
-import PayPalButton from "@/components/PayPalButton";
+// Animations
+import { AnimatePresence, motion } from "framer-motion";
 
 export default function CheckOut() {
 
@@ -87,11 +89,37 @@ export default function CheckOut() {
 
     const CurrencyFormatter = (price) => useCurrencyFormatter(currency).format(price);
 
+    const [ showResume, setShowResume ] = useState(false);
+    const handleShowResume = () => setShowResume(!showResume);
+
     return (
         <Layout title={lang.pages.checkout.headTitle}>
             <Toaster />
             <section className={"flex items-start my-0"}>
-                <div className={"flex flex-col gap-10 w-1/2 p-10 py-20 border-r h-full"}>
+                <div className={"flex flex-col gap-10 w-full lg:w-1/2 md:p-10 py-20 lg:border-r h-full"}>
+                    <div className={"block lg:hidden border-b"}>
+                        <div className={"flex items-center justify-between"}>
+                            <button onClick={handleShowResume} className={"flex items-center gap-2 h-14"}>
+                                <span>Resumen del pedido</span>
+                                <i className="fa-regular fa-angle-down"></i>
+                            </button>
+                            <div className={"font-semibold text-lg"}>{CurrencyFormatter(total)}</div>
+                        </div>
+                        <AnimatePresence>
+                            {showResume && (
+                                <motion.div
+                                    className={"flex flex-col gap-3 pb-5"}
+                                    initial={{ opacity: 0 }}
+                                    animate={{ opacity: 1 }}
+                                    exit={{ opacity: 0 }}
+                                >
+                                    {cart && cart.map((product, index) => (
+                                        <Product product={product} key={index} />
+                                    ))}
+                                </motion.div>
+                            )}
+                        </AnimatePresence>
+                    </div>
                     {/* <div className={"flex items-center gap-2 select-none"}>
                         <span className={"h-[1px] bg-neutral-200 w-full"}></span>
                         <span className={"text-neutral-500"}>O</span>
@@ -99,11 +127,11 @@ export default function CheckOut() {
                     </div> */}
                     <form className={"flex flex-col gap-10"}>
                         <div className={"flex flex-col gap-3"}>
-                            <div className={"flex items-center justify-between text-sm"}>
+                            <div className={"flex flex-col text-sm"}>
                                 <span className={"text-2xl font-semibold"}>{lang.pages.checkout.forms.contact.title}</span>
                                 <div className={"flex items-center gap-1"}>
                                     <span>{lang.pages.checkout.signIn.text}</span>
-                                    <Link href={`/${contextLang}/register`} className={"underline"}>{lang.pages.checkout.signIn.link}</Link>
+                                    <Link href={`/${contextLang}/login`} className={"underline"}>{lang.pages.checkout.signIn.link}</Link>
                                 </div>
                             </div>
                             <Input placeholder={lang.pages.checkout.forms.contact.placeholders.email} type={"email"} value={shipping.email} setValue={(e) => setShipping({ ...shipping, email: e.target.value })} autocomplete={"email"} />
@@ -157,7 +185,7 @@ export default function CheckOut() {
                         {/* <button type={"submit"} className={"py-3 bg-main text-white hover:bg-main-hover transition-colors rounded-md disabled:bg-neutral-400"} disabled={(paymentMethod == '' || cart.length == 0) ? true : false}>{lang.pages.checkout.forms.submit}</button> */}
                     </form>
                 </div>
-                <div className={"flex flex-col gap-10 w-1/2 p-10 py-20 h-full"}>
+                <div className={"hidden lg:flex flex-col gap-10 w-1/2 p-10 py-20 h-full"}>
                     {cart.length != 0 && (
                         <>
                             <div className={"flex flex-col gap-3"}>

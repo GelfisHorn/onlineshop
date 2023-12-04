@@ -89,12 +89,12 @@ function AboutUs() {
 
     return (
         <section className={"flex flex-col items-center gap-6 pb-[6rem] mt-[6rem] text-center"}>
-            <div className={"flex flex-col items-center gap-6 w-1/2"}>
+            <div className={"flex flex-col items-center gap-6 md:w-2/3 2xl:w-1/2"}>
                 <div className={"relative text-4xl w-fit"}>
-                    <span className={"relative z-10 font-medium"}>{lang.pages.home.aboutUs.title}</span>
-                    <div className={"absolute bottom-0 bg-[rgba(202,164,46,.5)] h-4 w-full"}></div>
+                    <span className={"relative z-10 font-semibold md:font-medium"}>{lang.pages.home.aboutUs.title}</span>
+                    <div className={"absolute bottom-0 md:bg-[rgba(202,164,46,.5)] h-4 w-full"}></div>
                 </div>
-                <div className={"text-lg text-neutral-700"}>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</div>
+                <div className={"md:text-lg text-neutral-700"}>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</div>
             </div>
         </section>
     )

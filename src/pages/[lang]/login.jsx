@@ -61,8 +61,8 @@ export default function Login() {
     return (
         <Layout title={lang.pages.login.headTitle}>
             <Toaster />
-            <section className={"grid place-content-center h-[70vh] min-h-[400px]"}>
-                <div className={"flex flex-col gap-16 w-[25rem]"}>
+            <section className={"flex items-center justify-center h-[70vh] min-h-[400px]"}>
+                <div className={"flex flex-col gap-16 w-full sm:w-[25rem]"}>
                     <h2 className={"text-4xl font-semibold text-center text-main"}>{lang.pages.login.title}</h2>
                     <form className={"flex flex-col gap-10"} onSubmit={handleSubmit}>
                         <div className={"flex flex-col gap-4"}>
@@ -71,12 +71,12 @@ export default function Login() {
                         </div>
                         <div className={"flex flex-col gap-4"}>
                             <button type="submit" className={"py-3 bg-main text-white"}>{lang.pages.login.submitBtn}</button>
-                            <div className={"flex flex-col gap-1"}>
-                                <div className={"flex gap-1 text-sm"}>
+                            <div className={"flex flex-col gap-4 sm:gap-1"}>
+                                <div className={"flex flex-col sm:flex-row sm:gap-1 text-sm"}>
                                     <span>{lang.pages.login.createAccount.text}</span>
                                     <Link href={`/${contextLang}/register`} className={"underline text-main"}>{lang.pages.login.createAccount.link}</Link>
                                 </div>
-                                <div className={"flex gap-1 text-sm"}>
+                                <div className={"flex flex-col sm:flex-row sm:gap-1 text-sm"}>
                                     <span>{lang.pages.login.forgotPassword.text}</span>
                                     <Link href={`#`} className={"underline text-main"}>{lang.pages.login.forgotPassword.link}</Link>
                                 </div>

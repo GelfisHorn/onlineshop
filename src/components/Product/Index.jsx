@@ -41,7 +41,7 @@ export default function Product({ product }) {
                 </div>
                 <span className={`${styles.name} font-medium text-xl transition-colors`}>{name}</span>
             </Link>
-            <div className={"flex items-end justify-between"}>
+            <div className={"flex flex-col sm:flex-row sm:items-end justify-between"}>
                 <span className={"text-main text-2xl font-semibold"}>{useCurrencyFormatter(currency).format(price)}</span>
                 <button onClick={HandleAddToCart} className={"flex items-end font-medium text-main gap-2"}>
                     <i className="fa-regular fa-bag-shopping text-lg"></i>

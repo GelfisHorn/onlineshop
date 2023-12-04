@@ -43,6 +43,10 @@ export default function Header() {
 
     useEffect(() => {
         setProductsCount(cart.length);
+
+        return () => {
+            document.body.style.overflow = 'auto';
+        }
     }, [cart]);
 
     const [ showAuthModal, setShowAuthModal ] = useState(false);
@@ -98,14 +102,35 @@ export default function Header() {
 
 function MobileMenu({ handleClose }) {
 
+    const { lang: contextLang, auth, setAuth } = useAppContext();
     const lang = useGetLang();
+
+    function Button({ children, hover, href, handleClick }) {
+        return href ? (
+            <Link href={href} className={`underline hover:text-main transition-colors ${hover ? hover : "hover:bg-main hover:text-white"}`}>{children}</Link>
+        ) : (
+            <button onClick={handleClick} className={`underline hover:text-main transition-colors ${hover ? hover : "hover:bg-main hover:text-white"}`}>{children}</button>
+        )
+    }
+
+    function handleLogOut() {
+        setAuth({
+            _id: "",
+            name: "",
+            surname: "",
+            email: "",
+            authenticated: false
+        });
+        Cookies.remove('token');
+    }
     
     return (
         <motion.div 
-            className={"fixed top-0 right-0 w-screen h-screen bg-white z-20 no-scroll"}
+            className={"fixed top-0 right-0 w-screen h-screen bg-white no-scroll"}
             initial={{ opacity: 0, right: "-20vw" }}
             whileInView={{ opacity: 1, right: 0 }}
             exit={{ opacity: 0, right: "-20vw" }}
+            style={{ zIndex: 101 }}
         >
             <div className={"flex flex-col justify-between h-full py-10"}>
                 <button onClick={handleClose} className={"absolute top-2 right-3"}>
@@ -115,23 +140,37 @@ function MobileMenu({ handleClose }) {
                     <div className={"grid place-content-center w-full"}>
                         <span className={"font-semibold text-2xl"}>ONLINESHOP.</span>
                     </div>
-                    <div className={"flex flex-col gap-3 items-center text-xl"}>
-                        <Link href={"#"} className={"underline hover:text-main transition-colors"}>{lang.header.wigs}</Link>
-                        <Link href={"#"} className={"underline hover:text-main transition-colors"}>{lang.header.extensions}</Link>
+                    <div className={"flex flex-col items-center text-xl"}>
+                        <div className={"flex flex-col gap-3 items-center py-6"}>
+                            <Link href={`/${contextLang}/collections/wigs`} className={"underline hover:text-main transition-colors"}>{lang.header.wigs}</Link>
+                            <Link href={`/${contextLang}/collections/extensions`} className={"underline hover:text-main transition-colors"}>{lang.header.extensions}</Link>
+                        </div>
+                        <div className={"flex flex-col gap-3 items-center border-t py-6"}>
+                            {auth.authenticated ? (
+                                <>
+                                    <Button href={`/${contextLang}/account/profile`}>Mi perfil</Button>
+                                    <Button href={`/${contextLang}/account/purchases`}>Mis compras</Button>
+                                </>
+                            ) : (
+                                <>
+                                    <Button href={`/${contextLang}/login`}>Iniciar sesión</Button>
+                                    <Button href={`/${contextLang}/register`}>Registrar cuenta</Button>
+                                </>
+                            )}
+                        </div>
                     </div>
                 </div>
-                <div className={"flex justify-center gap-16"}>
-                    <button className={`grid place-content-center transition-colors hover:text-main`}>
+                <div className={"flex flex-col justify-center items-center gap-8"}>
+                    <Link href={`/${contextLang}/cart`} className={`grid place-content-center transition-colors hover:text-main`}>
                         <div className={"text-3xl"}>
                             <i className="fa-light fa-bag-shopping relative">
                                 <div className={`${styles.cartCount} grid place-content-center transition-colors rounded-full w-[1.15rem] h-[1.15rem]`}>3</div>
                             </i>
                         </div>
-                    </button>
-                    <button className={`grid place-content-center transition-colors hover:text-main`}>
-                        <div className={"text-3xl"}>
-                            <i className="fa-light fa-user relative"></i>
-                        </div>
+                    </Link>
+                    <button onClick={handleLogOut} className={`flex items-center gap-2 transition-colors text-red-700`}>
+                        <span className={"font-semibold"}>Cerrar sesión</span>
+                        <i className="fa-solid fa-arrow-right-from-bracket text-xl"></i>
                     </button>
                 </div>
             </div>
@@ -165,7 +204,7 @@ function LangCurrencyCard() {
     useClickOutside(modalRef, () => setShowModal(false));
 
     return (
-        <div className={"fixed bottom-5 right-5 z-10"}>
+        <div className={"fixed bottom-5 right-5"} style={{ zIndex: 101 }}>
             <div className={"relative"} ref={modalRef}>
                 <button onClick={handleShowModal} className={"py-2 px-4 border border-neutral-300 rounded-md bg-white"}>
                     <div>

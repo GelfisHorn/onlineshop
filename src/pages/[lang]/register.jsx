@@ -69,8 +69,8 @@ export default function Register() {
     return (
         <Layout title={lang.pages.register.headTitle}>
             <Toaster />
-            <section className={"grid place-content-center h-[70vh] min-h-[500px]"}>
-                <div className={"flex flex-col gap-16 w-[25rem]"}>
+            <section className={"flex items-center justify-center h-[70vh] min-h-[550px]"}>
+                <div className={"flex flex-col gap-16 w-full sm:w-[25rem]"}>
                     <h2 className={"text-4xl font-semibold text-center text-main"}>{lang.pages.register.title}</h2>
                     <form className={"flex flex-col gap-10"} onSubmit={handleSubmit}>
                         <div className={"flex flex-col gap-4"}>
@@ -90,7 +90,7 @@ export default function Register() {
                             </div>
                             <button type="submit" className={"py-2 bg-main text-white"}>{lang.pages.register.submitBtn}</button>
                             <div className={"flex flex-col gap-1"}>
-                                <div className={"flex gap-1 text-sm"}>
+                                <div className={"flex flex-col sm:flex-row sm:gap-1 text-sm"}>
                                     <span>{lang.pages.register.signIn.text}</span>
                                     <Link href={`/${contextLang}/login`} className={"underline text-main"}>{lang.pages.register.signIn.link}</Link>
                                 </div>
