@@ -36,8 +36,8 @@ export default function Footer() {
 
 function Column({ title, items }) {
     return (
-        <div className={"flex flex-col gap-4 w-full"}>
-            <span className={"uppercase font-medium text-lg text-center lg:text-left"}>{title}</span>
+        <div className={"flex flex-col gap-4 w-full lg:w-fit"}>
+            <span className={"uppercase font-semibold text-lg text-center lg:text-left"}>{title}</span>
             <div className={"flex flex-col gap-1 items-center lg:items-start"}>
                 {items.map((item, index) => (
                     <Link key={index} href={item.href} className={"flex items-center gap-2 w-fit hover:text-main transition-colors"}>
