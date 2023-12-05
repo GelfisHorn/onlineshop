@@ -132,6 +132,27 @@ const en = {
                 text: "Already have an account?",
                 link: "Log in"
             }
+        },
+        recover: {
+            headTitle: "Recover account",
+            title: "Recover account",
+            submitBtn: "Recover account",
+            inputs: {
+                placeholders: {
+                    email: "Email address"
+                }
+            }
+        },
+        newPassword: {
+            headTitle: "New password",
+            title: "New password",
+            submitBtn: "Change password",
+            inputs: {
+                placeholders: {
+                    password: "Password",
+                    repeatPassword: "Repeat password"
+                }
+            }
         }
     },
     header: {
@@ -212,14 +233,19 @@ const en = {
             productAdded: "Product added to cart",
             orderPlaced: "Order placed successfully",
             loggedIn: "You have successfully logged in!",
-            accountCreated: "Your account has been created successfully"
+            accountCreated: "Your account has been created successfully",
+            recoverAccount: "Instructions have been sent to your email.",
+            newPassword: "Your password has been updated!"
         },
         error: {
             alreadyLoggedIn: "You are already logged in",
             missingFields: "You must fill in all fields",
             dataProtection: "You must accept the data protection terms",
             login: "There was an error logging in",
-            createAccount: "There was an error creating the account"
+            createAccount: "There was an error creating the account",
+            recoverAccount: "There was an error recovering your account",
+            passwordsDontMatch: "Passwords do not match",
+            newPassword: "There was an error updating your password"
         }
     }
 }

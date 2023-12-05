@@ -17,7 +17,8 @@ export function AppContextProvider({ children }) {
         name: "",
         surname: "",
         email: "",
-        authenticated: false
+        authenticated: false,
+        loading: true
     });
     const [ lang, setLang ] = useState("de");
     const [ currency, setCurrency ] = useState("EUR");
@@ -48,18 +49,24 @@ export function AppContextProvider({ children }) {
     }
 
     async function GetProfile() {
+        const config = useAuthHeaders();
+        if(!config) return;
+        
         try {
-            const config = useAuthHeaders();
             const { data } = await axios.post('/api/user/getProfile', config);
             setAuth({ 
                 _id: data._id,
                 name: data.name,
                 surname: data.surname,
                 email: data.email, 
-                authenticated: true 
+                authenticated: true
             });
         } catch (error) {
             return;
+        } finally {
+            setAuth(current => {
+                return { ...current, loading: false }
+            })
         }
     }
 

@@ -132,6 +132,27 @@ const es = {
                 text: "Ya tienes cuenta?",
                 link: "Iniciar sesión"
             }
+        },
+        recover: {
+            headTitle: "Recuperar cuenta",
+            title: "Recuperar cuenta",
+            submitBtn: "Recuperar cuenta",
+            inputs: {
+                placeholders: {
+                    email: "Correo electrónico"
+                }
+            },
+        },
+        newPassword: {
+            headTitle: "Nueva contraseña",
+            title: "Nueva contraseña",
+            submitBtn: "Cambiar contraseña",
+            inputs: {
+                placeholders: {
+                    password: "Contraseña",
+                    repeatPassword: "Repetir contraseña"
+                }
+            },
         }
     },
     header: {
@@ -213,13 +234,18 @@ const es = {
             orderPlaced: "Orden creada con éxito",
             loggedIn: "Iniciaste sesión correctamente!",
             accountCreated: "Se ha creado tu cuenta correctamente",
+            recoverAccount: "Se han enviado instrucciones a tu email",
+            newPassword: "Se ha actualizado tu contraseña!"
         },
         error: {
             alreadyLoggedIn: "Ya iniciaste sesión",
             missingFields: "Debes llenar todos los campos",
             dataProtection: "Debes aceptar los términos de protección de datos",
             login: "Hubo un error al iniciar sesión",
-            createAccount: "Hubo un error al crear la cuenta"
+            createAccount: "Hubo un error al crear la cuenta",
+            recoverAccount: "Hubo un error al recuperar tu cuenta",
+            passwordsDontMatch: "Las contraseñas no coinciden",
+            newPassword: "Hubo un error al actualizar tu contraseña"
         }
     }
 }

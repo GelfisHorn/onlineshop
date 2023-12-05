@@ -132,6 +132,27 @@ const de = {
                 text: "Haben Sie bereits ein Konto?",
                 link: "Anmelden"
             }
+        },
+        recover: {
+            headTitle: "Konto wiederherstellen",
+            title: "Konto wiederherstellen",
+            submitBtn: "Konto wiederherstellen",
+            inputs: {
+                placeholders: {
+                    email: "E-Mail-Adresse"
+                }
+            }
+        },
+        newPassword: {
+            headTitle: "Neues Passwort",
+            title: "Neues Passwort",
+            submitBtn: "Passwort ändern",
+            inputs: {
+                placeholders: {
+                    password: "Passwort",
+                    repeatPassword: "Passwort wiederholen"
+                }
+            }
         }
     },
     header: {
@@ -212,14 +233,19 @@ const de = {
             productAdded: "Produkt wurde dem Warenkorb hinzugefügt",
             orderPlaced: "Bestellung erfolgreich aufgegeben",
             loggedIn: "Sie haben sich erfolgreich angemeldet!",
-            accountCreated: "Ihr Konto wurde erfolgreich erstellt"
+            accountCreated: "Ihr Konto wurde erfolgreich erstellt",
+            recoverAccount: "Anweisungen wurden an Ihre E-Mail gesendet",
+            newPassword: "Dein Passwort wurde aktualisiert!"
         },
         error: {
             alreadyLoggedIn: "Sie sind bereits angemeldet",
             missingFields: "Sie müssen alle Felder ausfüllen",
             dataProtection: "Sie müssen die Datenschutzbestimmungen akzeptieren",
             login: "Beim Anmelden ist ein Fehler aufgetreten",
-            createAccount: "Es ist ein Fehler bei der Kontoerstellung aufgetreten"
+            createAccount: "Es ist ein Fehler bei der Kontoerstellung aufgetreten",
+            recoverAccount: "Beim Wiederherstellen Ihres Kontos ist ein Fehler aufgetreten",
+            passwordsDontMatch: "Passwörter stimmen nicht überein",
+            newPassword: "Beim Aktualisieren Ihres Passworts ist ein Fehler aufgetreten"
         }
     }
 }
