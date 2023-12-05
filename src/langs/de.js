@@ -101,6 +101,7 @@ const de = {
                 }
             },
             submitBtn: "Anmelden",
+            alreadyLoggedIn: "Du bist bereits eingeloggt",
             createAccount: {
                 text: "Sie haben noch kein Konto?",
                 link: "Konto erstellen"
@@ -208,8 +209,17 @@ const de = {
     },
     notifications: {
         success: {
-            productAdded: "Produkt in den Warenkorb gelegt",
-            orderPlaced: "Auftrag erfolgreich erstellt"
+            productAdded: "Produkt wurde dem Warenkorb hinzugefügt",
+            orderPlaced: "Bestellung erfolgreich aufgegeben",
+            loggedIn: "Sie haben sich erfolgreich angemeldet!",
+            accountCreated: "Ihr Konto wurde erfolgreich erstellt"
+        },
+        error: {
+            alreadyLoggedIn: "Sie sind bereits angemeldet",
+            missingFields: "Sie müssen alle Felder ausfüllen",
+            dataProtection: "Sie müssen die Datenschutzbestimmungen akzeptieren",
+            login: "Beim Anmelden ist ein Fehler aufgetreten",
+            createAccount: "Es ist ein Fehler bei der Kontoerstellung aufgetreten"
         }
     }
 }

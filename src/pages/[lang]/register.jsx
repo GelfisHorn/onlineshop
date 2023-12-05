@@ -26,7 +26,7 @@ export default function Register() {
         e.preventDefault();
 
         if([name, surname, email, password, repeatPassword].includes('')) {
-            toast.error("Debes llenar todos los campos", {
+            toast.error(lang.notifications.error.missingFields, {
                 position: 'top-right',
                 style: { boxShadow: '4px 4px 8px -6px rgba(0,0,0,0.22)', border: "1px solid rgb(240, 240, 240)" }
             });
@@ -34,7 +34,7 @@ export default function Register() {
         }
 
         if(!emailMarketing) {
-            toast.error("Debes aceptar los términos de protección de datos", {
+            toast.error(lang.notifications.error.dataProtection, {
                 position: 'top-right',
                 style: { boxShadow: '4px 4px 8px -6px rgba(0,0,0,0.22)', border: "1px solid rgb(240, 240, 240)" }
             });
@@ -43,12 +43,12 @@ export default function Register() {
 
         try {
             await axios.post('/api/user/register', { name, surname, email, password, emailMarketing });
-            toast.success("Se ha creado tu cuenta correctamente", {
+            toast.success(lang.notifications.success.accountCreated, {
                 position: 'top-right',
                 style: { boxShadow: '4px 4px 8px -6px rgba(0,0,0,0.22)', border: "1px solid rgb(240, 240, 240)" }
             });
         } catch (error) {
-            toast.error("Hubo un error al crear la cuenta", {
+            toast.error(lang.notifications.error.createAccount, {
                 position: 'top-right',
                 style: { boxShadow: '4px 4px 8px -6px rgba(0,0,0,0.22)', border: "1px solid rgb(240, 240, 240)" }
             });

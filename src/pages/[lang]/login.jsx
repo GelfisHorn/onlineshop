@@ -12,7 +12,7 @@ import useGetLang from "@/hooks/useGetLang";
 
 export default function Login() {
 
-    const { lang: contextLang, setAuth } = useAppContext();
+    const { lang: contextLang, auth, setAuth } = useAppContext();
     const lang = useGetLang();
 
     const [ email, setEmail ] = useState("");
@@ -21,8 +21,16 @@ export default function Login() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        if(auth.authenticated) {
+            toast.error(lang.notifications.error.alreadyLoggedIn, {
+                position: 'top-right',
+                style: { boxShadow: '4px 4px 8px -6px rgba(0,0,0,0.22)', border: "1px solid rgb(240, 240, 240)" }
+            });
+            return;
+        }
+
         if ([email, password].includes('')) {
-            toast.error("Debes llenar todos los campos", {
+            toast.error(lang.notifications.error.missingFields, {
                 position: 'top-right',
                 style: { boxShadow: '4px 4px 8px -6px rgba(0,0,0,0.22)', border: "1px solid rgb(240, 240, 240)" }
             });
@@ -38,13 +46,12 @@ export default function Login() {
                 email: data.email || "",
                 authenticated: true
             });
-            toast.success("Iniciaste sesión correctamente!", {
+            toast.success(lang.notifications.success.loggedIn, {
                 position: 'top-right',
                 style: { boxShadow: '4px 4px 8px -6px rgba(0,0,0,0.22)', border: "1px solid rgb(240, 240, 240)" }
             });
         } catch (error) {
-            console.log(error);
-            toast.error("Hubo un error al iniciar sesión", {
+            toast.error(lang.notifications.error.login, {
                 position: 'top-right',
                 style: { boxShadow: '4px 4px 8px -6px rgba(0,0,0,0.22)', border: "1px solid rgb(240, 240, 240)" }
             });
@@ -70,7 +77,7 @@ export default function Login() {
                             <Input type={"password"} placeholder={lang.pages.login.inputs.placeholders.password} value={password} setValue={setPassword} />
                         </div>
                         <div className={"flex flex-col gap-4"}>
-                            <button type="submit" className={"py-3 bg-main text-white"}>{lang.pages.login.submitBtn}</button>
+                            <button type="submit" disabled={auth.authenticated} className={`py-3 ${!auth.authenticated ? "bg-main text-white" : null} disabled:bg-neutral-300`}>{!auth.authenticated ? lang.pages.login.submitBtn : lang.pages.login.alreadyLoggedIn}</button>
                             <div className={"flex flex-col gap-4 sm:gap-1"}>
                                 <div className={"flex flex-col sm:flex-row sm:gap-1 text-sm"}>
                                     <span>{lang.pages.login.createAccount.text}</span>

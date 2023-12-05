@@ -101,6 +101,7 @@ const es = {
                 }
             },
             submitBtn: "Iniciar sesión",
+            alreadyLoggedIn: "Ya iniciaste sesión",
             createAccount: {
                 text: "No tienes cuenta?",
                 link: "Crear cuenta"
@@ -209,7 +210,16 @@ const es = {
     notifications: {
         success: {
             productAdded: "Producto agregado al carrito",
-            orderPlaced: "Orden creada con éxito"
+            orderPlaced: "Orden creada con éxito",
+            loggedIn: "Iniciaste sesión correctamente!",
+            accountCreated: "Se ha creado tu cuenta correctamente",
+        },
+        error: {
+            alreadyLoggedIn: "Ya iniciaste sesión",
+            missingFields: "Debes llenar todos los campos",
+            dataProtection: "Debes aceptar los términos de protección de datos",
+            login: "Hubo un error al iniciar sesión",
+            createAccount: "Hubo un error al crear la cuenta"
         }
     }
 }

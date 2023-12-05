@@ -101,6 +101,7 @@ const en = {
                 }
             },
             submitBtn: "Log in",
+            alreadyLoggedIn: "You are already logged in",
             createAccount: {
                 text: "Don't have an account?",
                 link: "Create account"
@@ -209,7 +210,16 @@ const en = {
     notifications: {
         success: {
             productAdded: "Product added to cart",
-            orderPlaced: "Order successfully created"
+            orderPlaced: "Order placed successfully",
+            loggedIn: "You have successfully logged in!",
+            accountCreated: "Your account has been created successfully"
+        },
+        error: {
+            alreadyLoggedIn: "You are already logged in",
+            missingFields: "You must fill in all fields",
+            dataProtection: "You must accept the data protection terms",
+            login: "There was an error logging in",
+            createAccount: "There was an error creating the account"
         }
     }
 }
