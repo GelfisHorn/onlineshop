@@ -57,6 +57,9 @@ const de = {
                 text: "Hast du ein Konto?",
                 link: "Anmelden"
             },
+            orderResume: "Bestellübersicht",
+            noProductsInCart: "Es befinden sich noch keine Produkte in Ihrem Warenkorb",
+            addProductsToCart: "Fügen Sie Produkte hinzu und gehen Sie dann zur Kasse",
             forms: {
                 contact: {
                     title: "Kontakt",
@@ -152,6 +155,16 @@ const de = {
                     password: "Passwort",
                     repeatPassword: "Passwort wiederholen"
                 }
+            }
+        },
+        orders: {
+            paymentStatus: {
+                COMPLETED: "Abgeschlossen",
+                PARTIALLY_REFUNDED: "Teilweise zurückerstattet",
+                PENDING: "Ausstehend",
+                FAILED: "Fehlgeschlagen",
+                VOIDED: "Ungültig",
+                IN_PROGRESS: "In Bearbeitung"
             }
         }
     },

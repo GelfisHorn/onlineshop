@@ -50,7 +50,10 @@ export function AppContextProvider({ children }) {
 
     async function GetProfile() {
         const config = useAuthHeaders();
-        if(!config) return;
+        if(!config) {
+            setAuth({ authenticated: false, loading: false });
+            return;
+        };
         
         try {
             const { data } = await axios.post('/api/user/getProfile', config);
@@ -59,15 +62,15 @@ export function AppContextProvider({ children }) {
                 name: data.name,
                 surname: data.surname,
                 email: data.email, 
-                authenticated: true
+                authenticated: true,
+                loading: false
             });
         } catch (error) {
-            return;
-        } finally {
             setAuth(current => {
-                return { ...current, loading: false }
-            })
-        }
+                return {...current, loading: false }
+            });
+            return;
+        } 
     }
 
     useEffect(() => {

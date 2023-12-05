@@ -19,7 +19,7 @@ import { AnimatePresence, motion } from "framer-motion";
 export default function CheckOut() {
 
     const router = useRouter();
-    const { lang: contextLang, cart, setCart, currency } = useAppContext();
+    const { lang: contextLang, cart, setCart, currency, auth } = useAppContext();
     const lang = useGetLang();
 
     const [ shipping, setShipping ] = useState({
@@ -92,6 +92,21 @@ export default function CheckOut() {
     const [ showResume, setShowResume ] = useState(false);
     const handleShowResume = () => setShowResume(!showResume);
 
+    useEffect(() => {
+        setShipping(current => {
+            return {
+                ...current, 
+                name: auth.name, 
+                surname: auth.surname, 
+                email: auth.email,
+                city: auth.city,
+                address: auth.address,
+                postalCode: auth.postalCode,
+                phoneNumber: auth.phoneNumber,
+            }
+        })
+    }, [auth])
+
     return (
         <Layout title={lang.pages.checkout.headTitle}>
             <Toaster />
@@ -100,7 +115,7 @@ export default function CheckOut() {
                     <div className={"block lg:hidden border-b"}>
                         <div className={"flex items-center justify-between"}>
                             <button onClick={handleShowResume} className={"flex items-center gap-2 h-14"}>
-                                <span>Resumen del pedido</span>
+                                <span>{lang.pages.checkout.orderResume}</span>
                                 <i className="fa-regular fa-angle-down"></i>
                             </button>
                             <div className={"font-semibold text-lg"}>{CurrencyFormatter(total)}</div>
@@ -129,10 +144,12 @@ export default function CheckOut() {
                         <div className={"flex flex-col gap-3"}>
                             <div className={"flex flex-col text-sm"}>
                                 <span className={"text-2xl font-semibold"}>{lang.pages.checkout.forms.contact.title}</span>
-                                <div className={"flex items-center gap-1"}>
-                                    <span>{lang.pages.checkout.signIn.text}</span>
-                                    <Link href={`/${contextLang}/login`} className={"underline"}>{lang.pages.checkout.signIn.link}</Link>
-                                </div>
+                                {!auth.authenticated && (
+                                    <div className={"flex items-center gap-1"}>
+                                        <span>{lang.pages.checkout.signIn.text}</span>
+                                        <Link href={`/${contextLang}/login`} className={"underline"}>{lang.pages.checkout.signIn.link}</Link>
+                                    </div>
+                                )}
                             </div>
                             <Input placeholder={lang.pages.checkout.forms.contact.placeholders.email} type={"email"} value={shipping.email} setValue={(e) => setShipping({ ...shipping, email: e.target.value })} autocomplete={"email"} />
                         </div>
@@ -210,8 +227,8 @@ export default function CheckOut() {
                     )}
                     {cart.length == 0 && (
                         <div className={"flex flex-col items-center"}>
-                            <span className={"font-semibold text-xl"}>Aún no hay productos en tu carrito</span>
-                            <span>Agrega productos y luego ven a pagar</span>
+                            <span className={"font-semibold text-xl"}>{lang.pages.checkout.noProductsInCart}</span>
+                            <span>{lang.pages.checkout.addProductsToCart}</span>
                         </div>
                     )}
                 </div>

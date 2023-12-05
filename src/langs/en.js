@@ -57,6 +57,9 @@ const en = {
                 text: "Have an account?",
                 link: "Sign in"
             },
+            orderResume: "Order summary",
+            noProductsInCart: "There are no products in your cart yet",
+            addProductsToCart: "Add products and then come to checkout",
             forms: {
                 contact: {
                     title: "Contact",
@@ -152,6 +155,16 @@ const en = {
                     password: "Password",
                     repeatPassword: "Repeat password"
                 }
+            }
+        },
+        orders: {
+            paymentStatus: {
+                COMPLETED: "Completed",
+                PARTIALLY_REFUNDED: "Partially Refunded",
+                PENDING: "Pending",
+                FAILED: "Failed",
+                VOIDED: "Voided",
+                IN_PROGRESS: "In Progress"
             }
         }
     },

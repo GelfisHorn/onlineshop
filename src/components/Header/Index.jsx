@@ -149,7 +149,7 @@ function MobileMenu({ handleClose }) {
                             {auth.authenticated ? (
                                 <>
                                     <Button href={`/${contextLang}/account/profile`}>Mi perfil</Button>
-                                    <Button href={`/${contextLang}/account/purchases`}>Mis compras</Button>
+                                    <Button href={`/${contextLang}/account/orders`}>Mis compras</Button>
                                 </>
                             ) : (
                                 <>
@@ -360,7 +360,7 @@ function AuthModal({ show, setShow }) {
             {authenticated ? (
                 <>
                     <Button href={`/${contextLang}/account/profile`}>Mi perfil</Button>
-                    <Button href={`/${contextLang}/account/purchases`}>Mis compras</Button>
+                    <Button href={`/${contextLang}/account/orders`}>Mis compras</Button>
                     <Button handleClick={handleLogOut} hover={"hover:bg-red-700 hover:text-white"}>Cerrar sesión</Button>
                 </>
             ) : (

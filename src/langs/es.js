@@ -57,6 +57,9 @@ const es = {
                 text: "¿Tienes una cuenta?",
                 link: "Iniciar sesión"
             },
+            orderResume: "Resumen del pedido",
+            noProductsInCart: "Aún no hay productos en tu carrito",
+            addProductsToCart: "Agrega productos y luego ven a pagar",
             forms: {
                 contact: {
                     title: "Contacto",
@@ -153,6 +156,16 @@ const es = {
                     repeatPassword: "Repetir contraseña"
                 }
             },
+        },
+        orders: {
+            paymentStatus: {
+                COMPLETED: "Completado",
+                PARTIALLY_REFUNDED: "Parcialmente reembolsado",
+                PENDING: "Pendiente",
+                FAILED: "Fallido",
+                VOIDED: "Anulado",
+                IN_PROGRESS: "En progreso"
+            }
         }
     },
     header: {
