@@ -38,7 +38,9 @@ const es = {
             amount: "Cantidad",
             total: "Total",
             removeProduct: "Eliminar",
-            payButton: "Ir a pagar"
+            payButton: "Ir a pagar",
+            emptyCart: "Aún no has agregado productos",
+            goShop: "Seguir comprando"
         },
         collections: {
             all: {
@@ -161,6 +163,14 @@ const es = {
             },
         },
         orders: {
+            headTitle: "Ordenes",
+            title: "Ordenes",
+            order: "Orden",
+            status: "Estado",
+            total: "Total",
+            products: "Productos",
+            noOrders: "Aún no tienes ordenes",
+            goShop: "Ver catálogo de productos",
             paymentStatus: {
                 COMPLETED: "Completado",
                 PARTIALLY_REFUNDED: "Parcialmente reembolsado",
@@ -176,6 +186,22 @@ const es = {
             confirmed: "Tu cuenta ha sido confirmada",
             invalidToken: "Este token no es válido o ha expirado",
             login: "Iniciar sesión"
+        },
+        profile: {
+            headTitle: "Mi perfil",
+            title: "Mi perfil",
+            placeholders: {
+                name: "Nombre",
+                surname: "Apellido",
+                email: "Correo electrónico",
+                address: "Dirección",
+                postalCode: "Código postal",
+                city: "Ciudad",
+                phoneNumber: "Número de teléfono",
+                password: "Contraseña",
+                repeatPassword: "Repetir contraseña",
+            },
+            btnSubmit: "Actualizar perfil"
         }
     },
     header: {
@@ -219,7 +245,9 @@ const es = {
                     tiktok: "TikTok"
                 }
             }
-        }
+        },
+        emailSubscribe: "Suscribete a nuestros emails y obtén descuentos y otras ventajas!",
+        emailPlaceholder: "Correo electrónico"
     },
     product: {
         addToCart: "Agregar al carrito",
@@ -259,7 +287,8 @@ const es = {
             accountCreated: "Se ha creado tu cuenta correctamente",
             recoverAccount: "Se han enviado instrucciones a tu email",
             newPassword: "Se ha actualizado tu contraseña!",
-            confirmAccount: "Tu cuenta ha sido confirmada!"
+            confirmAccount: "Tu cuenta ha sido confirmada!",
+            editProfile: "Actualizaste tu perfil correctamente"
         },
         error: {
             alreadyLoggedIn: "Ya iniciaste sesión",
@@ -274,7 +303,9 @@ const es = {
             recoverAccount: "Hubo un error al recuperar tu cuenta",
             passwordsDontMatch: "Las contraseñas no coinciden",
             newPassword: "Hubo un error al actualizar tu contraseña",
-            confirmAccount: "Hubo un error al confirmar tu cuenta"
+            confirmAccount: "Hubo un error al confirmar tu cuenta",
+            passwordLength: "La contraseña debe tener 8 caracteres o más",
+            editProfile: "Hubo un error al actualizar tu perfil"
         }
     }
 }

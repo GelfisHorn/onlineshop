@@ -38,7 +38,9 @@ const en = {
             amount: "Quantity",
             total: "Total",
             removeProduct: "Remove",
-            payButton: "Go to pay"
+            payButton: "Go to pay",
+            emptyCart: "You have not yet added products",
+            goShop: "Continue shopping"
         },
         collections: {
             all: {
@@ -161,13 +163,21 @@ const en = {
             }
         },
         orders: {
+            headTitle: "Orders",
+            title: "Orders",
+            order: "Order",
+            status: "Status",
+            total: "Total",
+            products: "Products",
+            noOrders: "You don't have any orders yet",
+            goShop: "Browse product catalog",
             paymentStatus: {
                 COMPLETED: "Completed",
-                PARTIALLY_REFUNDED: "Partially Refunded",
+                PARTIALLY_REFUNDED: "Partially refunded",
                 PENDING: "Pending",
                 FAILED: "Failed",
                 VOIDED: "Voided",
-                IN_PROGRESS: "In Progress"
+                IN_PROGRESS: "In progress"
             }
         },
         confirm: {
@@ -176,6 +186,22 @@ const en = {
             confirmed: "Your account has been confirmed",
             invalidToken: "This token is invalid or has expired",
             login: "Log in"
+        },
+        profile: {
+            headTitle: "My Profile",
+            title: "My Profile",
+            placeholders: {
+                name: "Name",
+                surname: "Surname",
+                email: "Email",
+                address: "Address",
+                postalCode: "Postal Code",
+                city: "City",
+                phoneNumber: "Phone Number",
+                password: "Password",
+                repeatPassword: "Repeat Password",
+            },
+            btnSubmit: "Update profile"
         }
     },
     header: {
@@ -219,7 +245,9 @@ const en = {
                     tiktok: "TikTok"
                 }
             }
-        }
+        },
+        emailSubscribe: "Subscribe to our emails and get discounts and other advantages!",
+        emailPlaceholder: "E-mail"
     },
     product: {
         addToCart: "Add to cart",
@@ -259,7 +287,8 @@ const en = {
             accountCreated: "Your account has been created successfully",
             recoverAccount: "Instructions have been sent to your email.",
             newPassword: "Your password has been updated!",
-            confirmAccount: "Your account has been confirmed!"
+            confirmAccount: "Your account has been confirmed!",
+            editProfile: "You have updated your profile correctly"
         },
         error: {
             alreadyLoggedIn: "You are already logged in",
@@ -274,7 +303,9 @@ const en = {
             recoverAccount: "There was an error recovering your account",
             passwordsDontMatch: "Passwords do not match",
             newPassword: "There was an error updating your password",
-            confirmAccount: "There was an error confirming your account"
+            confirmAccount: "There was an error confirming your account",
+            passwordLength: "Password must be 8 characters or more",
+            editProfile: "There was an error updating your profile"
         }
     }
 }

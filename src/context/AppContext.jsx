@@ -62,6 +62,10 @@ export function AppContextProvider({ children }) {
                 name: data.name,
                 surname: data.surname,
                 email: data.email, 
+                address: data.address,
+                postalCode: data.postalCode,
+                city: data.city,
+                phoneNumber: data.phoneNumber,
                 authenticated: true,
                 loading: false
             });

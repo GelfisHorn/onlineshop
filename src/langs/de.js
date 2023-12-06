@@ -38,7 +38,9 @@ const de = {
             amount: "Menge",
             total: "Gesamt",
             removeProduct: "Ausmerzen",
-            payButton: "geh zum Bezahlen"
+            payButton: "geh zum Bezahlen",
+            emptyCart: "Sie haben noch keine Produkte hinzugefügt",
+            goShop: "Weiter einkaufen"
         },
         collections: {
             all: {
@@ -161,12 +163,20 @@ const de = {
             }
         },
         orders: {
+            headTitle: "Bestellungen",
+            title: "Bestellungen",
+            order: "Bestellung",
+            status: "Status",
+            total: "Gesamt",
+            products: "Produkte",
+            noOrders: "Du hast noch keine Bestellungen",
+            goShop: "Produktkatalog anzeigen",
             paymentStatus: {
                 COMPLETED: "Abgeschlossen",
-                PARTIALLY_REFUNDED: "Teilweise zurückerstattet",
+                PARTIALLY_REFUNDED: "Teilweise erstattet",
                 PENDING: "Ausstehend",
                 FAILED: "Fehlgeschlagen",
-                VOIDED: "Ungültig",
+                VOIDED: "Annulliert",
                 IN_PROGRESS: "In Bearbeitung"
             }
         },
@@ -176,6 +186,22 @@ const de = {
             confirmed: "Dein Konto wurde bestätigt",
             invalidToken: "Dieser Token ist ungültig oder abgelaufen",
             login: "Einloggen"
+        },
+        profile: {
+            headTitle: "Mein Profil",
+            title: "Mein Profil",
+            placeholders: {
+                name: "Name",
+                surname: "Nachname",
+                email: "E-Mail",
+                address: "Adresse",
+                postalCode: "Postleitzahl",
+                city: "Stadt",
+                phoneNumber: "Telefonnummer",
+                password: "Passwort",
+                repeatPassword: "Passwort wiederholen",
+            },
+            btnSubmit: "Profil aktualisieren"
         }
     },
     header: {
@@ -219,7 +245,9 @@ const de = {
                     tiktok: "TikTok"
                 }
             }
-        }
+        },
+        emailSubscribe: "Abonnieren Sie unsere E-Mails und erhalten Sie Rabatte und andere Vorteile!",
+        emailPlaceholder: "E-Mail"
     },
     product: {
         addToCart: "In den Warenkorb legen",
@@ -259,7 +287,8 @@ const de = {
             accountCreated: "Ihr Konto wurde erfolgreich erstellt",
             recoverAccount: "Anweisungen wurden an Ihre E-Mail gesendet",
             newPassword: "Dein Passwort wurde aktualisiert!",
-            confirmAccount: "Ihr Konto wurde bestätigt!"
+            confirmAccount: "Ihr Konto wurde bestätigt!",
+            editProfile: "Sie haben Ihr Profil korrekt aktualisiert"
         },
         error: {
             alreadyLoggedIn: "Sie sind bereits angemeldet",
@@ -274,7 +303,9 @@ const de = {
             recoverAccount: "Beim Wiederherstellen Ihres Kontos ist ein Fehler aufgetreten",
             passwordsDontMatch: "Passwörter stimmen nicht überein",
             newPassword: "Beim Aktualisieren Ihres Passworts ist ein Fehler aufgetreten",
-            confirmAccount: "Es ist ein Fehler bei der Bestätigung Ihres Kontos aufgetreten"
+            confirmAccount: "Es ist ein Fehler bei der Bestätigung Ihres Kontos aufgetreten",
+            passwordLength: "Das Passwort muss mindestens 8 Zeichen lang sein.",
+            editProfile: "Es ist ein Fehler bei der Aktualisierung Ihres Profils aufgetreten"
         }
     }
 }
