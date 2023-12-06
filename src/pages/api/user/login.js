@@ -12,7 +12,6 @@ export default async function handler(req, res) {
         res.setHeader('Set-Cookie', serialize('token', data.token, { path: '/' }));
         res.status(200).json({ success: true, ...data });
     } catch (error) {
-        console.log(error);
-        return res.status(404).json({ msg: error?.response?.data?.msg || "There was an error creating order", success: false });
+        return res.status(error.response.status).json({ msg: error?.response?.data?.msg || "There was an error creating order", success: false });
     }
 }

@@ -51,7 +51,7 @@ export default function Login() {
                 style: { boxShadow: '4px 4px 8px -6px rgba(0,0,0,0.22)', border: "1px solid rgb(240, 240, 240)" }
             });
         } catch (error) {
-            toast.error(lang.notifications.error.login, {
+            toast.error(lang.notifications.error.login[error.response.status], {
                 position: 'top-right',
                 style: { boxShadow: '4px 4px 8px -6px rgba(0,0,0,0.22)', border: "1px solid rgb(240, 240, 240)" }
             });

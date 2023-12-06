@@ -96,9 +96,9 @@ export default function Recover() {
                         </form>
                     ) : !loading && !isValidToken && (
                         <div className={"flex flex-col gap-8 items-center"}>
-                            <div className={"text-center font-semibold uppercase text-red-700"}>Este token no es válido o ha expirado</div>
+                            <div className={"text-center font-semibold uppercase text-red-700"}>{lang.pages.newPassword.invalidToken}</div>
                             <Link href={`/${contextLang}/recover`} className={"flex items-center gap-2 text-main text-lg"}>
-                                <span className={"underline"}>Recuperar contraseña</span>
+                                <span className={"underline"}>{lang.pages.newPassword.recoverPassword}</span>
                                 <i className="fa-regular fa-arrow-right-long"></i>
                             </Link>
                         </div>
@@ -111,7 +111,7 @@ export default function Recover() {
                     {passwordChanged && (
                         <div className={"flex flex-col items-center"}>
                             <Link href={`/${contextLang}/login`} className={"flex items-center gap-2 text-main text-lg"}>
-                                <span className={"underline"}>Iniciar sesión</span>
+                                <span className={"underline"}>{lang.pages.newPassword.login}</span>
                                 <i className="fa-regular fa-arrow-right-long"></i>
                             </Link>
                         </div>
