@@ -85,7 +85,7 @@ export default function Login() {
                                 </div>
                                 <div className={"flex flex-col sm:flex-row sm:gap-1 text-sm"}>
                                     <span>{lang.pages.login.forgotPassword.text}</span>
-                                    <Link href={`#`} className={"underline text-main"}>{lang.pages.login.forgotPassword.link}</Link>
+                                    <Link href={`/${contextLang}/recover`} className={"underline text-main"}>{lang.pages.login.forgotPassword.link}</Link>
                                 </div>
                             </div>
                         </div>
