@@ -150,6 +150,9 @@ const es = {
             headTitle: "Nueva contraseña",
             title: "Nueva contraseña",
             submitBtn: "Cambiar contraseña",
+            invalidToken: "Este token no es válido o ha expirado",
+            recoverPassword: "Recuperar contraseña",
+            login: "Iniciar sesión",
             inputs: {
                 placeholders: {
                     password: "Contraseña",
@@ -166,6 +169,13 @@ const es = {
                 VOIDED: "Anulado",
                 IN_PROGRESS: "En progreso"
             }
+        },
+        confirm: {
+            headTitle: "Confirma tu cuenta",
+            title: "Confirma tu cuenta",
+            confirmed: "Tu cuenta ha sido confirmada",
+            invalidToken: "Este token no es válido o ha expirado",
+            login: "Iniciar sesión"
         }
     },
     header: {
@@ -248,17 +258,23 @@ const es = {
             loggedIn: "Iniciaste sesión correctamente!",
             accountCreated: "Se ha creado tu cuenta correctamente",
             recoverAccount: "Se han enviado instrucciones a tu email",
-            newPassword: "Se ha actualizado tu contraseña!"
+            newPassword: "Se ha actualizado tu contraseña!",
+            confirmAccount: "Tu cuenta ha sido confirmada!"
         },
         error: {
             alreadyLoggedIn: "Ya iniciaste sesión",
             missingFields: "Debes llenar todos los campos",
             dataProtection: "Debes aceptar los términos de protección de datos",
-            login: "Hubo un error al iniciar sesión",
+            login: {
+                404: "Hubo un error al iniciar sesión",
+                400: "Debes confirmar tu cuenta",
+                403: "Tu cuenta está deshabilitada"
+            },
             createAccount: "Hubo un error al crear la cuenta",
             recoverAccount: "Hubo un error al recuperar tu cuenta",
             passwordsDontMatch: "Las contraseñas no coinciden",
-            newPassword: "Hubo un error al actualizar tu contraseña"
+            newPassword: "Hubo un error al actualizar tu contraseña",
+            confirmAccount: "Hubo un error al confirmar tu cuenta"
         }
     }
 }

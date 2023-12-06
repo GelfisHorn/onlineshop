@@ -150,6 +150,9 @@ const de = {
             headTitle: "Neues Passwort",
             title: "Neues Passwort",
             submitBtn: "Passwort ändern",
+            invalidToken: "Dieser Token ist ungültig oder abgelaufen",
+            recoverPassword: "Passwort-Wiederherstellung",
+            login: "Einloggen",
             inputs: {
                 placeholders: {
                     password: "Passwort",
@@ -166,6 +169,13 @@ const de = {
                 VOIDED: "Ungültig",
                 IN_PROGRESS: "In Bearbeitung"
             }
+        },
+        confirm: {
+            headTitle: "Bestätige dein Konto",
+            title: "Bestätige dein Konto",
+            confirmed: "Dein Konto wurde bestätigt",
+            invalidToken: "Dieser Token ist ungültig oder abgelaufen",
+            login: "Einloggen"
         }
     },
     header: {
@@ -248,17 +258,23 @@ const de = {
             loggedIn: "Sie haben sich erfolgreich angemeldet!",
             accountCreated: "Ihr Konto wurde erfolgreich erstellt",
             recoverAccount: "Anweisungen wurden an Ihre E-Mail gesendet",
-            newPassword: "Dein Passwort wurde aktualisiert!"
+            newPassword: "Dein Passwort wurde aktualisiert!",
+            confirmAccount: "Ihr Konto wurde bestätigt!"
         },
         error: {
             alreadyLoggedIn: "Sie sind bereits angemeldet",
             missingFields: "Sie müssen alle Felder ausfüllen",
             dataProtection: "Sie müssen die Datenschutzbestimmungen akzeptieren",
-            login: "Beim Anmelden ist ein Fehler aufgetreten",
+            login: {
+                404: "Beim Anmelden ist ein Fehler aufgetreten",
+                400: "Sie müssen Ihr Konto bestätigen",
+                403: "Ihr Konto ist deaktiviert"
+            },
             createAccount: "Es ist ein Fehler bei der Kontoerstellung aufgetreten",
             recoverAccount: "Beim Wiederherstellen Ihres Kontos ist ein Fehler aufgetreten",
             passwordsDontMatch: "Passwörter stimmen nicht überein",
-            newPassword: "Beim Aktualisieren Ihres Passworts ist ein Fehler aufgetreten"
+            newPassword: "Beim Aktualisieren Ihres Passworts ist ein Fehler aufgetreten",
+            confirmAccount: "Es ist ein Fehler bei der Bestätigung Ihres Kontos aufgetreten"
         }
     }
 }

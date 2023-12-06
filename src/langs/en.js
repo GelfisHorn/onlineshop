@@ -150,6 +150,9 @@ const en = {
             headTitle: "New password",
             title: "New password",
             submitBtn: "Change password",
+            invalidToken: "This token is invalid or has expired",
+            recoverPassword: "Recover password",
+            login: "Log in",
             inputs: {
                 placeholders: {
                     password: "Password",
@@ -166,6 +169,13 @@ const en = {
                 VOIDED: "Voided",
                 IN_PROGRESS: "In Progress"
             }
+        },
+        confirm: {
+            headTitle: "Confirm Your Account",
+            title: "Confirm Your Account",
+            confirmed: "Your account has been confirmed",
+            invalidToken: "This token is invalid or has expired",
+            login: "Log in"
         }
     },
     header: {
@@ -248,17 +258,23 @@ const en = {
             loggedIn: "You have successfully logged in!",
             accountCreated: "Your account has been created successfully",
             recoverAccount: "Instructions have been sent to your email.",
-            newPassword: "Your password has been updated!"
+            newPassword: "Your password has been updated!",
+            confirmAccount: "Your account has been confirmed!"
         },
         error: {
             alreadyLoggedIn: "You are already logged in",
             missingFields: "You must fill in all fields",
             dataProtection: "You must accept the data protection terms",
-            login: "There was an error logging in",
+            login: {
+                404: "There was an error logging in",
+                400: "You must confirm your account",
+                403: "Your account is disabled"
+            },
             createAccount: "There was an error creating the account",
             recoverAccount: "There was an error recovering your account",
             passwordsDontMatch: "Passwords do not match",
-            newPassword: "There was an error updating your password"
+            newPassword: "There was an error updating your password",
+            confirmAccount: "There was an error confirming your account"
         }
     }
 }
