@@ -46,10 +46,10 @@ export default function Cart() {
                     </div>
                     {!cart || cart.length == 0 && (
                         <div className={"flex flex-col gap-3 items-center py-16"}>
-                            <div className={"text-2xl sm:text-3xl text-center"}>Aún no has agregado productos</div>
-                            <Link href={"#"} className={"flex items-center gap-2 text-main transition-colors"}>
+                            <div className={"text-2xl sm:text-3xl text-center"}>{lang.pages.cart.emptyCart}</div>
+                            <Link href={`/${contextLang}/collections/all`} className={"flex items-center gap-2 text-main transition-colors"}>
                                 <i className="fa-regular fa-arrow-left-long"></i>
-                                <span className={"underline text-lg"}>Seguir comprando</span>
+                                <span className={"underline text-lg"}>{lang.pages.cart.goShop}</span>
                             </Link>
                         </div>
                     )}

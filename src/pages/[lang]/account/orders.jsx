@@ -17,6 +17,7 @@ import Link from "next/link";
 export default function AccountOrders() {
 
     const { lang: contextLang } = useAppContext();
+    const lang = useGetLang();
 
     const [ orders, setOrders ] = useState([]);
     const [ loading, setLoading ] = useState(true);
@@ -42,14 +43,14 @@ export default function AccountOrders() {
 
     return (
         <ProtectedRoute>
-            <Layout title={"Compras"}>
-                <section className={"flex flex-col gap-16 py-16"}>
-                    <h1 className={"text-4xl font-semibold"}>Ordenes</h1>
+            <Layout title={lang.pages.orders.headTitle}>
+                <section className={"flex flex-col gap-16 py-16 "}>
+                    <h1 className={"text-4xl font-semibold"}>{lang.pages.orders.title}</h1>
                     {orders && orders.length != 0 ? (
                         <div>
-                            <div className={"flex items-center justify-between p-5 border-b"}>
-                                <div className={"font-semibold text-lg"}>Orden</div>
-                                <div className={"font-semibold text-lg"}>Estado</div>
+                            <div className={"hidden sm:flex items-center justify-between p-5 border-b"}>
+                                <div className={"font-semibold text-lg"}>{lang.pages.orders.order}</div>
+                                <div className={"font-semibold text-lg"}>{lang.pages.orders.status}</div>
                             </div>
                             <div className={"divide-y"}>
                                 {orders.map(order => (
@@ -58,11 +59,11 @@ export default function AccountOrders() {
                             </div>
                         </div>
                     ) : (
-                            <div className={"flex flex-col items-center gap-4 text-center"}>
-                            <div className={"text-xl font-medium"}>Aún no tienes ordenes</div>
+                        <div className={"flex flex-col items-center justify-center gap-4 text-center h-screen"}>
+                            <div className={"text-xl font-medium"}>{lang.pages.orders.noOrders}</div>
                             <Link href={`/${contextLang}/collections/all`} className={"flex items-center gap-2 text-main"}>
                                 <i className="fa-light fa-arrow-left-long"></i>
-                                <span className={"underline"}>Ver catálogo de productos</span>
+                                <span className={"underline"}>{lang.pages.orders.goShop}</span>
                             </Link>
                         </div>
                     )}
@@ -84,21 +85,22 @@ function Order({ order }) {
     return (
         <div>
             <div onClick={handleShowProducts} className={`flex justify-between items-center p-5 hover:bg-neutral-100 cursor-pointer transition-colors select-none ${showProducts ? "border-b" : ""}`}>
-                <div>
-                    <div className={"flex items-center gap-1 text-lg"}>
-                        <span>Orden:</span>
-                        <span className={"font-semibold"}>#{order._id}</span>
+                <div className={"flex flex-col gap-3 sm:gap-0"}>
+                    <div className={"flex flex-col sm:flex-row sm:items-center sm:gap-1 text-lg"}>
+                        <span>{lang.pages.orders.order}:</span>
+                        <span className={"font-semibold break-all"}>#{order._id}</span>
                     </div>
-                    <div className={"flex items-center gap-1 text-lg"}>
-                        <span>Total:</span>
+                    <div className={"flex flex-col sm:flex-row sm:items-center sm:gap-1 text-lg"}>
+                        <span>{lang.pages.orders.total}:</span>
                         <span className={"font-semibold"}>{CurrencyFormatter()}</span>
                     </div>
-                    <div className={"flex items-center gap-1 text-lg"}>
-                        <span>Productos:</span>
+                    <div className={"flex flex-col sm:flex-row sm:items-center sm:gap-1 text-lg"}>
+                        <span>{lang.pages.orders.products}:</span>
                         <span className={"font-semibold"}>{order.products.length}</span>
                     </div>
+                    <div className={"block sm:hidden uppercase text-sm font-semibold bg-neutral-200 w-fit py-1 px-2 rounded-full"}>{lang.pages.orders.paymentStatus[order.status]}</div>
                 </div>
-                <div className={"uppercase text-sm font-semibold"}>{lang.pages.orders.paymentStatus[order.status]}</div>
+                <div className={"hidden sm:block uppercase text-sm font-semibold"}>{lang.pages.orders.paymentStatus[order.status]}</div>
             </div>
             <AnimatePresence>
                 {showProducts && (
@@ -106,7 +108,7 @@ function Order({ order }) {
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
-                        className={"flex flex-col py-1 px-5 divide-y"}
+                        className={"flex flex-col py-1 sm:px-5 divide-y"}
                     >
                         {order.products.map(product => (
                             <Product product={product} currency={order.currency} />
@@ -119,6 +121,8 @@ function Order({ order }) {
 }
 
 function Product({ product, currency }) {
+
+    const lang = useGetLang();
 
     const { img, name, price, count } = product;
 
@@ -143,8 +147,8 @@ function Product({ product, currency }) {
                 </div>
             </div>
             <div className={"flex flex-col h-full"}>
-                <div className={"flex justify-end font-semibold"}>Total</div>
-                <div className={"hidden md:block w-[15%] text-right"}>{CurrencyFormatter(price * count)}</div>
+                <div className={"flex justify-end font-semibold"}>{lang.pages.orders.total}</div>
+                <div className={"w-[15%] text-right"}>{CurrencyFormatter(price * count)}</div>
             </div>
         </div>
     )
