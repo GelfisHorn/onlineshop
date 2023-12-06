@@ -8,6 +8,10 @@ export default function Footer() {
 
     const { lang: contextLang } = useAppContext();
     const lang = useGetLang();
+
+    async function handleSubmit() {
+        // ...
+    }
     
     return (
         <footer className={"flex flex-col items-center border-t"}>
@@ -27,8 +31,19 @@ export default function Footer() {
                     { name: lang.footer.columns.socials.items.tiktok, href: `#`, icon: "fa-brands fa-tiktok" }
                 ]} />
             </div>
-            <div className={"border-t py-2 text-center w-full"}>
-                <span className={"text-sm text-neutral-600"}>© 2023 OnlineShop</span>
+            <div className={"flex flex-col gap-20 w-full"}>
+                <div className={"flex flex-col items-center lg:items-start gap-2 px-6 lg:px-40"}>
+                    <h3 className={"font-medium text-center lg:text-left text-lg"}>{lang.footer.emailSubscribe}</h3>
+                    <form onSubmit={handleSubmit}>
+                        <div className={"border sm:w-fit"}>
+                            <input type="email" className={"h-10 outline-none px-3 sm:w-[300px]"} placeholder={lang.footer.emailPlaceholder} />
+                            <button type={"submit"} className={"w-10 h-10"}><i className="fa-sharp fa-regular fa-arrow-right"></i></button>
+                        </div>
+                    </form>
+                </div>
+                <div className={"border-t py-2 text-center w-full"}>
+                    <span className={"text-sm text-neutral-600"}>© 2023 OnlineShop</span>
+                </div>
             </div>
         </footer>
     )
