@@ -44,13 +44,16 @@ const es = {
         },
         collections: {
             all: {
-                headTitle: "Colección: Todas"
+                headTitle: "Colección: Todas",
+                title: "Colección: Todas"
             },
             wigs: {
-                headTitle: "Colección: Pelucas"
+                headTitle: "Colección: Pelucas",
+                title: "Colección: Pelucas"
             },
             extensions: {
-                headTitle: "Colección: Extensiones"
+                headTitle: "Colección: Extensiones",
+                title: "Colección: Extensiones"
             }
         },
         checkout: {

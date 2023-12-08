@@ -42,7 +42,7 @@ export default function Footer() {
                     </form>
                 </div>
                 <div className={"border-t py-2 text-center w-full"}>
-                    <span className={"text-sm text-neutral-600"}>© 2023 OnlineShop</span>
+                    <span className={"text-sm text-neutral-600"}>© 2023 OnlineShop made by <Link target={"_blank"} className={"text-violet-800 underline"} href={"https://helphistech.com"}>HelphisTech</Link></span>
                 </div>
             </div>
         </footer>

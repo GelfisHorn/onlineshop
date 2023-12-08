@@ -59,7 +59,7 @@ export default function AccountOrders() {
                             </div>
                         </div>
                     ) : (
-                        <div className={"flex flex-col items-center justify-center gap-4 text-center h-screen"}>
+                        <div className={"flex flex-col items-center justify-center gap-4 text-center min-h-[50vh]"}>
                             <div className={"text-xl font-medium"}>{lang.pages.orders.noOrders}</div>
                             <Link href={`/${contextLang}/collections/all`} className={"flex items-center gap-2 text-main"}>
                                 <i className="fa-light fa-arrow-left-long"></i>

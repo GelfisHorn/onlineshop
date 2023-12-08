@@ -9,7 +9,7 @@ import useGetLang from "@/hooks/useGetLang";
 // Animations
 import { motion, AnimatePresence } from "framer-motion";
 
-export function ProductFilters({ availability, price, sortBy, highestPrice, products }) {
+export function ProductFilters({ availability, price, sortBy, highestPrice, products, totalProducts }) {
 
     const router = useRouter();
 
@@ -160,7 +160,7 @@ export function ProductFilters({ availability, price, sortBy, highestPrice, prod
                         </div>
                     </div>
                     <div className={"hidden md:flex items-center gap-1 h-full text-neutral-500"}>
-                        <span className={"font-semibold"}>{products.length}</span>
+                        <span className={"font-semibold"}>{totalProducts}</span>
                         <span>{lang.product.filters.products}</span>
                     </div>
                 </div>

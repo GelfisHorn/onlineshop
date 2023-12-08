@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react";
+// Nextjs
 import Link from "next/link";
 // Components
 import CollectionsView from "@/components/CollectionsView";
@@ -6,28 +8,57 @@ import Product from "@/components/Product/Index";
 // Hooks
 import useAppContext from "@/hooks/useAppContext";
 import useGetLang from "@/hooks/useGetLang";
-// Mock data
-import { products } from "@/mockData/products";
+import axios from "axios";
 
 export default function Home() {
 
     const lang = useGetLang();
 
+    const [ loading, setLoading ] = useState(true);
+    const [ wigs, setWigs ] = useState([]);
+    const [ extensions, setExtensions ] = useState([]);
+
+    function getProducts() {
+        Promise.all([
+            axios.post('/api/strapi/products/getByLimit', { category: 'wig', limit: 6 }),
+            axios.post('/api/strapi/products/getByLimit', { category: 'extension', limit: 6 }),
+        ]).then(res => {
+            const wigs = res[0].data.data.data;
+            const extensions = res[1].data.data.data;
+            setWigs(wigs);
+            setExtensions(extensions);
+        }).catch(err => {
+            return;
+        }).finally(() => {
+            setLoading(false);
+        })
+    }
+
+    useEffect(() => {
+        getProducts();
+    }, []);
+
     return (
         <Layout title={lang.pages.home.headTitle}>
             <Banner />
-            <Section title={lang.pages.home.sections.categories.title}>
-                <CollectionsView collections={[
-                    { image: "/peluca.webp", name: lang.pages.home.sections.categories.wigs, href: "/wigs" },
-                    { image: "/peluca.webp", name: lang.pages.home.sections.categories.extensions, href: "/extensions" }
-                ]} />
-            </Section>
-            <Section title={lang.pages.home.sections.products.wigs.title}>
-                <ProductsView products={products} href={"wigs"} />
-            </Section>
-            <Section title={lang.pages.home.sections.products.extensions.title}>
-                <ProductsView products={products} href={"extensions"} />
-            </Section>
+            <div className={"bg-[#FFFCF4] border-b"}>
+                <Section title={lang.pages.home.sections.categories.title}>
+                    <CollectionsView collections={[
+                        { image: "/peluca.webp", name: lang.pages.home.sections.categories.wigs, href: "/wigs" },
+                        { image: "/peluca.webp", name: lang.pages.home.sections.categories.extensions, href: "/extensions" }
+                    ]} />
+                </Section>
+            </div>
+            {wigs.length != 0 && (
+                <Section title={lang.pages.home.sections.products.wigs.title}>
+                    <ProductsView products={wigs} href={"wigs"} />
+                </Section>
+            )}
+            {extensions.length != 0 && (
+                <Section title={lang.pages.home.sections.products.extensions.title}>
+                    <ProductsView products={extensions} href={"extensions"} />
+                </Section>
+            )}
             <AboutUs />
         </Layout>
     )
@@ -54,7 +85,7 @@ function Banner() {
 
 function Section({ title, subtitle, children }) {
     return (
-        <section className={"flex flex-col gap-6 pb-[3rem]"}>
+        <section className={"flex flex-col gap-6"}>
             <div className={"flex flex-col gap-4"}>
                 {title && <div className={"text-3xl"}>{title}</div>}
                 {subtitle && <div className={"text-lg"}>{subtitle}</div>}
@@ -87,8 +118,8 @@ function AboutUs() {
 
     const lang = useGetLang();
 
-    return (
-        <section className={"flex flex-col items-center gap-6 pb-[6rem] mt-[6rem] text-center"}>
+return (
+        <section className={"flex flex-col items-center gap-6 text-center bg-[#FFFCF4] border-t"}>
             <div className={"flex flex-col items-center gap-6 md:w-2/3 2xl:w-1/2"}>
                 <div className={"relative text-4xl w-fit"}>
                     <span className={"relative z-10 font-semibold md:font-medium"}>{lang.pages.home.aboutUs.title}</span>

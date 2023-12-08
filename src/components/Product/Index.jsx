@@ -13,18 +13,19 @@ import toast, { Toaster } from 'react-hot-toast';
 
 export default function Product({ product }) {
 
-    const { id, name, price, description, img } = product;
+    const { id, attributes } = product || {};
+    const { nombre, url, stock, descripcion, categoria, variante, img } = attributes || {};
 
-    const { currency, setCart } = useAppContext();
+    const { lang: contextLang, currency, setCart } = useAppContext();
     const lang = useGetLang();
 
     const HandleAddToCart = () => {
         useAddToCart({
             id,
-            name,
-            price,
-            description,
-            img,
+            name: nombre,
+            variant: variante[0].id,
+            description: descripcion,
+            img: img.data[0].attributes.formats.small.url,
             count: 1
         }, setCart);
         toast.success(lang.notifications.success.productAdded, {
@@ -33,16 +34,16 @@ export default function Product({ product }) {
         })
     }
 
-    return (
+    return attributes && (
         <div className={`flex flex-col gap-3`}>
-            <Link href={"#"} className={`${styles.card} flex flex-col gap-3`}>
+            <Link href={`/${contextLang}/products/${url}`} className={`${styles.card} flex flex-col gap-3`}>
                 <div className={"image-container aspect-square overflow-hidden rounded-md"}>
-                    <Image className={"image hover:scale-[103%] image-hover"} src={img} fill alt={"Product image"} />
+                    <Image className={"image hover:scale-[103%] image-hover"} src={`${process.env.NEXT_PUBLIC_STRAPI_URI}${img?.data[0]?.attributes?.formats?.large?.url}`} fill alt={"Product image"} />
                 </div>
-                <span className={`${styles.name} font-medium text-xl transition-colors`}>{name}</span>
+                <span className={`${styles.name} font-medium text-xl transition-colors`}>{nombre}</span>
             </Link>
             <div className={"flex flex-col sm:flex-row sm:items-end justify-between"}>
-                <span className={"text-main text-2xl font-semibold"}>{useCurrencyFormatter(currency).format(price)}</span>
+                <span className={"text-main text-2xl font-semibold"}>{useCurrencyFormatter(currency).format(variante[0]?.precio)}</span>
                 <button onClick={HandleAddToCart} className={"flex items-end font-medium text-main gap-2"}>
                     <i className="fa-regular fa-bag-shopping text-lg"></i>
                     <span>{lang.product.addToCart}</span>

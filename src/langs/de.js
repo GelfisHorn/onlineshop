@@ -44,13 +44,16 @@ const de = {
         },
         collections: {
             all: {
-                headTitle: "Sammlung: Alle"
+                headTitle: "Sammlung: Alle",
+                title: "Sammlung: Alle",
             },
             wigs: {
-                headTitle: "Sammlung: Perücken"
+                headTitle: "Sammlung: Perücken",
+                title: "Sammlung: Perücken",
             },
             extensions: {
-                headTitle: "Sammlung: Extensions"
+                headTitle: "Sammlung: Extensions",
+                title: "Sammlung: Extensions",
             }
         },
         checkout: {
