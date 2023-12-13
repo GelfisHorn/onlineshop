@@ -1,3 +1,7 @@
+.cartButton {
+    color: #CAA42E;
+}
+
 .cartButton:hover {
     background-color: #CAA42E;
     color: #fff;

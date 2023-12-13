@@ -1,3 +1,5 @@
+import axios from 'axios';
+// React
 import { useEffect, useRef, useState } from 'react';
 // Nextjs
 import Link from 'next/link';
@@ -27,6 +29,20 @@ export default function Header() {
     const { lang: contextLang, cart, auth } = useAppContext();
     const lang = useGetLang();
 
+    const [ announcementBar, setAnnouncementBar ] = useState("");
+    async function getAnnounceBar() {
+        try {
+            const { data } = await axios.get('/api/strapi/announcement-bar');
+            setAnnouncementBar(data?.data?.data?.attributes?.text);
+        } catch (error) {
+            return;
+        }
+    }
+
+    useEffect(() => {
+        getAnnounceBar();
+    }, [])
+
     const [ showMobileModal, setShowMobileModal ] = useState(false);
 
     const handleShowModal = () => {
@@ -42,7 +58,7 @@ export default function Header() {
     const [ productsCount, setProductsCount ] = useState(0);
 
     useEffect(() => {
-        setProductsCount(cart.length);
+        setProductsCount(cart?.products?.length);
 
         return () => {
             document.body.style.overflow = 'auto';
@@ -54,17 +70,19 @@ export default function Header() {
     return (
         <header>
             {/* Store message */}
-            <div className={"grid place-content-center py-2 px-5 bg-main text-white"}>
-                <span className={"font-medium text-sm md:text-base text-center"}>10% de descuento en compras mayores a $20</span>
-            </div>
+            {announcementBar && (
+                <div className={"grid place-content-center py-2 px-5 bg-main text-white"}>
+                    <span className={"font-medium text-sm md:text-base text-center"}>10% de descuento en compras mayores a $20</span>
+                </div>
+            )}
             <div className={"flex justify-between md:justify-normal h-20 border-b"}>
                 <Link href={`/${contextLang}`} className={"grid place-content-center w-40"}>
                     <span className={"font-semibold"}>ONLINESHOP.</span>
                 </Link>
                 <div className={"hidden md:grid place-content-center border-l border-r grow"}>
                     <div className={"hidden md:flex items-center gap-16"}>
-                        <Link href={`/${contextLang}/collections/wigs`} className={"hover:underline hover:text-main transition-colors"}>{lang.header.wigs}</Link>
-                        <Link href={`/${contextLang}/collections/extensions`} className={"hover:underline hover:text-main transition-colors"}>{lang.header.extensions}</Link>
+                        <Link href={`/${contextLang}/collections/wigs`} className={"hover:underline text-main transition-colors"}>{lang.header.wigs}</Link>
+                        <Link href={`/${contextLang}/collections/extensions`} className={"hover:underline text-main transition-colors"}>{lang.header.extensions}</Link>
                     </div>
                 </div>
                 <Link href={`/${contextLang}/cart`} className={`${styles.cartButton} hidden md:grid place-content-center w-20 border-r transition-colors`}>
@@ -168,10 +186,12 @@ function MobileMenu({ handleClose }) {
                             </i>
                         </div>
                     </Link>
-                    <button onClick={handleLogOut} className={`flex items-center gap-2 transition-colors text-red-700`}>
-                        <span className={"font-semibold"}>Cerrar sesión</span>
-                        <i className="fa-solid fa-arrow-right-from-bracket text-xl"></i>
-                    </button>
+                    {auth.authenticated ? (
+                        <button onClick={handleLogOut} className={`flex items-center gap-2 transition-colors text-red-700`}>
+                            <span className={"font-semibold"}>Cerrar sesión</span>
+                            <i className="fa-solid fa-arrow-right-from-bracket text-xl"></i>
+                        </button>
+                    ) : null}
                 </div>
             </div>
         </motion.div>
@@ -356,7 +376,7 @@ function AuthModal({ show, setShow }) {
     }
 
     return show ? (
-        <div ref={modalRef} className={"absolute top-20 right-0 border border-t-0 rounded-b-md bg-white z-10 overflow-hidden flex flex-col"}>
+        <div ref={modalRef} className={"absolute top-20 right-0 border border-t-0 rounded-b-md bg-white z-20 overflow-hidden flex flex-col"}>
             {authenticated ? (
                 <>
                     <Button href={`/${contextLang}/account/profile`}>Mi perfil</Button>
