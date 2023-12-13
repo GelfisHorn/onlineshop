@@ -10,6 +10,11 @@ import useAuthHeaders from '@/hooks/useAuthHeaders';
 
 const AppContext = createContext();
 
+const CART_DEFAULT = {
+    products: [],
+    discountCode: ""
+}
+
 export function AppContextProvider({ children }) {
 
     const [ auth, setAuth ] = useState({
@@ -22,7 +27,7 @@ export function AppContextProvider({ children }) {
     });
     const [ lang, setLang ] = useState("de");
     const [ currency, setCurrency ] = useState("EUR");
-    const [ cart, setCart ] = useState([]);
+    const [ cart, setCart ] = useState(CART_DEFAULT);
 
     function initContext() {
         GetProfile();
@@ -30,8 +35,11 @@ export function AppContextProvider({ children }) {
         // Load currency
         setCurrency(localStorage.getItem('currency') || "EUR");
         // Load Cart
-        const lsCart = localStorage.getItem('cart') || "[]"
-        setCart(JSON.parse(lsCart) || []);
+        const lsCart = localStorage.getItem('cart');
+        setCart(JSON.parse(lsCart) || CART_DEFAULT);
+        if(!lsCart) {
+            localStorage.setItem('cart', JSON.stringify(CART_DEFAULT))
+        }
     }
  
     function loadLanguage() {

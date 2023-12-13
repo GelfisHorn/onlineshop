@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 // Nextjs
 import { useRouter } from "next/router";
 import Image from "next/image";
@@ -33,16 +33,29 @@ export default function CheckOut() {
         phoneNumber: ""
     })
     const [ paymentDetails, setPaymentDetails ] = useState({});
+    const [ discountCode, setDiscountCode ] = useState({ discount: 0 })
     const [ total, setTotal ] = useState(0);
+    const [ discountPrice, setDiscountPrice ] = useState(0);
+    const [ finalPrice, setFinalPrice ] = useState(0);
 
     const handleSubmit = async () => {
-        if(cart.length == 0) return;
+        if(cart?.products?.length == 0) return;
+
+        const products = cart.products.map(p => {
+            return {
+                id: p.id,
+                name: p.name,
+                img: p.img,
+                description: p.description,
+                price: p.selectedVariant.precio
+            }
+        });
 
         const order = {
-            products: cart,
+            products,
             shipping,
             payments: paymentDetails.purchase_units[0].payments,
-            total,
+            total: finalPrice,
             currency,
             status: paymentDetails.status
         }
@@ -54,8 +67,14 @@ export default function CheckOut() {
                 position: 'top-right',
                 style: { boxShadow: '4px 4px 8px -6px rgba(0,0,0,0.22)', border: "1px solid rgb(240, 240, 240)" }
             })
-            setCart([]);
-            localStorage.setItem('cart', '[]');
+            setCart({
+                products: [],
+                discountCode: ""
+            });
+            localStorage.setItem('cart', JSON.stringify({
+                products: [],
+                discountCode: ""
+            }));
             router.push(`/${contextLang}/`);
             
         } catch (error) {
@@ -77,9 +96,39 @@ export default function CheckOut() {
         // setPaymentMethod("");
     }
 
+    async function handleCheckCode(code) {
+        const total = cart?.products?.reduce((total, product) => total + (product.count * product.selectedVariant.precio), 0)
+        if (!code) {
+            return setFinalPrice(total)
+        };
+
+        try {
+            const { data } = await axios.post('/api/strapi/discount-codes/getOne', { code });
+            setCart(current => { return { ...current, discountCode: code } });
+            localStorage.setItem('cart', JSON.stringify({ ...cart, discountCode: code }));
+            const discount = data.data.data[0].attributes.descuento;
+            setDiscountCode(current => { return { ...current, discount } });
+            setDiscountPrice(total - ((total * discount) / 100));
+            setFinalPrice(total - ((total * discount) / 100));
+            return true;
+        } catch (error) {
+            setCart(current => { return { ...current, discountCode: "" } });
+            localStorage.setItem('cart', JSON.stringify({ ...cart, discountCode: "" }));
+            setFinalPrice(total);
+            return false;
+        }
+    }
+
+    useMemo(() => handleCheckCode(cart.discountCode), [cart.discountCode]);
+
     useEffect(() => {
-        setTotal(cart.reduce((total, product) => total + (product.count * product.price), 0))
-    }, [cart])
+        if (!discountCode.discount || !total) return;
+        setDiscountPrice(total - ((total * discountCode.discount) / 100))
+    }, [discountCode, total])
+
+    useEffect(() => {
+        setTotal(cart?.products?.reduce((total, product) => total + (product.count * product.selectedVariant.precio), 0))
+    }, [cart]);
 
     useEffect(() => {
         if(paymentDetails && paymentDetails?.status) {
@@ -107,6 +156,8 @@ export default function CheckOut() {
         })
     }, [auth])
 
+    console.log(finalPrice)
+
     return (
         <Layout title={lang.pages.checkout.headTitle}>
             <Toaster />
@@ -118,17 +169,43 @@ export default function CheckOut() {
                                 <span>{lang.pages.checkout.orderResume}</span>
                                 <i className="fa-regular fa-angle-down"></i>
                             </button>
-                            <div className={"font-semibold text-lg"}>{CurrencyFormatter(total)}</div>
+                            {discountPrice ? (
+                                <div className={"font-semibold text-lg"}>{CurrencyFormatter(discountPrice)}</div>
+                            ) : (
+                                <div className={"font-semibold text-lg"}>{CurrencyFormatter(total)}</div>
+                            )}
                         </div>
                         <AnimatePresence>
                             {showResume && (
                                 <motion.div
-                                    className={"flex flex-col gap-3 pb-5"}
+                                    className={"flex flex-col gap-4 pb-5"}
                                     initial={{ opacity: 0 }}
                                     animate={{ opacity: 1 }}
                                     exit={{ opacity: 0 }}
                                 >
-                                    {cart && cart.map((product, index) => (
+                                    <div className={"flex flex-col gap-1 items-end border-b pb-3"}>
+                                        {discountCode.discount ? (
+                                            <>
+                                                <div className={"flex items-center gap-2"}>
+                                                    <span className={"text-sm text-neutral-600"}>{currency}</span>
+                                                    <div className={"line-through text-red-400 font-medium"}>{CurrencyFormatter(total || 0)}</div>
+                                                </div>
+                                                <div className={"flex items-center gap-2"}>
+                                                    <span className={"text-sm text-neutral-600"}>{currency}</span>
+                                                    <div className={"flex items-center gap-1"}>
+                                                        <span className={"font-medium"}>{CurrencyFormatter(discountPrice || 0)}</span>
+                                                        <span className={"text-sm"}>{`(-${discountCode.discount}%)`}</span>
+                                                    </div>
+                                                </div>
+                                            </>
+                                        ) : (
+                                            <div className={"flex items-center gap-2"}>
+                                                <span className={"text-sm text-neutral-600"}>{currency}</span>
+                                                <div className={"font-medium"}>{CurrencyFormatter(total || 0)}</div>
+                                            </div>
+                                        )}
+                                    </div>
+                                    {cart && cart?.products?.map((product, index) => (
                                         <Product product={product} key={index} />
                                     ))}
                                 </motion.div>
@@ -196,17 +273,17 @@ export default function CheckOut() {
                                 />
                             </div>
                         </div> */}
-                        {total != 0 && (
-                            <PayPalButton value={total} currency={currency} setPaymentDetails={setPaymentDetails} />
+                        {finalPrice != 0 && (
+                            <PayPalButton value={finalPrice} currency={currency} setPaymentDetails={setPaymentDetails} />
                         )}
                         {/* <button type={"submit"} className={"py-3 bg-main text-white hover:bg-main-hover transition-colors rounded-md disabled:bg-neutral-400"} disabled={(paymentMethod == '' || cart.length == 0) ? true : false}>{lang.pages.checkout.forms.submit}</button> */}
                     </form>
                 </div>
                 <div className={"hidden lg:flex flex-col gap-10 w-1/2 p-10 py-20 h-full"}>
-                    {cart.length != 0 && (
+                    {cart?.products?.length != 0 && (
                         <>
                             <div className={"flex flex-col gap-3"}>
-                                {cart && cart.map((product, index) => (
+                                {cart && cart?.products?.map((product, index) => (
                                     <Product product={product} key={index} />
                                 ))}
                             </div>
@@ -215,17 +292,35 @@ export default function CheckOut() {
                                     <div>Subtotal</div>
                                     <div className={"font-semibold"}>{CurrencyFormatter(total)}</div>
                                 </div>
-                                <div className={"flex items-center justify-between py-3"}>
+                                <div className={"flex items-end justify-between py-3"}>
                                     <div className={"font-semibold text-lg"}>Total</div>
-                                    <div className={"flex items-center gap-2"}>
-                                        <span className={"text-sm text-neutral-600"}>{currency}</span>
-                                        <span className={"font-semibold"}>{CurrencyFormatter(total)}</span>
+                                    <div className={"flex flex-col gap-1 items-end"}>
+                                        {discountCode.discount ? (
+                                            <>
+                                                <div className={"flex items-center gap-2"}>
+                                                    <span className={"text-sm text-neutral-600"}>{currency}</span>
+                                                    <div className={"line-through text-red-400 font-medium"}>{CurrencyFormatter(total || 0)}</div>
+                                                </div>
+                                                <div className={"flex items-center gap-2"}>
+                                                    <span className={"text-sm text-neutral-600"}>{currency}</span>
+                                                    <div className={"flex items-center gap-1"}>
+                                                        <span className={"font-medium"}>{CurrencyFormatter(discountPrice || 0)}</span>
+                                                        <span className={"text-sm"}>{`(-${discountCode.discount}%)`}</span>
+                                                    </div>
+                                                </div>
+                                            </>
+                                        ) : (
+                                            <div className={"flex items-center gap-2"}>
+                                                <span className={"text-sm text-neutral-600"}>{currency}</span>
+                                                <div className={"font-medium"}>{CurrencyFormatter(total || 0)}</div>
+                                            </div>
+                                        )}
                                     </div>
                                 </div>
                             </div>
                         </>
                     )}
-                    {cart.length == 0 && (
+                    {cart?.products?.length == 0 && (
                         <div className={"flex flex-col items-center"}>
                             <span className={"font-semibold text-xl"}>{lang.pages.checkout.noProductsInCart}</span>
                             <span>{lang.pages.checkout.addProductsToCart}</span>
@@ -239,7 +334,7 @@ export default function CheckOut() {
 
 function Product({ product }) {
     
-    const { img, name, count, price } = product;
+    const { img, name, count, selectedVariant } = product;
 
     const { currency } = useAppContext();
 
@@ -248,13 +343,13 @@ function Product({ product }) {
             <div className={"flex items-center gap-2"}>
                 <div className={"relative"}>
                     <div className={"image-container aspect-square overflow-hidden rounded-md border border-neutral-300"} style={{ width: "70px" }}>
-                        <Image src={img} className={"image"} fill alt={"Product image"} />
+                        <Image src={`${process.env.NEXT_PUBLIC_STRAPI_URI}${img}`} className={"image"} fill alt={"Product image"} />
                     </div>
                     <div className={"absolute -top-2 -right-2 text-sm text-white font-medium bg-[rgba(0,0,0,.6)] w-5 h-5 rounded-full grid place-content-center"}>{count}</div>
                 </div>
                 <div>{name}</div>
             </div>
-            <div>{useCurrencyFormatter(currency).format(price)}</div>
+            <div>{useCurrencyFormatter(currency).format(selectedVariant.precio)}</div>
         </div>
     )
 }

@@ -5,20 +5,20 @@ export default function useAddToCart(product, set) {
     const cart = JSON.parse(ls);
 
     const productId = product.id;
-    const productIsInCart = cart.find(p => p.id == productId);
+    const productIsInCart = cart.products.find(p => p.id == productId);
     if(productIsInCart) {
-        const newCart = cart.map(p => {
+        const newCart = cart?.products?.map(p => {
             if(p.id == productId) {
                 return {...p, count: p.count + 1 }
             }
             return p;
         })
-        localStorage.setItem('cart', JSON.stringify(newCart));
-        set(newCart);
+        localStorage.setItem('cart', JSON.stringify({ ...cart, products: newCart }));
+        set(current => { return { ...current, products: newCart }});
         return;
     }
 
-    const newCart = cart.concat([product]);
-    localStorage.setItem('cart', JSON.stringify(newCart));
-    set(newCart);
+    const newCart = cart.products.concat([product]);
+    localStorage.setItem('cart', JSON.stringify({ ...cart, products: newCart }));
+    set(current => { return { ...current, products: newCart } });
 }
