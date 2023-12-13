@@ -33,6 +33,7 @@ const item = {
 
 export default function Home() {
 
+    const { lang: contextlang } = useAppContext();
     const lang = useGetLang();
 
     const [ loading, setLoading ] = useState(true);
@@ -73,12 +74,12 @@ export default function Home() {
                 </Section>
             </div>
             {wigs.length != 0 && (
-                <Section title={lang.pages.home.sections.products.wigs.title}>
+                <Section title={lang.pages.home.sections.products.wigs.title} viewAllHref={`/${contextlang}/collections/wigs`} >
                     <ProductsView products={wigs} href={"wigs"} />
                 </Section>
             )}
             {extensions.length != 0 && (
-                <Section title={lang.pages.home.sections.products.extensions.title}>
+                <Section title={lang.pages.home.sections.products.extensions.title} viewAllHref={`/${contextlang}/collections/extensions`}>
                     <ProductsView products={extensions} href={"extensions"} />
                 </Section>
             )}
@@ -114,12 +115,23 @@ function Banner() {
     )
 }
 
-function Section({ title, subtitle, children }) {
+function Section({ title, subtitle, viewAllHref, children }) {
+
+    const lang = useGetLang();
+    
     return (
         <section className={"flex flex-col gap-6"}>
-            <div className={"flex flex-col gap-4"}>
-                {title && <div className={"text-3xl"}>{title}</div>}
-                {subtitle && <div className={"text-lg"}>{subtitle}</div>}
+            <div className={"flex items-start justify-between"}>
+                <div className={"flex flex-col gap-4"}>
+                    {title && <div className={"text-3xl"}>{title}</div>}
+                    {subtitle && <div className={"text-lg"}>{subtitle}</div>}
+                </div>
+                {viewAllHref && (
+                    <Link className={"flex items-center gap-2 transition-colors text-main hover:text-main-hover font-medium"} href={viewAllHref}>
+                        <span className={"underline"}>{lang.pages.home.sections.products.viewAll}</span>
+                        <i className="fa-light fa-arrow-right-long"></i>
+                    </Link>
+                )}
             </div>
             {children}
         </section>
@@ -127,9 +139,6 @@ function Section({ title, subtitle, children }) {
 }
 
 function ProductsView({ products, href }) {
-
-    const { lang: contextlang } = useAppContext();
-    const lang = useGetLang();
 
     return (
         <div className={"flex flex-col gap-16"}>
@@ -143,12 +152,6 @@ function ProductsView({ products, href }) {
                     <Product key={index} product={p} />
                 ))}
             </motion.div>
-            <div className={"flex justify-center"}>
-                <Link className={"flex items-center gap-2 transition-colors text-main hover:text-main-hover font-medium"} href={`/${contextlang}/collections/${href}`}>
-                    <span className={"underline"}>{lang.pages.home.sections.products.viewAll}</span>
-                    <i className="fa-light fa-arrow-right-long"></i>
-                </Link>
-            </div>
         </div>
     )
 }
