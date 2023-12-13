@@ -57,6 +57,7 @@ export default function CheckOut() {
             payments: paymentDetails.purchase_units[0].payments,
             total: finalPrice,
             currency,
+            discountCode: cart.discountCode,
             status: paymentDetails.status
         }
 

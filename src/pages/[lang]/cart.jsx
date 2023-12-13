@@ -23,7 +23,7 @@ export default function Cart() {
 
     const handleRemoveProduct = (id) => {
         const newCart = cart.products.filter(p => p.id != id);
-        localStorage.setItem('cart', JSON.stringify(newCart));
+        localStorage.setItem('cart', JSON.stringify({ ...cart, products: newCart }));
         setCart(current => { return { ...current, products: newCart } });
     }
 
