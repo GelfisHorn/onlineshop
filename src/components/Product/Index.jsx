@@ -10,6 +10,15 @@ import useAddToCart from "@/hooks/useAddToCart";
 import styles from './Index.module.css';
 // Notifications
 import toast, { Toaster } from 'react-hot-toast';
+// Animations
+import { motion } from "framer-motion";
+const item = {
+    hidden: { x: 20, opacity: 0 },
+    visible: {
+        x: 0,
+        opacity: 1
+    }
+};
 
 export default function Product({ product }) {
 
@@ -20,14 +29,16 @@ export default function Product({ product }) {
     const lang = useGetLang();
 
     const HandleAddToCart = () => {
-        useAddToCart({
+        const productData = {
             id,
             name: nombre,
-            variant: variante[0].id,
+            variants: variante,
+            selectedVariant: variante[0],
             description: descripcion,
-            img: img.data[0].attributes.formats.small.url,
+            img: img.data[0].attributes.formats.large.url,
             count: 1
-        }, setCart);
+        }
+        useAddToCart(productData, setCart);
         toast.success(lang.notifications.success.productAdded, {
             position: 'top-right',
             style: { boxShadow: '4px 4px 8px -6px rgba(0,0,0,0.22)', border: "1px solid rgb(240, 240, 240)" }
@@ -35,7 +46,7 @@ export default function Product({ product }) {
     }
 
     return attributes && (
-        <div className={`flex flex-col gap-3`}>
+        <motion.div variants={item} className={`flex flex-col gap-3`}>
             <Link href={`/${contextLang}/products/${url}`} className={`${styles.card} flex flex-col gap-3`}>
                 <div className={"image-container aspect-square overflow-hidden rounded-md"}>
                     <Image className={"image hover:scale-[103%] image-hover"} src={`${process.env.NEXT_PUBLIC_STRAPI_URI}${img?.data[0]?.attributes?.formats?.large?.url}`} fill alt={"Product image"} />
@@ -50,6 +61,6 @@ export default function Product({ product }) {
                 </button>
             </div>
             <Toaster />
-        </div>
+        </motion.div>
     )
 }

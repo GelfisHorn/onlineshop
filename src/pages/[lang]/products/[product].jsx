@@ -1,3 +1,5 @@
+import axios from "axios";
+// React
 import { useEffect, useState } from "react";
 // Nextjs
 import { useRouter } from "next/router"
@@ -12,75 +14,92 @@ import useAddToCart from "@/hooks/useAddToCart";
 import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js';
 // Animations
 import { AnimatePresence, motion } from "framer-motion";
-// Mock data
-import { products } from "@/mockData/products";
+import Image from "next/image";
 
 export default function ProductPage() {
 
     const router = useRouter();
     const { currency, setCart } = useAppContext();
     const { product: productId } = router.query;
-    const [ product, setProduct ] = useState(products[0] || {});
+    const [ product, setProduct ] = useState({});
+    const [ variant, setVariant ] = useState({});
+    const [ imgs, setImgs ] = useState([]);
     const lang = useGetLang();
 
     const handleFetchProduct = async () => {
-        console.log('fetching product...')
+        try {
+            const { data } = await axios.post('/api/strapi/products/getOneByUrl', { url: productId });
+            setProduct(data.data?.data[0]);
+            setVariant(data.data?.data[0]?.attributes.variante[0]);
+            setImgs(data.data?.data[0]?.attributes?.img?.data);
+        } catch (error) {
+            return;
+        }
     }
 
     useEffect(() => {
+        if(!productId) return;
         handleFetchProduct();
-    }, [])
+    }, [productId])
 
     const [ productCount, setProductCount ] = useState(1);
 
     const HandleAddToCart = () => {
-        useAddToCart({
+        const productData = {
             id: product.id,
-            name: product.name,
-            price: product.price,
-            description: product.description,
-            img: product.img,
-            count: productCount 
-        }, setCart);
+            name: product.attributes.nombre,
+            variants: product.attributes.variante,
+            selectedVariant: variant,
+            description: product.attributes.descripcion,
+            img: imgs[0].attributes.formats.large.url,
+            count: productCount
+        }
+        useAddToCart(productData, setCart);
     }
 
     return (
         <Layout title={lang.pages.product.headTitle}>
-            <section className={"flex items-start pb-10"}>
+            <section className={"flex items-start"}>
                 <div className={"flex flex-col gap-5 w-3/5"}>
-                    <ProductImage />
-                    <div className={"grid grid-cols-2 gap-5"}>
-                        <ProductImage />
-                        <ProductImage />
-                    </div>
+                    <ProductImage img={imgs[0]?.attributes?.formats?.large?.url} />
+                    {imgs[1] && (
+                        <div className={"grid grid-cols-2 gap-5"}>
+                            {imgs.map((img, index) => {
+                                if (index != 0) {
+                                    return <ProductImage img={img.attributes.formats.large.url} />
+                                }
+                            })}
+                        </div>
+                    )}
                 </div>
                 <div className={"w-2/5 px-10"}>
                     <div className={"flex flex-col gap-6"}>
                         <div className={"flex flex-col gap-1"}>
-                            <span className={"uppercase font-medium"}>{lang.product.categories.wigs}</span>
-                            <h2 className={"text-4xl"}>{product.name}</h2>
+                            <span className={"uppercase font-medium"}>{product?.attributes?.collections?.data[0]?.attributes?.nombre}</span>
+                            <h2 className={"text-4xl"}>{product?.attributes?.nombre}</h2>
                         </div>
                         <div className={"flex flex-col"}>
                             <span className={""}>{lang.product.price}</span>
-                            <span className={"text-2xl font-medium text-main"}>{useCurrencyFormatter(currency).format(product.price)}</span>
+                            <span className={"text-2xl font-medium text-main"}>{useCurrencyFormatter(currency).format(variant.precio)}</span>
                         </div>
                         <ProductCount count={productCount} setCount={setProductCount} />
+                        <ProductSize product={product} setVariant={setVariant} />
                         <div className={"flex flex-col gap-3"}>
                             <button onClick={HandleAddToCart} className={"border border-main h-12 hover:bg-main hover:text-white text-main transition-colors rounded-md"}>{lang.product.addToCart}</button>
-                            <button className={"h-12 bg-main text-white transition-all rounded-md"}>Comprar</button>
-                            <PayPalButton />
+                            {/* <button className={"h-12 bg-main text-white transition-all rounded-md"}>Comprar</button> */}
+                            {/* <PayPalButton /> */}
                         </div>
                         <div className={"flex flex-col gap-1"}>
                             <span className={"text-lg uppercase font-medium"}>{lang.product.description}</span>
-                            <p className={"text-neutral-600"}>{product.description}</p>
+                            <p className={"text-neutral-600"}>{product?.attributes?.descripcion}</p>
                         </div>
                         <div className={"flex flex-col"}>
                             <ProductDropdown icon={"fa-industry-windows"} title={"Material"}>
                                 <div>asd</div>
                             </ProductDropdown>
-                            <ProductDropdown icon={"fa-ruler"} title={"Tamaño"}>
+                            {/* <ProductDropdown icon={"fa-ruler"} title={"Tamaño"}>
                                 <div>asd</div>
-                            </ProductDropdown>
+                            </ProductDropdown> */}
                             <ProductDropdown icon={"fa-heart"} title={"Instrucciones de cuidado"}>
                                 <div>asd</div>
                             </ProductDropdown>
@@ -96,7 +115,13 @@ export default function ProductPage() {
 }
 
 function ProductImage({ img }) {
-    return <div className={"bg-zinc-200 aspect-square rounded-md"}></div>
+    return img ? (
+        <div className={"w-full h-full aspect-square overflow-hidden rounded-md"}>
+            <div className={"image-container h-full"}>
+                <Image className={"image object-cover"} src={`${process.env.NEXT_PUBLIC_STRAPI_URI}${img}`} fill alt={"Product image"} />
+            </div>
+        </div>
+    ) : <div className = { "bg-zinc-200 aspect-square rounded-md" }></div >
 }
 
 function ProductCount({ count, setCount }) {
@@ -119,6 +144,30 @@ function ProductCount({ count, setCount }) {
                 <div className={"grid place-content-center w-12 font-medium"}>{count}</div>
                 <button onClick={handleSum} className={"grid place-content-center w-12 hover:bg-main hover:text-white text-neutral-700 transition-colors"}><i className="fa-solid fa-plus text-sm"></i></button>
             </div>
+        </div>
+    )
+}
+
+function ProductSize({ product, setVariant }) {
+
+    const lang = useGetLang();
+
+    const variants = product?.attributes?.variante || [];
+
+    const handleClickVariant = (variant) => {
+        const newVariant = variants.find(e => e.id == variant);
+        setVariant(newVariant);
+    }
+
+    console.log(variants)
+    return (
+        <div className={"flex flex-col gap-1"}>
+            <label htmlFor="product-size">{lang.product.size}</label>
+            <select onChange={e => handleClickVariant(e.target.value)} id={"product-size"} className={"border border-neutral-300 rounded-md h-12 px-3 overflow-hidden select-none"}>
+                {variants.map(variant => (
+                    <option value={variant.id}>{`${variant.desdePulgadas}" - ${variant.hastaPulgadas}"`}</option>
+                ))}
+            </select>
         </div>
     )
 }

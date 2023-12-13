@@ -4,9 +4,21 @@ import { useRouter } from "next/router";
 // Components
 import { ProductFilters } from "./ProductFilters";
 import Product from "@/components/Product/Index";
+import Loading from "@/components/Loading/Index";
 // Hooks
 import useGetLang from "@/hooks/useGetLang";
-import Loading from "./Loading/Index";
+// Animations
+import { motion } from "framer-motion";
+const container = {
+    hidden: { opacity: 0 },
+    visible: {
+        opacity: 1,
+        transition: {
+            delayChildren: 0.1,
+            staggerChildren: 0.1
+        }
+    }
+};
 
 export default function ProductsView({ title, loading, products = [], totalProducts, itemsPerPage = 12, actualPage, setActualPage }) {
 
@@ -144,11 +156,16 @@ export default function ProductsView({ title, loading, products = [], totalProdu
                 <div className={"flex flex-col gap-16 pb-10"}>
                     <h2 className={"font-bold text-3xl md:text-4xl text-center lg:text-left"}>{title}</h2>
                     {!loading && (
-                        <div className={"grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-x-6 gap-y-10"}>
+                        <motion.div
+                            variants={container}
+                            initial="hidden"
+                            animate="visible"
+                            className={"grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-x-6 gap-y-10"}
+                        >
                             {(filteredProducts.length != 0 && productsCount != 0 && actualPage <= pagesCount) && filteredProducts.map((p, index) => (
                                 <Product key={index} product={p} />
                             ))}
-                        </div>
+                        </motion.div>
                     )}
                     {loading && (
                         <div className={"grid place-content-center min-h-[40vh]"}>
@@ -156,7 +173,7 @@ export default function ProductsView({ title, loading, products = [], totalProdu
                         </div>
                     )}
                     {(pagesCount == 0 || (actualPage > pagesCount) || productsCount == 0 || filteredProducts.length == 0) && !loading && (
-                        <div className={"flex flex-col items-center gap-2"}>
+                        <div className={"flex flex-col items-center gap-2 text-center"}>
                             <div className={"text-2xl"}>{lang.product.notFound}</div>
                             <div>{lang.product.removeFilters.text} <button onClick={handleClearFilters} className={"underline"}>{lang.product.removeFilters.button}</button></div>
                         </div>
