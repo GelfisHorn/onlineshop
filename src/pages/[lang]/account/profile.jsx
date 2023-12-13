@@ -28,7 +28,8 @@ export default function AccountProfile() {
     })
     const [ repeatPassword, setRepeatPassword ] = useState("");
 
-    async function handleSubmit(e) {
+    const config = useAuthHeaders();
+    async function HandleSubmit(e) {
         e.preventDefault();
 
         const { password } = user;
@@ -48,7 +49,6 @@ export default function AccountProfile() {
             return;
         }
 
-        const config = useAuthHeaders();
         try {
             await axios.post('/api/user/editProfile', { user, config });
             toast.success(lang.notifications.success.editProfile, {
@@ -85,7 +85,7 @@ export default function AccountProfile() {
                 <Toaster />
                 <section className={"flex flex-col gap-16 py-16 lg:w-1/2 xl:w-1/3 lg:mx-auto"}>
                     <h1 className={"text-4xl font-semibold"}>{lang.pages.profile.title}</h1>
-                    <form onSubmit={handleSubmit} className={"flex flex-col gap-6"}>
+                    <form onSubmit={HandleSubmit} className={"flex flex-col gap-6"}>
                         <div className={"flex flex-col gap-3"}>
                             <div className={"grid grid-cols-1 sm:grid-cols-2 gap-3"}>
                                 <Input

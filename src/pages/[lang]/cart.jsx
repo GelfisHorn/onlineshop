@@ -268,8 +268,8 @@ function ProductSize({ variants, setVariant }) {
 
     return (
         <select onChange={e => handleClickVariant(e.target.value)} id={"product-size"} className={"border border-neutral-300 rounded-md h-12 px-3 overflow-hidden select-none"}>
-            {variants.map(variant => (
-                <option value={variant.id}>{`${variant.desdePulgadas}" - ${variant.hastaPulgadas}"`}</option>
+            {variants.map((variant, index) => (
+                <option key={index} value={variant.id}>{`${variant.desdePulgadas}" - ${variant.hastaPulgadas}"`}</option>
             ))}
         </select>
     )

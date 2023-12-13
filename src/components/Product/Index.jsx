@@ -45,6 +45,8 @@ export default function Product({ product }) {
         })
     }
 
+    const CurrencyFormatter = (price, currency) => useCurrencyFormatter(currency).format(price);
+
     return attributes && (
         <motion.div variants={item} className={`flex flex-col gap-3`}>
             <Link href={`/${contextLang}/products/${url}`} className={`${styles.card} flex flex-col gap-3`}>
@@ -54,7 +56,7 @@ export default function Product({ product }) {
                 <span className={`${styles.name} font-medium text-xl transition-colors`}>{nombre}</span>
             </Link>
             <div className={"flex flex-col sm:flex-row sm:items-end justify-between"}>
-                <span className={"text-main text-2xl font-semibold"}>{useCurrencyFormatter(currency).format(variante[0]?.precio)}</span>
+                <span className={"text-main text-2xl font-semibold"}>{CurrencyFormatter(variante[0]?.precio, currency)}</span>
                 <button onClick={HandleAddToCart} className={"flex items-end font-medium text-main gap-2"}>
                     <i className="fa-regular fa-bag-shopping text-lg"></i>
                     <span>{lang.product.addToCart}</span>

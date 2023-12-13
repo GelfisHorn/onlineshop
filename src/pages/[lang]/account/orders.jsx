@@ -22,7 +22,7 @@ export default function AccountOrders() {
     const [ orders, setOrders ] = useState([]);
     const [ loading, setLoading ] = useState(true);
 
-    async function getOrders() {
+    async function GetOrders() {
         const config = useAuthHeaders();
 
         try {
@@ -36,7 +36,7 @@ export default function AccountOrders() {
     }
 
     useEffect(() => {
-        getOrders();
+        GetOrders();
     }, [])
 
     const CurrencyFormatter = (price, currency) => useCurrencyFormatter(currency).format(price);
@@ -53,8 +53,8 @@ export default function AccountOrders() {
                                 <div className={"font-semibold text-lg"}>{lang.pages.orders.status}</div>
                             </div>
                             <div className={"divide-y"}>
-                                {orders.map(order => (
-                                    <Order order={order} />
+                                {orders.map((order, index) => (
+                                    <Order key={index} order={order} />
                                 ))}
                             </div>
                         </div>
@@ -110,8 +110,8 @@ function Order({ order }) {
                         exit={{ opacity: 0 }}
                         className={"flex flex-col py-1 sm:px-5 divide-y"}
                     >
-                        {order.products.map(product => (
-                            <Product product={product} currency={order.currency} />
+                        {order.products.map((product, index) => (
+                            <Product key={index} product={product} currency={order.currency} />
                         ))}
                     </motion.div>
                 )}
