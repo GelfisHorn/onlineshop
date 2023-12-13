@@ -35,6 +35,7 @@ const de = {
             headTitle: "Warenkorb",
             items: "Artikel",
             productDetails: "Produktdetails",
+            size: "Größe",
             amount: "Menge",
             total: "Gesamt",
             removeProduct: "Ausmerzen",
@@ -44,16 +45,16 @@ const de = {
         },
         collections: {
             all: {
-                headTitle: "Sammlung: Alle",
-                title: "Sammlung: Alle",
+                headTitle: "Sammlung: Alles",
+                title: "Sammlung: Alles",
             },
             wigs: {
-                headTitle: "Sammlung: Perücken",
-                title: "Sammlung: Perücken",
+                headTitle: "Sammlung:",
+                title: "Sammlung:",
             },
             extensions: {
-                headTitle: "Sammlung: Extensions",
-                title: "Sammlung: Extensions",
+                headTitle: "Sammlung:",
+                title: "Sammlung:",
             }
         },
         checkout: {
@@ -280,7 +281,8 @@ const de = {
         },
         description: "Produktbeschreibung",
         amount: "Menge",
-        price: "Preis"
+        price: "Preis",
+        size: "Größe"
     },
     notifications: {
         success: {
@@ -291,7 +293,8 @@ const de = {
             recoverAccount: "Anweisungen wurden an Ihre E-Mail gesendet",
             newPassword: "Dein Passwort wurde aktualisiert!",
             confirmAccount: "Ihr Konto wurde bestätigt!",
-            editProfile: "Sie haben Ihr Profil korrekt aktualisiert"
+            editProfile: "Sie haben Ihr Profil korrekt aktualisiert",
+            discountCode: "Rabattcode angewendet!"
         },
         error: {
             alreadyLoggedIn: "Sie sind bereits angemeldet",
@@ -308,7 +311,9 @@ const de = {
             newPassword: "Beim Aktualisieren Ihres Passworts ist ein Fehler aufgetreten",
             confirmAccount: "Es ist ein Fehler bei der Bestätigung Ihres Kontos aufgetreten",
             passwordLength: "Das Passwort muss mindestens 8 Zeichen lang sein.",
-            editProfile: "Es ist ein Fehler bei der Aktualisierung Ihres Profils aufgetreten"
+            editProfile: "Es ist ein Fehler bei der Aktualisierung Ihres Profils aufgetreten",
+            discountCode: "Dieser Code existiert nicht oder kann nicht mehr verwendet werden.",
+            alreadyHasDiscountCode: "Sie haben bereits einen Rabattcode verwendet"
         }
     }
 }

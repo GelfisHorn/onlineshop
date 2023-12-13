@@ -35,6 +35,7 @@ const es = {
             headTitle: "Carrito de compras",
             items: "Elementos",
             productDetails: "Detalles del producto",
+            size: "Tamaño",
             amount: "Cantidad",
             total: "Total",
             removeProduct: "Eliminar",
@@ -44,16 +45,16 @@ const es = {
         },
         collections: {
             all: {
-                headTitle: "Colección: Todas",
-                title: "Colección: Todas"
+                headTitle: "Colección: Todos",
+                title: "Colección: Todos"
             },
             wigs: {
-                headTitle: "Colección: Pelucas",
-                title: "Colección: Pelucas"
+                headTitle: "Colección:",
+                title: "Colección:"
             },
             extensions: {
-                headTitle: "Colección: Extensiones",
-                title: "Colección: Extensiones"
+                headTitle: "Colección:",
+                title: "Colección:"
             }
         },
         checkout: {
@@ -280,7 +281,8 @@ const es = {
         },
         description: "Descripción del producto",
         amount: "Cantidad",
-        price: "Precio"
+        price: "Precio",
+        size: "Tamaño"
     },
     notifications: {
         success: {
@@ -291,7 +293,8 @@ const es = {
             recoverAccount: "Se han enviado instrucciones a tu email",
             newPassword: "Se ha actualizado tu contraseña!",
             confirmAccount: "Tu cuenta ha sido confirmada!",
-            editProfile: "Actualizaste tu perfil correctamente"
+            editProfile: "Actualizaste tu perfil correctamente",
+            discountCode: "Código de descuento aplicado!"
         },
         error: {
             alreadyLoggedIn: "Ya iniciaste sesión",
@@ -308,7 +311,9 @@ const es = {
             newPassword: "Hubo un error al actualizar tu contraseña",
             confirmAccount: "Hubo un error al confirmar tu cuenta",
             passwordLength: "La contraseña debe tener 8 caracteres o más",
-            editProfile: "Hubo un error al actualizar tu perfil"
+            editProfile: "Hubo un error al actualizar tu perfil",
+            discountCode: "Este código no existe o ya no puede ser usado",
+            alreadyHasDiscountCode: "Ya has usado un código de descuento"
         }
     }
 }

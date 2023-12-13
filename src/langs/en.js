@@ -35,6 +35,7 @@ const en = {
             headTitle: "Shopping Cart",
             items: "Items",
             productDetails: "Product Details",
+            size: "Size",
             amount: "Quantity",
             total: "Total",
             removeProduct: "Remove",
@@ -48,12 +49,12 @@ const en = {
                 title: "Collection: All"
             },
             wigs: {
-                headTitle: "Collection: Wigs",
-                title: "Collection: Wigs"
+                headTitle: "Collection:",
+                title: "Collection:"
             },
             extensions: {
-                headTitle: "Collection: Extensions",
-                title: "Collection: Extensions"
+                headTitle: "Collection:",
+                title: "Collection:"
             }
         },
         checkout: {
@@ -280,7 +281,8 @@ const en = {
         },
         description: "Product description",
         amount: "Amount",
-        price: "Price"
+        price: "Price",
+        size: "Size"
     },
     notifications: {
         success: {
@@ -291,7 +293,8 @@ const en = {
             recoverAccount: "Instructions have been sent to your email.",
             newPassword: "Your password has been updated!",
             confirmAccount: "Your account has been confirmed!",
-            editProfile: "You have updated your profile correctly"
+            editProfile: "You have updated your profile correctly",
+            discountCode: "Discount code applied!"
         },
         error: {
             alreadyLoggedIn: "You are already logged in",
@@ -308,7 +311,9 @@ const en = {
             newPassword: "There was an error updating your password",
             confirmAccount: "There was an error confirming your account",
             passwordLength: "Password must be 8 characters or more",
-            editProfile: "There was an error updating your profile"
+            editProfile: "There was an error updating your profile",
+            discountCode: "This code does not exist or can no longer be used.",
+            alreadyHasDiscountCode: "You have already used a discount code"
         }
     }
 }
