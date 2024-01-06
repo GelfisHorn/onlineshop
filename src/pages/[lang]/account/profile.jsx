@@ -41,7 +41,7 @@ export default function AccountProfile() {
             })
             return;
         }
-        if(password.length < 8) {
+        if(password && password.length < 8) {
             toast.error(lang.notifications.error.passwordLength, {
                 position: 'top-right',
                 style: { boxShadow: '4px 4px 8px -6px rgba(0,0,0,0.22)', border: "1px solid rgb(240, 240, 240)" }

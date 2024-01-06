@@ -47,7 +47,8 @@ export default function CheckOut() {
                 name: p.name,
                 img: p.img,
                 description: p.description,
-                price: p.selectedVariant.precio
+                price: p.selectedVariant.precio,
+                count: p.count
             }
         });
 
