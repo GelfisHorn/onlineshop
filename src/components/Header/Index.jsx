@@ -77,7 +77,8 @@ export default function Header() {
             )}
             <div className={"flex justify-between md:justify-normal h-20 border-b"}>
                 <Link href={`/${contextLang}`} className={"grid place-content-center w-40"}>
-                    <span className={"font-semibold"}>ONLINESHOP.</span>
+                    <Image src={"/logo.webp"} width={100} height={100} />
+                    {/* <span className={"font-semibold"}>ONLINESHOP.</span> */}
                 </Link>
                 <div className={"hidden md:grid place-content-center border-l border-r grow"}>
                     <div className={"hidden md:flex items-center gap-16"}>
@@ -156,7 +157,8 @@ function MobileMenu({ handleClose }) {
                 </button>
                 <div className={"flex flex-col gap-10"}>
                     <div className={"grid place-content-center w-full"}>
-                        <span className={"font-semibold text-2xl"}>ONLINESHOP.</span>
+                        <Image src={"/logo.webp"} width={150} height={100} />
+                        {/* <span className={"font-semibold text-2xl"}>ONLINESHOP.</span> */}
                     </div>
                     <div className={"flex flex-col items-center text-xl"}>
                         <div className={"flex flex-col gap-3 items-center py-6"}>

@@ -12,7 +12,7 @@ export default function Layout({ children, title }) {
     return (
         <>
             <Head>
-                <title>{title} | OnlineShop</title>
+                <title>{title} | Salon Wigs Eloisa</title>
             </Head>
             <div>
                 <Header />
