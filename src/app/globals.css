@@ -129,3 +129,12 @@ ul ol {
     list-style-position: inside;
     margin-left: 15px;
 }
+
+.swiper-button-next,
+.swiper-button-prev {
+    color: black !important;
+}
+
+.swiper-pagination-bullet {
+    background: black !important;
+}

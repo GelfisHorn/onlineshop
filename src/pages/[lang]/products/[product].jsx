@@ -3,6 +3,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 // Nextjs
 import { useRouter } from "next/router"
+import Image from "next/image";
 // Components
 import Layout from "@/components/Layout"
 // Hooks
@@ -14,7 +15,14 @@ import useAddToCart from "@/hooks/useAddToCart";
 import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js';
 // Animations
 import { AnimatePresence, motion } from "framer-motion";
-import Image from "next/image";
+// Carousel
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, Pagination, Scrollbar } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+
+const getWidth = () => (typeof window !== 'undefined') ? window.innerWidth : null;
 
 export default function ProductPage() {
 
@@ -24,6 +32,7 @@ export default function ProductPage() {
     const [ product, setProduct ] = useState({});
     const [ variant, setVariant ] = useState({});
     const [ imgs, setImgs ] = useState([]);
+    const [windowSize, setWindowSize] = useState(getWidth);
     const lang = useGetLang();
 
     const handleFetchProduct = async () => {
@@ -56,11 +65,23 @@ export default function ProductPage() {
         }
         useAddToCart(productData, setCart);
     }
+    
+    useEffect(() => {
+        const handleResize = () => {
+            setWindowSize(getWidth());
+        };
+
+        window.addEventListener('resize', handleResize);
+
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
 
     return (
         <Layout title={lang.pages.product.headTitle}>
-            <section className={"flex items-start"}>
-                <div className={"flex flex-col gap-5 w-3/5"}>
+            <section className={"flex items-start flex-col xl:flex-row xl:gap-0 gap-10"}>
+                <div className={"hidden xl:flex flex-col gap-5 w-3/5"}>
                     <ProductImage img={imgs[0]?.attributes?.formats?.large?.url} />
                     {imgs[1] && (
                         <div className={"grid grid-cols-2 gap-5"}>
@@ -72,7 +93,33 @@ export default function ProductPage() {
                         </div>
                     )}
                 </div>
-                <div className={"w-2/5 px-10"}>
+                <div className={"flex xl:hidden flex-col gap-5 w-full"}>
+                    <Swiper
+                        modules={[Navigation, Pagination, Scrollbar]}
+                        slidesPerView={1}
+                        spaceBetween={20}
+                        navigation
+                        pagination={{ clickable: true }}
+                        scrollbar={{ draggable: true }}
+                        className={"w-full"}
+                    >
+                        <SwiperSlide>
+                            <ProductImage img={imgs[0]?.attributes?.formats?.large?.url} />
+                        </SwiperSlide>
+                        {imgs[1] && (
+                            imgs.map((img, index) => {
+                                if (index != 0) {
+                                    return (
+                                        <SwiperSlide>
+                                            <ProductImage key={index} img={img.attributes.formats.large.url} />
+                                        </SwiperSlide>
+                                    )
+                                }
+                            })
+                        )}
+                    </Swiper>
+                </div>
+                <div className={"w-full xl:w-2/5 xl:px-10"}>
                     <div className={"flex flex-col gap-6"}>
                         <div className={"flex flex-col gap-1"}>
                             <span className={"uppercase font-medium"}>{product?.attributes?.collections?.data[0]?.attributes?.nombre}</span>
