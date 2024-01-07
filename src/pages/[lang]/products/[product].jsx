@@ -110,8 +110,8 @@ export default function ProductPage() {
                             imgs.map((img, index) => {
                                 if (index != 0) {
                                     return (
-                                        <SwiperSlide>
-                                            <ProductImage key={index} img={img.attributes.formats.large.url} />
+                                        <SwiperSlide key={index}>
+                                            <ProductImage img={img.attributes.formats.large.url} />
                                         </SwiperSlide>
                                     )
                                 }
