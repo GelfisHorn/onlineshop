@@ -25,7 +25,7 @@ export function AppContextProvider({ children }) {
         authenticated: false,
         loading: true
     });
-    const [ lang, setLang ] = useState("de");
+    const [ lang, setLang ] = useState("es");
     const [ currency, setCurrency ] = useState("EUR");
     const [ cart, setCart ] = useState(CART_DEFAULT);
 
@@ -33,7 +33,7 @@ export function AppContextProvider({ children }) {
         GetProfile();
         loadLanguage();
         // Load currency
-        setCurrency(localStorage.getItem('currency') || "EUR");
+        setCurrency("EUR");
         // Load Cart
         const lsCart = localStorage.getItem('cart');
         setCart(JSON.parse(lsCart) || CART_DEFAULT);
@@ -50,7 +50,7 @@ export function AppContextProvider({ children }) {
             setLang(newLang);
             localStorage.setItem('lang', newLang);
         } else {
-            setLang(localStorage.getItem('lang') || 'de');
+            setLang(localStorage.getItem('lang') || 'es');
             if(newLang == "") return;
             // router.push('/404');
         }

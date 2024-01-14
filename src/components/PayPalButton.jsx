@@ -2,6 +2,7 @@ import { useEffect } from "react";
 
 export default function PayPalButton({ value, currency, setPaymentDetails }) {
     useEffect(() => {
+        console.log(window.paypal)
         if(window.paypal) {
             paypal.Buttons({
                 createOrder: (data, actions) => {
@@ -10,7 +11,7 @@ export default function PayPalButton({ value, currency, setPaymentDetails }) {
                             {
                                 amount: {
                                     value, // Payment amount
-                                    currency_code: 'USD'
+                                    currency_code: 'EUR'
                                 },
                             },
                         ],
