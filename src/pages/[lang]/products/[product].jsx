@@ -211,7 +211,7 @@ function ProductSize({ product, setVariant }) {
             <label htmlFor="product-size">{lang.product.size}</label>
             <select onChange={e => handleClickVariant(e.target.value)} id={"product-size"} className={"border border-neutral-300 rounded-md h-12 px-3 overflow-hidden select-none"}>
                 {variants.map((variant, index) => (
-                    <option key={index} value={variant.id}>{`${variant.desdePulgadas}" - ${variant.hastaPulgadas}"`}</option>
+                    <option key={index} value={variant.id}>{`${variant.pulgadas}"`}</option>
                 ))}
             </select>
         </div>

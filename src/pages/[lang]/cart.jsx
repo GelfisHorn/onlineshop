@@ -207,7 +207,7 @@ function Product({ p, updateProducts, handleRemove }) {
             <div className={"flex flex-col gap-5 w-full md:w-[45%]"}>
                 <div className={"flex items-start gap-5"}>
                     <div className={"image-container overflow-hidden aspect-square rounded-md"} style={{ width: "144px" }}>
-                        <Image className={"image"} src={`${process.env.NEXT_PUBLIC_STRAPI_URI}${img}`} fill />
+                        <Image className={"image"} src={`${process.env.NEXT_PUBLIC_STRAPI_URI}${img}`} fill alt={"Product image"} />
                     </div>
                     <div className={"flex flex-col gap-2 justify-between h-full w-full"}>
                         <div className={"flex flex-col gap-2"}>
@@ -269,7 +269,7 @@ function ProductSize({ variants, setVariant }) {
     return (
         <select onChange={e => handleClickVariant(e.target.value)} id={"product-size"} className={"border border-neutral-300 rounded-md h-12 px-3 overflow-hidden select-none"}>
             {variants.map((variant, index) => (
-                <option key={index} value={variant.id}>{`${variant.desdePulgadas}" - ${variant.hastaPulgadas}"`}</option>
+                <option key={index} value={variant.id}>{`${variant.pulgadas}"`}</option>
             ))}
         </select>
     )
