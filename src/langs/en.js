@@ -6,6 +6,7 @@ const en = {
             banner: {
                 title: "Fantastic Hair in Seconds",
                 subtitle: "Change your style in an instant without damaging your hair",
+                slogan: "Your style, your wig.",
                 button: "Shop Now"
             },
             sections: {

@@ -106,9 +106,18 @@ function Banner() {
                 <div className={"w-full h-full bg-[rgba(0,0,0,.4)] relative z-10"}></div>
                 <Image className={"object-cover"} fill src={"/banner.jpg"} alt={"Banner image"} />
             </div>
-            <div className={"absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 flex flex-col items-center justify-center gap-7 sm:w-1/2 text-white z-10 text-center"}>
-                <motion.div variants={item} className={"relative text-5xl leading-[3.5rem]"}>{lang.pages.home.banner.title}</motion.div>
-                <motion.div variants={item}>{lang.pages.home.banner.subtitle}</motion.div>
+            <div className={"absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 flex flex-col items-center justify-center gap-16 sm:w-1/2 text-white z-10 text-center"}>
+                <div className={"flex flex-col gap-4 items-center"}>
+                    <motion.div variants={item} className={"relative text-5xl leading-[3.5rem]"}>{lang.pages.home.banner.title}</motion.div>
+                    <motion.div variants={item}>{lang.pages.home.banner.subtitle}</motion.div>
+                    <motion.div
+                        variants={item}
+                        className={"relative w-fit"}
+                    >
+                        <span className={"relative z-10 font-semibold uppercase"}>{lang.pages.home.banner.slogan}</span>
+                        <div className={"absolute bottom-0 md:bg-[rgba(255,255,255,.3)] h-3 w-full"}></div>
+                    </motion.div>
+                </div>
                 <motion.div variants={item}><Link href={`/${contextLang}/collections/all`} className={"border w-fit px-6 py-3 hover:border-main hover:text-white hover:bg-main transition-colors rounded-sm"}>{lang.pages.home.banner.button}</Link></motion.div>
             </div>
         </motion.div>

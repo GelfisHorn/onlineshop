@@ -6,6 +6,7 @@ const es = {
             banner: {
                 title: "Cabello fantástico en segundos",
                 subtitle: "Cambia tu estilo en un instante sin dañar tu cabello",
+                slogan: "Tu estilo, tu peluca.",
                 button: "Comprar ahora"
             },
             sections: {

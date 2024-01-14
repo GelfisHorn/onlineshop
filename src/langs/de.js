@@ -6,6 +6,7 @@ const de = {
             banner: {
                 title: "Fantastisches Haar in Sekunden",
                 subtitle: "Ändere deinen Stil im Handumdrehen, ohne dein Haar zu schädigen",
+                slogan: "Dein Stil, deine Perücke.",
                 button: "Jetzt kaufen"
             },
             sections: {
