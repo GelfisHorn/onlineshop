@@ -132,7 +132,7 @@ function Product({ product, currency }) {
         <div className={"flex items-center justify-between py-2"}>
             <div className={"flex items-center gap-5 w-full md:w-[60%]"}>
                 <div className={"image-container overflow-hidden aspect-square rounded-md"} style={{ width: "100px" }}>
-                    <Image className={"image"} src={`${process.env.NEXT_PUBLIC_STRAPI_URI}${img}`} fill />
+                    <Image className={"image"} src={`${process.env.NEXT_PUBLIC_STRAPI_URI}${img}`} fill alt={"Product image"} />
                 </div>
                 <div className={"flex flex-col gap-2 justify-between h-full w-full"}>
                     <div className={"flex flex-col justify-between gap-2"}>

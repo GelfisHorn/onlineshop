@@ -77,7 +77,7 @@ export default function Header() {
             )}
             <div className={"flex justify-between md:justify-normal h-20 border-b"}>
                 <Link href={`/${contextLang}`} className={"grid place-content-center w-40"}>
-                    <Image src={"/logo.webp"} width={100} height={100} />
+                    <Image src={"/logo.webp"} width={100} height={100} alt={"Logo"} />
                     {/* <span className={"font-semibold"}>ONLINESHOP.</span> */}
                 </Link>
                 <div className={"hidden md:grid place-content-center border-l border-r grow"}>
@@ -157,7 +157,7 @@ function MobileMenu({ handleClose }) {
                 </button>
                 <div className={"flex flex-col gap-10"}>
                     <div className={"grid place-content-center w-full"}>
-                        <Image src={"/logo.webp"} width={150} height={100} />
+                        <Image src={"/logo.webp"} width={150} height={100} alt={"Logo"} />
                         {/* <span className={"font-semibold text-2xl"}>ONLINESHOP.</span> */}
                     </div>
                     <div className={"flex flex-col items-center text-xl"}>
@@ -275,7 +275,7 @@ function LangCurrencyCard() {
                                         selected={currency}
                                         options={[
                                             { text: lang.header.currencies.EUR, img: `${FLAGS_SRC.baseUrl}${FLAGS_SRC.EUR}`, value: "EUR", },
-                                            { text: lang.header.currencies.USD, img: `${FLAGS_SRC.baseUrl}${FLAGS_SRC.USD}`, value: "USD", }
+                                            // { text: lang.header.currencies.USD, img: `${FLAGS_SRC.baseUrl}${FLAGS_SRC.USD}`, value: "USD", }
                                         ]}
                                         setValue={handleSetCurrency}
                                         handleClose={handleShowCurrencyModal}
