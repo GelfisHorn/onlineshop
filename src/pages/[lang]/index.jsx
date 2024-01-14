@@ -104,7 +104,7 @@ function Banner() {
                 className={"image-container h-[35rem] overflow-hidden"}
             >
                 <div className={"w-full h-full bg-[rgba(0,0,0,.4)] relative z-10"}></div>
-                <Image className={"object-cover"} fill src={"/banner.jpg"} />
+                <Image className={"object-cover"} fill src={"/banner.jpg"} alt={"Banner image"} />
             </div>
             <div className={"absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 flex flex-col items-center justify-center gap-7 sm:w-1/2 text-white z-10 text-center"}>
                 <motion.div variants={item} className={"relative text-5xl leading-[3.5rem]"}>{lang.pages.home.banner.title}</motion.div>
@@ -166,7 +166,7 @@ function AboutUs() {
                 variants={container}
                 initial="hidden"
                 whileInView="visible"
-                className={"flex flex-col items-center gap-6 md:w-2/3 2xl:w-1/2"}
+                className={"flex flex-col items-center gap-10 md:w-2/3 2xl:w-1/2"}
             >
                 <motion.div 
                     variants={item}
@@ -175,7 +175,29 @@ function AboutUs() {
                     <span className={"relative z-10 font-semibold md:font-medium"}>{lang.pages.home.aboutUs.title}</span>
                     <div className={"absolute bottom-0 md:bg-[rgba(202,164,46,.5)] h-4 w-full"}></div>
                 </motion.div>
-                <motion.div variants={item} className={"md:text-lg text-neutral-700"}>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</motion.div>
+                <motion.div variants={item} className={"flex flex-col gap-8 md:text-lg text-neutral-700"}>
+                    <p className={"text-xl"}>Bienvenidos a <span className={"text-main underline font-medium"}>SalonWigsEloisa</span>: Tu Destino para Belleza Auténtica.</p>
+
+                    <div className={"flex flex-col gap-2"}>
+                        <p>Soy Eloisa Salas de Müller, y en <span className={"text-main font-medium"}>SalonWigsEloisa</span> te presentamos pelucas y extensiones de <span className={"underline font-medium"}>cabello 100% humano.</span></p>
+
+                        <div className={"flex flex-col gap-2"}>
+                            <p><span className={"font-semibold"}>Lo Mejor en Autenticidad:</span> Descubre la autenticidad con nuestra colección de cabello humano de alta calidad, ofreciendo lujo en cada hebra.</p>
+
+                            <p><span className={"font-semibold"}>Variedad de Estilos y Colores:</span> Encuentra tu look perfecto entre nuestra amplia gama de pelucas y extensiones, disponibles en tonos naturales y vibrantes.</p>
+
+                            <p><span className={"font-semibold"}>Calidad Incomparable:</span> Garantizamos durabilidad, facilidad de mantenimiento y comodidad para que te sientas segura en cada ocasión.</p>
+
+                            <p><span className={"font-semibold"}>Atención Personalizada:</span> Nuestro equipo está aquí para asesorarte y brindarte una experiencia de compra personalizada.</p>
+
+                            <p><span className={"font-semibold"}>Compra sin Preocupaciones:</span> Disfruta de envíos seguros y políticas de devolución flexibles.</p>
+                        </div>
+                    </div>
+
+                    <p>En <span className={"text-main font-medium"}>SalonWigsEloisa</span>, tu satisfacción es nuestra prioridad. Transforma tu belleza con confianza.</p>
+
+                    <p>¡<span className={"text-main font-medium"}>SalonWigsEloisa</span>, donde tu estilo cobra vida!</p>
+                </motion.div>
             </motion.div>
         </section>
     )
