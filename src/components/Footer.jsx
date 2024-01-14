@@ -26,9 +26,9 @@ export default function Footer() {
                     { name: lang.footer.columns.legal.items.datenschutz, href: `/${contextLang}/datenschutz` }
                 ]} />
                 <Column title={lang.footer.columns.socials.title} items={[
-                    { name: lang.footer.columns.socials.items.facebook, href: `#`, icon: "fa-brands fa-square-facebook" },
-                    { name: lang.footer.columns.socials.items.instagram, href: `#`, icon: "fa-brands fa-instagram" },
-                    { name: lang.footer.columns.socials.items.tiktok, href: `#`, icon: "fa-brands fa-tiktok" }
+                    { name: lang.footer.columns.socials.items.facebook, href: `https://www.facebook.com/Eloisa.salas1`, target: "_blank", icon: "fa-brands fa-square-facebook" },
+                    { name: lang.footer.columns.socials.items.instagram, href: `https://www.instagram.com/salonlatinoeloisa`, target: "_blank", icon: "fa-brands fa-instagram" },
+                    { name: lang.footer.columns.socials.items.tiktok, href: `https://www.tiktok.com/@eloisasalas1`, target: "_blank", icon: "fa-brands fa-tiktok" }
                 ]} />
             </div>
             <div className={"flex flex-col gap-20 w-full"}>
@@ -55,7 +55,7 @@ function Column({ title, items }) {
             <span className={"uppercase font-semibold text-lg text-center lg:text-left"}>{title}</span>
             <div className={"flex flex-col gap-1 items-center lg:items-start"}>
                 {items.map((item, index) => (
-                    <Link key={index} href={item.href} className={"flex items-center gap-2 w-fit hover:text-main transition-colors"}>
+                    <Link key={index} href={item.href} target={item.target || "_self"} className={"flex items-center gap-2 w-fit hover:text-main transition-colors"}>
                         {item.icon && <i className={`${item.icon} text-xl`} />}
                         <div className={"hover:underline"}>{item.name}</div>
                     </Link>
