@@ -25,7 +25,47 @@ const de = {
                 }
             },
             aboutUs: {
-                title: "Über uns"
+                title: "Über uns",
+                p1: {
+                    text1: "Herzlich willkommen bei",
+                    text2: "SalonWigsEloisa:",
+                    text3: "Ihr Ziel für authentische Schönheit."
+                },
+                p2: {
+                    text1: "Ich bin Eloisa Salas de Müller und bei",
+                    text2: "SalonWigsEloisa",
+                    text3: "präsentieren wir Ihnen Perücken und Extensions aus 100% menschlichem Haar."
+                },
+                p3: {
+                    text1: "Das Beste in Authentizität:",
+                    text2: "Entdecken Sie Authentizität mit unserer Kollektion von hochwertigem menschlichem Haar, die Luxus in jeder Strähne bietet."
+                },
+                p4: {
+                    text1: "Vielfalt an Stilen und Farben:",
+                    text2: "Finden Sie Ihren perfekten Look in unserer breiten Palette von Perücken und Extensions, erhältlich in natürlichen und lebendigen Tönen."
+                },
+                p5: {
+                    text1: "Unvergleichliche Qualität:",
+                    text2: "Wir garantieren Langlebigkeit, einfache Pflege und Komfort, damit Sie sich bei jeder Gelegenheit sicher fühlen können."
+                },
+                p6: {
+                    text1: "Persönliche Aufmerksamkeit:",
+                    text2: "Unser Team steht Ihnen zur Seite, um Sie zu beraten und Ihnen ein persönliches Einkaufserlebnis zu bieten."
+                },
+                p7: {
+                    text1: "Sorgenfreies Einkaufen:",
+                    text2: "Genießen Sie sicheren Versand und flexible Rückgaberegelungen."
+                },
+                p8: {
+                    text1: "Bei",
+                    text2: "SalonWigsEloisa",
+                    text3: "ist Ihre Zufriedenheit unsere Priorität. Verwandeln Sie Ihre Schönheit mit Selbstvertrauen."
+                },
+                p9: {
+                    text1: "¡",
+                    text2: "SalonWigsEloisa",
+                    text3: ", wo Ihr Stil zum Leben erwacht!"
+                }
             }
         },
         product: {

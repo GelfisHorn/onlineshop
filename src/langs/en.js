@@ -25,7 +25,47 @@ const en = {
                 }
             },
             aboutUs: {
-                title: "About Us"
+                title: "About Us",
+                p1: {
+                    text1: "Welcome to",
+                    text2: "SalonWigsEloisa:",
+                    text3: "Your Destination for Authentic Beauty."
+                },
+                p2: {
+                    text1: "I am Eloisa Salas de Müller, and at",
+                    text2: "SalonWigsEloisa",
+                    text3: "we present you with 100% human hair wigs and extensions."
+                },
+                p3: {
+                    text1: "The Best in Authenticity:",
+                    text2: "Discover authenticity with our collection of high-quality human hair, offering luxury in every strand."
+                },
+                p4: {
+                    text1: "Variety of Styles and Colors:",
+                    text2: "Find your perfect look among our wide range of wigs and extensions, available in natural and vibrant tones."
+                },
+                p5: {
+                    text1: "Unparalleled Quality:",
+                    text2: "We guarantee durability, ease of maintenance, and comfort, so you can feel confident on every occasion."
+                },
+                p6: {
+                    text1: "Personalized Attention:",
+                    text2: "Our team is here to advise you and provide you with a personalized shopping experience."
+                },
+                p7: {
+                    text1: "Worry-Free Shopping:",
+                    text2: "Enjoy secure shipping and flexible return policies."
+                },
+                p8: {
+                    text1: "At",
+                    text2: "SalonWigsEloisa",
+                    text3: ", your satisfaction is our priority. Transform your beauty with confidence."
+                },
+                p9: {
+                    text1: "¡",
+                    text2: "SalonWigsEloisa",
+                    text3: ", where your style comes to life!"
+                }
             }
         },
         product: {

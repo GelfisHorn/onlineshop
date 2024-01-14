@@ -176,27 +176,27 @@ function AboutUs() {
                     <div className={"absolute bottom-0 md:bg-[rgba(202,164,46,.5)] h-4 w-full"}></div>
                 </motion.div>
                 <motion.div variants={item} className={"flex flex-col gap-8 md:text-lg text-neutral-700"}>
-                    <p className={"text-xl"}>Bienvenidos a <span className={"text-main underline font-medium"}>SalonWigsEloisa</span>: Tu Destino para Belleza Auténtica.</p>
+                    <p className={"text-xl"}>{lang.pages.home.aboutUs.p1.text1} <span className={"text-main underline font-medium"}>{lang.pages.home.aboutUs.p1.text2}</span> {lang.pages.home.aboutUs.p1.text3}</p>
 
                     <div className={"flex flex-col gap-2"}>
-                        <p>Soy Eloisa Salas de Müller, y en <span className={"text-main font-medium"}>SalonWigsEloisa</span> te presentamos pelucas y extensiones de <span className={"underline font-medium"}>cabello 100% humano.</span></p>
+                        <p>{lang.pages.home.aboutUs.p2.text1} <span className={"text-main font-medium"}>{lang.pages.home.aboutUs.p2.text2}</span> {lang.pages.home.aboutUs.p2.text3} {lang.pages.home.aboutUs.p2?.text4 ? (<span className={"underline font-medium"}>cabello 100% humano.</span>) : null}</p>
 
                         <div className={"flex flex-col gap-2"}>
-                            <p><span className={"font-semibold"}>Lo Mejor en Autenticidad:</span> Descubre la autenticidad con nuestra colección de cabello humano de alta calidad, ofreciendo lujo en cada hebra.</p>
+                            <p><span className={"font-semibold"}>{lang.pages.home.aboutUs.p3.text1}</span> {lang.pages.home.aboutUs.p3.text2}</p>
 
-                            <p><span className={"font-semibold"}>Variedad de Estilos y Colores:</span> Encuentra tu look perfecto entre nuestra amplia gama de pelucas y extensiones, disponibles en tonos naturales y vibrantes.</p>
+                            <p><span className={"font-semibold"}>{lang.pages.home.aboutUs.p4.text1}</span> {lang.pages.home.aboutUs.p4.text2}</p>
 
-                            <p><span className={"font-semibold"}>Calidad Incomparable:</span> Garantizamos durabilidad, facilidad de mantenimiento y comodidad para que te sientas segura en cada ocasión.</p>
+                            <p><span className={"font-semibold"}>{lang.pages.home.aboutUs.p5.text1}</span> {lang.pages.home.aboutUs.p5.text2}</p>
 
-                            <p><span className={"font-semibold"}>Atención Personalizada:</span> Nuestro equipo está aquí para asesorarte y brindarte una experiencia de compra personalizada.</p>
+                            <p><span className={"font-semibold"}>{lang.pages.home.aboutUs.p6.text1}</span> {lang.pages.home.aboutUs.p6.text2}</p>
 
-                            <p><span className={"font-semibold"}>Compra sin Preocupaciones:</span> Disfruta de envíos seguros y políticas de devolución flexibles.</p>
+                            <p><span className={"font-semibold"}>{lang.pages.home.aboutUs.p7.text1}</span> {lang.pages.home.aboutUs.p7.text2}</p>
                         </div>
                     </div>
 
-                    <p>En <span className={"text-main font-medium"}>SalonWigsEloisa</span>, tu satisfacción es nuestra prioridad. Transforma tu belleza con confianza.</p>
+                    <p>{lang.pages.home.aboutUs.p8.text1} <span className={"text-main font-medium"}>{lang.pages.home.aboutUs.p8.text2}</span>{lang.pages.home.aboutUs.p8.text3}</p>
 
-                    <p>¡<span className={"text-main font-medium"}>SalonWigsEloisa</span>, donde tu estilo cobra vida!</p>
+                    <p>{lang.pages.home.aboutUs.p9.text1}<span className={"text-main font-medium"}>{lang.pages.home.aboutUs.p9.text2}</span>{lang.pages.home.aboutUs.p9.text3}</p>
                 </motion.div>
             </motion.div>
         </section>

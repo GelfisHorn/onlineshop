@@ -25,11 +25,52 @@ const es = {
                 }
             },
             aboutUs: {
-                title: "Acerca de nosotros"
+                title: "Acerca de nosotros",
+                p1: {
+                    text1: "Bienvenidos a",
+                    text2: "SalonWigsEloisa:",
+                    text3: "Tu Destino para Belleza Auténtica."
+                },
+                p2: {
+                    text1: "Soy Eloisa Salas de Müller, y en",
+                    text2: "SalonWigsEloisa",
+                    text3: "te presentamos pelucas y extensiones de",
+                    text4: "cabello 100% humano."
+                },
+                p3: {
+                    text1: "Lo Mejor en Autenticidad:",
+                    text2: "Descubre la autenticidad con nuestra colección de cabello humano de alta calidad, ofreciendo lujo en cada hebra.",
+                },
+                p4: {
+                    text1: "Variedad de Estilos y Colores:",
+                    text2: "Encuentra tu look perfecto entre nuestra amplia gama de pelucas y extensiones, disponibles en tonos naturales y vibrantes.",
+                },
+                p5: {
+                    text1: "Calidad Incomparable:",
+                    text2: "Garantizamos durabilidad, facilidad de mantenimiento y comodidad para que te sientas segura en cada ocasión.",
+                },
+                p6: {
+                    text1: "Atención Personalizada:",
+                    text2: "Nuestro equipo está aquí para asesorarte y brindarte una experiencia de compra personalizada.",
+                },
+                p7: {
+                    text1: "Compra sin Preocupaciones:",
+                    text2: "Disfruta de envíos seguros y políticas de devolución flexibles.",
+                },
+                p8: {
+                    text1: "En",
+                    text2: "SalonWigsEloisa",
+                    text3: ", tu satisfacción es nuestra prioridad. Transforma tu belleza con confianza.",
+                },
+                p9: {
+                    text1: "¡",
+                    text2: "SalonWigsEloisa",
+                    text3: ", donde tu estilo cobra vida!",
+                }
             }
         },
         product: {
-            headTitle: "Produkt"
+            headTitle: "Producto"
         },
         cart: {
             headTitle: "Carrito de compras",
