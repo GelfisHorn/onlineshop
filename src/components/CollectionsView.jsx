@@ -47,7 +47,7 @@ function Collection({ collection }) {
     return (
         <motion.div variants={item}>
             <Link href={`/${lang}/collections/${url}`} className={"flex flex-col gap-2"}>
-                <div className={"image-container overflow-hidden aspect-square rounded-md"}>
+                <div className={"image-container overflow-hidden aspect-square rounded-md border-[2px] border-main"}>
                     <Image src={`${process.env.NEXT_PUBLIC_STRAPI_URI}${img?.data?.attributes?.formats?.large?.url}`} className={"image image-hover"} fill alt={"Product image"} />
                 </div>
                 <div className={"flex items-center gap-2"}>
