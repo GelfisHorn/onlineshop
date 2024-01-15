@@ -21,6 +21,8 @@ import { Navigation, Pagination, Scrollbar } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
+// Markdown
+import ReactMarkdown from 'react-markdown'
 
 const getWidth = () => (typeof window !== 'undefined') ? window.innerWidth : null;
 
@@ -142,16 +144,19 @@ export default function ProductPage() {
                         </div>
                         <div className={"flex flex-col"}>
                             <ProductDropdown icon={"fa-industry-windows"} title={"Material"}>
-                                <div>asd</div>
+                                {product?.attributes?.materiales && product?.attributes?.materiales.split('\n\n').map((section, index) => (
+                                    <ReactMarkdown key={index} className={"strapi-markdown"}>{section}</ReactMarkdown>
+                                ))}
                             </ProductDropdown>
-                            {/* <ProductDropdown icon={"fa-ruler"} title={"Tamaño"}>
-                                <div>asd</div>
-                            </ProductDropdown> */}
                             <ProductDropdown icon={"fa-heart"} title={"Instrucciones de cuidado"}>
-                                <div>asd</div>
+                                {product?.attributes?.cuidado && product?.attributes?.cuidado.split('\n\n').map((section, index) => (
+                                    <ReactMarkdown key={index} className={"strapi-markdown"}>{section}</ReactMarkdown>
+                                ))}
                             </ProductDropdown>
                             <ProductDropdown icon={"fa-truck"} title={"Envío y devolución"}>
-                                <div>asd</div>
+                                {product?.attributes?.envioDevolucion && product?.attributes?.envioDevolucion.split('\n\n').map((section, index) => (
+                                    <ReactMarkdown key={index} className={"strapi-markdown"}>{section}</ReactMarkdown>
+                                ))}
                             </ProductDropdown>
                         </div>
                     </div>
