@@ -1,14 +1,15 @@
 import axios from "axios";
 
 export default async function handler(req, res) {
-    if (req.method != "GET") {
+    if (req.method != "POST") {
         return res.status(405).json({ msg: "Method not allowed", success: false });
     }
 
+    const locale = req.body.locale;
     try {
         const { data } = await axios.request({
             method: "GET",
-            url: `${process.env.STRAPI_URI}/announcement-bar`,
+            url: `${process.env.STRAPI_URI}/announcement-bar?locale=${locale}`,
             headers: {
                 "Content-Type": "application-json",
                 'Authorization': `Bearer ${process.env.STRAPI_TOKEN}`

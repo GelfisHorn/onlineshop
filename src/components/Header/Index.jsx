@@ -30,9 +30,9 @@ export default function Header() {
     const lang = useGetLang();
 
     const [ announcementBar, setAnnouncementBar ] = useState("");
-    async function getAnnounceBar() {
+    async function getAnnounceBar(body) {
         try {
-            const { data } = await axios.get('/api/strapi/announcement-bar');
+            const { data } = await axios.post('/api/strapi/announcement-bar', body);
             setAnnouncementBar(data?.data?.data?.attributes?.text);
         } catch (error) {
             return;
@@ -40,8 +40,9 @@ export default function Header() {
     }
 
     useEffect(() => {
-        getAnnounceBar();
-    }, [])
+        if(!contextLang) return;
+        getAnnounceBar({ locale: contextLang });
+    }, [contextLang])
 
     const [ showMobileModal, setShowMobileModal ] = useState(false);
 
@@ -72,7 +73,7 @@ export default function Header() {
             {/* Store message */}
             {announcementBar && (
                 <div className={"grid place-content-center py-2 px-5 bg-main text-white"}>
-                    <span className={"font-medium text-sm md:text-base text-center"}>10% de descuento en compras mayores a $20</span>
+                    <span className={"font-medium text-sm md:text-base text-center"}>{announcementBar}</span>
                 </div>
             )}
             <div className={"flex justify-between md:justify-normal h-20 border-b"}>
