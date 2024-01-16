@@ -129,7 +129,7 @@ export default function ProductPage() {
                         </div>
                         <div className={"flex flex-col"}>
                             <span className={""}>{lang.product.price}</span>
-                            <span className={"text-2xl font-medium text-main"}>{useCurrencyFormatter(currency).format(variant.precio)}</span>
+                            <span className={"text-2xl font-medium text-main"}>{useCurrencyFormatter(currency).format(variant.precio * productCount)}</span>
                         </div>
                         <ProductCount count={productCount} setCount={setProductCount} />
                         <ProductSize product={product} setVariant={setVariant} />
