@@ -108,14 +108,16 @@ function Banner() {
             </div>
             <div className={"absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 flex flex-col items-center justify-center gap-16 sm:w-1/2 text-white z-10 text-center"}>
                 <div className={"flex flex-col gap-4 items-center"}>
-                    <motion.div variants={item} className={"relative text-5xl leading-[3.5rem]"}>{lang.pages.home.banner.title}</motion.div>
+                    <motion.div variants={item} className={"relative text-5xl leading-[3.5rem] font-semibold"}>{lang.pages.home.banner.title}</motion.div>
                     <motion.div variants={item}>{lang.pages.home.banner.subtitle}</motion.div>
                     <motion.div
                         variants={item}
                         className={"relative w-fit"}
                     >
-                        <span className={"relative z-10 font-semibold uppercase"}>{lang.pages.home.banner.slogan}</span>
-                        <div className={"absolute bottom-0 md:bg-[rgba(255,255,255,.3)] h-3 w-full"}></div>
+                        <span className={"relative z-10 font-bold uppercase text-xl"}>
+                            <Typewriter className={"block h-[24px]"} text={lang.pages.home.banner.slogan} delay={100} />
+                        </span>
+                        <div className={"absolute -bottom-1 md:bg-[rgba(255,255,255,.3)] h-3 w-full"}></div>
                     </motion.div>
                 </div>
                 <motion.div variants={item}><Link href={`/${contextLang}/collections/all`} className={"border w-fit px-6 py-3 hover:border-main hover:text-white hover:bg-main transition-colors rounded-sm"}>{lang.pages.home.banner.button}</Link></motion.div>
@@ -211,3 +213,43 @@ function AboutUs() {
         </section>
     )
 }
+
+const Typewriter = ({ className, text, delay }) => {
+    const [currentText, setCurrentText] = useState('');
+    const [currentIndex, setCurrentIndex] = useState(0);
+    const [isDeleting, setIsDeleting] = useState(false);
+
+    useEffect(() => {
+        const typeText = () => {
+            if (!isDeleting && currentIndex < text.length) {
+                const timeout = setTimeout(() => {
+                    setCurrentText(prevText => prevText + text[currentIndex]);
+                    setCurrentIndex(prevIndex => prevIndex + 1);
+                }, delay);
+
+                return () => clearTimeout(timeout);
+            } else if (isDeleting && currentIndex >= 0) {
+                const timeout = setTimeout(() => {
+                    setCurrentText(prevText => prevText.slice(0, -1));
+                    setCurrentIndex(prevIndex => prevIndex ? prevIndex - 1 : prevIndex);
+                }, delay);
+
+                if (currentIndex === 0) {
+                    // Esperar 1 segundo antes de cambiar de borrar a escribir
+                    setTimeout(() => setIsDeleting(false), 2000);
+                }
+
+                return () => clearTimeout(timeout);
+            }
+
+            if (currentIndex === text.length && !isDeleting) {
+                // Esperar 1 segundo antes de cambiar de escribir a borrar
+                setTimeout(() => setIsDeleting(true), 1000);
+            }
+        };
+
+        typeText();
+    }, [currentIndex, delay, isDeleting, text]);
+
+    return <span className={className}>{currentText}</span>;
+};

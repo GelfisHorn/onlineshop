@@ -77,6 +77,8 @@ const de = {
             items: "Artikel",
             productDetails: "Produktdetails",
             size: "Größe",
+            color: "Farben",
+            encaje: "Spitze",
             amount: "Menge",
             total: "Gesamt",
             removeProduct: "Ausmerzen",
@@ -323,7 +325,9 @@ const de = {
         description: "Produktbeschreibung",
         amount: "Menge",
         price: "Preis",
-        size: "Größe"
+        size: "Größe",
+        color: "Farben",
+        encaje: "Spitze"
     },
     notifications: {
         success: {

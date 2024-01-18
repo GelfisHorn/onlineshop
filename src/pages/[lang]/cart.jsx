@@ -36,7 +36,7 @@ export default function Cart() {
 
     useEffect(() => {
         if(!cart) return;
-        const total = cart?.products?.reduce((total, product) => total + (product.count * product.selectedVariant.precio), 0);
+        const total = cart?.products?.reduce((total, product) => total + ((product.selectedVariant.precio + (product.selectedColor?.precio || 0) + (product.selectedEncaje?.precio || 0)) * product.count), 0);
         setProductsTotal(total);
     }, [cart])
 
@@ -162,10 +162,11 @@ function Product({ p, updateProducts, handleRemove }) {
     const { currency } = useAppContext();
     const lang = useGetLang();
 
-    const { id, name, img, count: productCount } = p;
+    const { id, name, img, count: productCount, selectedColor, selectedEncaje } = p;
 
     const [ variants, setVariants ] = useState(p.variants);
     const [ selectedVariant, setSelectedVariant ] = useState(p.selectedVariant);
+    const [ price, setPrice ] = useState(0);
     const [ count, setCount ] = useState(productCount);
 
     const handleSetCount = (count) => {
@@ -182,6 +183,14 @@ function Product({ p, updateProducts, handleRemove }) {
         localStorage.setItem('cart', JSON.stringify({ ...cart, products: newCart }));
         updateProducts(current => { return { ...current, products: newCart } });
         setCount(count);
+    }
+
+    function calculatePrice() {
+        const colorPrice = selectedColor?.precio || 0;
+        const encajePrice = selectedEncaje?.precio || 0;
+        const variantPrice = selectedVariant.precio;
+
+        setPrice((variantPrice + colorPrice + encajePrice) * productCount);
     }
 
     const handleSetSize = (variant) => {
@@ -202,6 +211,10 @@ function Product({ p, updateProducts, handleRemove }) {
 
     const CurrencyFormatter = (price) => useCurrencyFormatter(currency).format(price);
 
+    useEffect(() => {
+        calculatePrice();
+    }, [])
+
     return (
         <div className={"flex items-start justify-between"}>
             <div className={"flex flex-col gap-5 w-full md:w-[45%]"}>
@@ -213,9 +226,19 @@ function Product({ p, updateProducts, handleRemove }) {
                         <div className={"flex flex-col gap-2"}>
                             <div className={"flex justify-between gap-4"}>
                                 <div className={"font-medium text-lg leading-5"}>{name}</div>
-                                <div className={"block md:hidden"}>{CurrencyFormatter(selectedVariant.precio * count)}</div>
+                                <div className={"block md:hidden"}>{CurrencyFormatter(price)}</div>
                             </div>
-                            <div className={"font-semibold text-lg"}>{CurrencyFormatter(selectedVariant.precio)}</div>
+                            {selectedColor?.id && (
+                                <div>
+                                    <span>{lang.pages.cart.color}: <span className={"font-semibold"}>{selectedColor.nombre}</span></span>
+                                </div>
+                            )}
+                            {selectedEncaje?.id && (
+                                <div>
+                                    <span>{lang.pages.cart.encaje}: <span className={"font-semibold"}>{selectedEncaje.nombre}</span></span>
+                                </div>
+                            )}
+                            <div className={"font-semibold text-lg"}>{CurrencyFormatter(price)}</div>
                         </div>
                         <button onClick={() => handleRemove(id)} className={"font-medium w-fit text-red-700 hover:text-red-800 transition-colors"}>{lang.pages.cart.removeProduct}</button>
                     </div>
@@ -231,7 +254,7 @@ function Product({ p, updateProducts, handleRemove }) {
             <div className={"hidden md:block w-[20%]"}>
                 <ProductCount count={count} setCount={handleSetCount} />
             </div>
-            <div className={"hidden md:block w-[15%] text-right font-semibold"}>{CurrencyFormatter(selectedVariant.precio * count)}</div>
+            <div className={"hidden md:block w-[15%] text-right font-semibold"}>{CurrencyFormatter(price)}</div>
         </div>
     )
 }

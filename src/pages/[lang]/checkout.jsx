@@ -99,7 +99,7 @@ export default function CheckOut() {
     }
 
     async function handleCheckCode(code) {
-        const total = cart?.products?.reduce((total, product) => total + (product.count * product.selectedVariant.precio), 0)
+        const total = cart?.products?.reduce((total, product) => total + ((product.selectedVariant.precio + (product.selectedColor?.precio || 0) + (product.selectedEncaje?.precio || 0)) * product.count), 0)
         if (!code) {
             return setFinalPrice(total)
         };
@@ -129,7 +129,9 @@ export default function CheckOut() {
     }, [discountCode, total])
 
     useEffect(() => {
-        setTotal(cart?.products?.reduce((total, product) => total + (product.count * product.selectedVariant.precio), 0))
+        const total = cart?.products?.reduce((total, product) => total + ((product.selectedVariant.precio + (product.selectedColor?.precio || 0) + (product.selectedEncaje?.precio || 0)) * product.count), 0);
+        setTotal(total);
+        handleCheckCode();
     }, [cart]);
 
     useEffect(() => {
@@ -158,7 +160,7 @@ export default function CheckOut() {
         })
     }, [auth])
 
-    console.log(finalPrice)
+    console.log(finalPrice);
 
     return (
         <Layout title={lang.pages.checkout.headTitle}>
@@ -275,7 +277,7 @@ export default function CheckOut() {
                                 />
                             </div>
                         </div> */}
-                        {finalPrice != 0 && (
+                        {finalPrice != 0 && !Object.values(shipping).includes(undefined) && (
                             <PayPalButton value={finalPrice} currency={currency} setPaymentDetails={setPaymentDetails} />
                         )}
                         {/* <button type={"submit"} className={"py-3 bg-main text-white hover:bg-main-hover transition-colors rounded-md disabled:bg-neutral-400"} disabled={(paymentMethod == '' || cart.length == 0) ? true : false}>{lang.pages.checkout.forms.submit}</button> */}
@@ -335,8 +337,18 @@ export default function CheckOut() {
 }
 
 function Product({ product }) {
+
+    const lang = useGetLang();
     
-    const { img, name, count, selectedVariant } = product;
+    const { img, name, count, selectedVariant, selectedColor, selectedEncaje } = product;
+
+    function calculatePrice() {
+        const colorPrice = selectedColor?.precio || 0;
+        const encajePrice = selectedEncaje?.precio || 0;
+        const variantPrice = selectedVariant.precio;
+
+        return (variantPrice + colorPrice + encajePrice) * count;
+    }
 
     const { currency } = useAppContext();
 
@@ -349,9 +361,21 @@ function Product({ product }) {
                     </div>
                     <div className={"absolute -top-2 -right-2 text-sm text-white font-medium bg-[rgba(0,0,0,.6)] w-5 h-5 rounded-full grid place-content-center"}>{count}</div>
                 </div>
-                <div>{name}</div>
+                <div className={"flex flex-col"}>
+                    <div>{name}</div>
+                    {selectedColor?.id && (
+                        <div>
+                            <span>{lang.pages.cart.color}: <span className={"font-semibold"}>{selectedColor.nombre}</span></span>
+                        </div>
+                    )}
+                    {selectedEncaje?.id && (
+                        <div>
+                            <span>{lang.pages.cart.encaje}: <span className={"font-semibold"}>{selectedEncaje.nombre}</span></span>
+                        </div>
+                    )}
+                </div>
             </div>
-            <div>{useCurrencyFormatter(currency).format(selectedVariant.precio)}</div>
+            <div>{useCurrencyFormatter(currency).format(calculatePrice())}</div>
         </div>
     )
 }

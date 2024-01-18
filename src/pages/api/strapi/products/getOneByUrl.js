@@ -9,7 +9,7 @@ export default async function handler(req, res) {
     try {
         const { data } = await axios.request({
             method: "GET",
-            url: `${process.env.STRAPI_URI}/products?populate=collections&populate=img&populate=variante&filters[url][$eq]=${url}`,
+            url: `${process.env.STRAPI_URI}/products?populate=collections&populate=img&populate=variante&populate=encaje&populate=colores&filters[url][$eq]=${url}`,
             headers: {
                 "Content-Type": "application-json",
                 'Authorization': `Bearer ${process.env.STRAPI_TOKEN}`

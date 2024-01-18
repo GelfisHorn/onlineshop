@@ -77,6 +77,8 @@ const en = {
             items: "Items",
             productDetails: "Product Details",
             size: "Size",
+            color: "Color",
+            encaje: "Lace",
             amount: "Quantity",
             total: "Total",
             removeProduct: "Remove",
@@ -323,7 +325,9 @@ const en = {
         description: "Product description",
         amount: "Amount",
         price: "Price",
-        size: "Size"
+        size: "Size",
+        color: "Colors",
+        encaje: "Lace"
     },
     notifications: {
         success: {

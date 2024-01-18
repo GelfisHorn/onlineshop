@@ -23,18 +23,24 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 // Markdown
 import ReactMarkdown from 'react-markdown'
+// Styles
+import styles from './Product.module.css'
+import TranslateText from "@/components/TranslateText";
 
 const getWidth = () => (typeof window !== 'undefined') ? window.innerWidth : null;
 
 export default function ProductPage() {
 
     const router = useRouter();
-    const { currency, setCart } = useAppContext();
+    const { lang: contextLang, currency, setCart } = useAppContext();
     const { product: productId } = router.query;
     const [ product, setProduct ] = useState({});
     const [ variant, setVariant ] = useState({});
     const [ imgs, setImgs ] = useState([]);
-    const [windowSize, setWindowSize] = useState(getWidth);
+    const [ selectedColor, setSelectedColor ] = useState({});
+    const [ selectedEncaje, setSelectedEncaje ] = useState({});
+    const [ price, setPrice ] = useState(0);
+    // const [windowSize, setWindowSize] = useState(getWidth);
     const lang = useGetLang();
 
     const handleFetchProduct = async () => {
@@ -42,6 +48,8 @@ export default function ProductPage() {
             const { data } = await axios.post('/api/strapi/products/getOneByUrl', { url: productId });
             setProduct(data.data?.data[0]);
             setVariant(data.data?.data[0]?.attributes.variante[0]);
+            setSelectedColor(data.data?.data[0]?.attributes.colores[0] || data.data?.data[0]?.attributes.colores);
+            setSelectedEncaje(data.data?.data[0]?.attributes.encaje[0] || data.data?.data[0]?.attributes.encaje);
             setImgs(data.data?.data[0]?.attributes?.img?.data);
         } catch (error) {
             return;
@@ -61,6 +69,10 @@ export default function ProductPage() {
             name: product.attributes.nombre,
             variants: product.attributes.variante,
             selectedVariant: variant,
+            colores: product.attributes.colores,
+            selectedColor,
+            encaje: product.attributes.encaje,
+            selectedEncaje,
             description: product.attributes.descripcion,
             img: imgs[0].attributes.formats.large.url,
             count: productCount
@@ -68,7 +80,7 @@ export default function ProductPage() {
         useAddToCart(productData, setCart);
     }
     
-    useEffect(() => {
+    /* useEffect(() => {
         const handleResize = () => {
             setWindowSize(getWidth());
         };
@@ -78,20 +90,41 @@ export default function ProductPage() {
         return () => {
             window.removeEventListener('resize', handleResize);
         };
-    }, []);
+    }, []); */
+
+    function calculatePrice() {
+        const colorPrice = selectedColor?.precio || 0;
+        const encajePrice = selectedEncaje?.precio || 0;
+        const variantPrice = variant.precio;
+
+        setPrice((variantPrice + colorPrice + encajePrice) * productCount);
+    }
+
+    useEffect(() => {
+        calculatePrice();
+    }, [selectedColor, selectedEncaje, variant, productCount])
 
     return (
         <Layout title={lang.pages.product.headTitle}>
             <section className={"flex items-start flex-col xl:flex-row xl:gap-0 gap-10"}>
-                <div className={"hidden xl:flex flex-col gap-5 w-3/5"}>
-                    <ProductImage img={imgs[0]?.attributes?.formats?.large?.url} />
-                    {imgs[1] && (
-                        <div className={"grid grid-cols-2 gap-5"}>
-                            {imgs.map((img, index) => {
-                                if (index != 0) {
-                                    return <ProductImage key={index} img={img.attributes.formats.large.url} />
-                                }
-                            })}
+                <div className={"hidden xl:flex flex-col gap-28 w-3/5"}>
+                    <div className={"flex flex-col gap-5"}>
+                        <ProductImage img={imgs[0]?.attributes?.formats?.large?.url} />
+                        {imgs[1] && (
+                            <div className={"grid grid-cols-2 gap-5"}>
+                                {imgs.map((img, index) => {
+                                    if (index != 0) {
+                                        return <ProductImage key={index} img={img.attributes.formats.large.url} />
+                                    }
+                                })}
+                            </div>
+                        )}
+                    </div>
+                    {product?.attributes?.collections?.data[0]?.attributes?.url == 'extensions' && (
+                        <div className={`w-1/2 mx-auto ${styles.roulette}`} id={"colors"}>
+                            <div className={"image-container"}>
+                                <Image src={"/colors-roulette.webp?v=1"} fill className={"image"} alt={"Colors roulette"} />
+                            </div>
                         </div>
                     )}
                 </div>
@@ -129,10 +162,16 @@ export default function ProductPage() {
                         </div>
                         <div className={"flex flex-col"}>
                             <span className={""}>{lang.product.price}</span>
-                            <span className={"text-2xl font-medium text-main"}>{useCurrencyFormatter(currency).format(variant.precio * productCount)}</span>
+                            <span className={"text-2xl font-medium text-main"}>{useCurrencyFormatter(currency).format(price)}</span>
                         </div>
                         <ProductCount count={productCount} setCount={setProductCount} />
                         <ProductSize product={product} setVariant={setVariant} />
+                        {product?.attributes?.collections?.data[0]?.attributes?.url == 'extensions' && (
+                            <ProductColor product={product} setColor={setSelectedColor} />
+                        )}
+                        {product?.attributes?.collections?.data[0]?.attributes?.url == 'wigs' && (
+                            <ProductEncaje product={product} selected={selectedEncaje} setEncaje={setSelectedEncaje} />
+                        )}
                         <div className={"flex flex-col gap-3"}>
                             <button onClick={HandleAddToCart} className={"border border-main h-12 hover:bg-main hover:text-white text-main transition-colors rounded-md"}>{lang.product.addToCart}</button>
                             {/* <button className={"h-12 bg-main text-white transition-all rounded-md"}>Comprar</button> */}
@@ -168,12 +207,16 @@ export default function ProductPage() {
 
 function ProductImage({ img }) {
     return img ? (
-        <div className={"w-full h-full aspect-square overflow-hidden rounded-md"}>
+        <div className={"w-full h-full aspect-square overflow-hidden rounded-md border-[2px] border-main"}>
             <div className={"image-container h-full"}>
                 <Image className={"image object-cover"} src={`${process.env.NEXT_PUBLIC_STRAPI_URI}${img}`} fill alt={"Product image"} />
             </div>
         </div>
-    ) : <div className = { "bg-zinc-200 aspect-square rounded-md" }></div >
+    ) : (
+        <div className={"grid place-content-center bg-zinc-100 aspect-square rounded-md border-[2px] border-main"}>
+            <i className="fa-thin fa-image text-7xl text-neutral-300"></i>
+        </div>
+    )
 }
 
 function ProductCount({ count, setCount }) {
@@ -219,6 +262,68 @@ function ProductSize({ product, setVariant }) {
                     <option key={index} value={variant.id}>{`${variant.pulgadas}"`}</option>
                 ))}
             </select>
+        </div>
+    )
+}
+
+function ProductColor({ product, setColor }) {
+
+    const lang = useGetLang();
+
+    const variants = product?.attributes?.colores || [];
+
+    const handleClickVariant = (variant) => {
+        const newVariant = variants.find(e => e.id == variant);
+        setColor(newVariant);
+    }
+
+    return (
+        <div className={"flex items-start gap-10"}>
+            <div className={"flex flex-col gap-1 flex-1"} >
+                <div className={"flex justify-between"}>
+                    <label htmlFor="product-colors">{lang.product.color}</label>
+                    <a href="#colors" className={"flex items-center gap-1 text-main"}>
+                        <span className={"hover:underline"}>Ver colores</span>
+                        <i className="fa-regular fa-angle-down"></i>
+                    </a>
+                </div>
+                <select onChange={e => handleClickVariant(e.target.value)} id={"product-colors"} className={"border border-neutral-300 rounded-md h-12 px-3 overflow-hidden select-none"}>
+                    {variants.map((variant, index) => (
+                        <option key={index} value={variant.id}>{variant.nombre}</option>
+                    ))}
+                </select>
+            </div>
+        </div>
+        
+    )
+}
+
+function ProductEncaje({ product, selected, setEncaje }) {
+
+    const lang = useGetLang();
+
+    const variants = product?.attributes?.encaje || [];
+
+    const handleClickVariant = (variant) => {
+        const newVariant = variants.find(e => e.id == variant);
+        setEncaje({});
+        setEncaje(newVariant);
+    }
+
+    return (
+        <div className={"flex flex-col gap-1"}>
+            <div>{lang.product.encaje}</div>
+            <div className={"flex items-start gap-2"}>
+                {variants.map((variant, index) => (
+                    <button 
+                        key={index}
+                        onClick={() => handleClickVariant(variant.id)} 
+                        className={`border rounded-lg py-1 px-3 ${selected.id === variant.id ? "bg-main text-white" : "hover:bg-main hover:text-white"} transition-colors font-medium`}
+                    >
+                        <span>{variant.nombre}</span>
+                    </button>
+                ))}
+            </div>
         </div>
     )
 }
