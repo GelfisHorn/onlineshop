@@ -6,9 +6,11 @@ import { ProductFilters } from "./ProductFilters";
 import Product from "@/components/Product/Index";
 import Loading from "@/components/Loading/Index";
 // Hooks
+import useAppContext from "@/hooks/useAppContext";
 import useGetLang from "@/hooks/useGetLang";
 // Animations
 import { motion } from "framer-motion";
+
 const container = {
     hidden: { opacity: 0 },
     visible: {
@@ -24,6 +26,8 @@ export default function ProductsView({ title, loading, products = [], totalProdu
 
     const router = useRouter();
     const lang = useGetLang();
+
+    const { darkMode } = useAppContext();
 
     // Filters
     const [ filteredProducts, setFilteredProducts ] = useState(products);
@@ -179,11 +183,11 @@ export default function ProductsView({ title, loading, products = [], totalProdu
                         </div>
                     )}
                     <div className={"flex justify-center gap-2"}>
-                        <button onClick={() => handleSetPage(actualPage - 1)} className={"w-9 h-9 border rounded-md"}><i className="fa-regular fa-angle-left"></i></button>
+                        <button onClick={() => handleSetPage(actualPage - 1)} className={`w-9 h-9 border ${darkMode ? "border-dark-border" : "border-light-border"} rounded-md`}><i className="fa-regular fa-angle-left"></i></button>
                         {filteredProducts.length != 0 && Array.from(Array(pagesCount), (e, i) => {
-                            return <button onClick={() => handleSetPage(i + 1)} className={`grid place-content-center w-9 h-9 border rounded-md ${actualPage == (i + 1) ? "bg-main text-white" : ""}`} key={i}>{i + 1}</button>
+                            return <button onClick={() => handleSetPage(i + 1)} className={`grid place-content-center w-9 h-9 border ${darkMode ? "border-dark-border" : "border-light-border"} rounded-md ${actualPage == (i + 1) ? "bg-main text-white" : ""}`} key={i}>{i + 1}</button>
                         })}
-                        <button onClick={() => handleSetPage(actualPage + 1)} className={"w-9 h-9 border rounded-md"}><i className="fa-regular fa-angle-right"></i></button>
+                        <button onClick={() => handleSetPage(actualPage + 1)} className={`w-9 h-9 border ${darkMode ? "border-dark-border" : "border-light-border"} rounded-md`}><i className="fa-regular fa-angle-right"></i></button>
                     </div>
                 </div>
             </section>

@@ -32,7 +32,7 @@ const getWidth = () => (typeof window !== 'undefined') ? window.innerWidth : nul
 export default function ProductPage() {
 
     const router = useRouter();
-    const { lang: contextLang, currency, setCart } = useAppContext();
+    const { lang: contextLang, currency, setCart, darkMode } = useAppContext();
     const { product: productId } = router.query;
     const [ product, setProduct ] = useState({});
     const [ variant, setVariant ] = useState({});
@@ -164,8 +164,8 @@ export default function ProductPage() {
                             <span className={""}>{lang.product.price}</span>
                             <span className={"text-2xl font-medium text-main"}>{useCurrencyFormatter(currency).format(price)}</span>
                         </div>
-                        <ProductCount count={productCount} setCount={setProductCount} />
-                        <ProductSize product={product} setVariant={setVariant} />
+                        <ProductCount count={productCount} setCount={setProductCount} darkMode={darkMode} />
+                        <ProductSize product={product} setVariant={setVariant} darkMode={darkMode} />
                         {product?.attributes?.collections?.data[0]?.attributes?.url == 'extensions' && (
                             <ProductColor product={product} setColor={setSelectedColor} />
                         )}
@@ -179,7 +179,7 @@ export default function ProductPage() {
                         </div>
                         <div className={"flex flex-col gap-1"}>
                             <span className={"text-lg uppercase font-medium"}>{lang.product.description}</span>
-                            <p className={"text-neutral-600"}>{product?.attributes?.descripcion}</p>
+                            <p className={`${darkMode ? "text-dark-text-secondary" : "text-light-text-secondary"}`}>{product?.attributes?.descripcion}</p>
                         </div>
                         <div className={"flex flex-col"}>
                             <ProductDropdown icon={"fa-industry-windows"} title={"Material"}>
@@ -219,7 +219,7 @@ function ProductImage({ img }) {
     )
 }
 
-function ProductCount({ count, setCount }) {
+function ProductCount({ count, setCount, darkMode }) {
 
     const lang = useGetLang();
 
@@ -234,16 +234,16 @@ function ProductCount({ count, setCount }) {
     return (
         <div className={"flex flex-col gap-1"}>
             <span>{lang.product.amount}</span>
-            <div className={"flex border border-neutral-300 rounded-md h-12 w-fit overflow-hidden select-none"}>
-                <button onClick={handleSubtract} className={"grid place-content-center w-12 hover:bg-main hover:text-white text-neutral-700 transition-colors"}><i className="fa-solid fa-minus text-sm"></i></button>
+            <div className={`flex border ${darkMode ? "border-dark-border" : "border-light-border"} rounded-md h-12 w-fit overflow-hidden select-none`}>
+                <button onClick={handleSubtract} className={`grid place-content-center w-12 hover:bg-main hover:text-white ${darkMode ? "text-dark-text-secondary" : "text-light-text-secondary"} transition-colors`}><i className="fa-solid fa-minus text-sm"></i></button>
                 <div className={"grid place-content-center w-12 font-medium"}>{count}</div>
-                <button onClick={handleSum} className={"grid place-content-center w-12 hover:bg-main hover:text-white text-neutral-700 transition-colors"}><i className="fa-solid fa-plus text-sm"></i></button>
+                <button onClick={handleSum} className={`grid place-content-center w-12 hover:bg-main hover:text-white ${darkMode ? "text-dark-text-secondary" : "text-light-text-secondary"} transition-colors`}><i className="fa-solid fa-plus text-sm"></i></button>
             </div>
         </div>
     )
 }
 
-function ProductSize({ product, setVariant }) {
+function ProductSize({ product, setVariant, darkMode }) {
 
     const lang = useGetLang();
 
@@ -257,7 +257,7 @@ function ProductSize({ product, setVariant }) {
     return (
         <div className={"flex flex-col gap-1"}>
             <label htmlFor="product-size">{lang.product.size}</label>
-            <select onChange={e => handleClickVariant(e.target.value)} id={"product-size"} className={"border border-neutral-300 rounded-md h-12 px-3 overflow-hidden select-none"}>
+            <select onChange={e => handleClickVariant(e.target.value)} id={"product-size"} className={`border ${darkMode ? "border-dark-border bg-dark-bg-primary" : "border-light-border bg-light-bg-primary"} rounded-md h-12 px-3 overflow-hidden select-none`}>
                 {variants.map((variant, index) => (
                     <option key={index} value={variant.id}>{`${variant.pulgadas}"`}</option>
                 ))}

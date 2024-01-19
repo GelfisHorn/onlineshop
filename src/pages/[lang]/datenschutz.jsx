@@ -4,10 +4,14 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 // Components
 import Layout from "@/components/Layout";
+// Hooks
+import useAppContext from "@/hooks/useAppContext";
 // Markdown
 import ReactMarkdown from 'react-markdown'
 
 export default function Datenschutz() {
+
+    const { darkMode } = useAppContext();
 
     const [data, setData] = useState({});
     const [loading, setLoading] = useState(true);
@@ -31,7 +35,7 @@ export default function Datenschutz() {
     return (
         <Layout title={"Datenschutz"}>
             {!loading && data?.contenido && (
-                <section className={`flex flex-col gap-5 text-neutral-700`}>
+                <section className={`flex flex-col gap-5 ${darkMode ? "text-dark-text-secondary" : "text-light-text-secondary"}`}>
                     {data.contenido && data.contenido.split('\n\n').map((section, index) => (
                         <ReactMarkdown key={index} className={"strapi-markdown"}>{section}</ReactMarkdown>
                     ))}

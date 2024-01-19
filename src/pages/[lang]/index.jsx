@@ -33,7 +33,7 @@ const item = {
 
 export default function Home() {
 
-    const { lang: contextlang } = useAppContext();
+    const { lang: contextlang, darkMode } = useAppContext();
     const lang = useGetLang();
 
     const [ loading, setLoading ] = useState(true);
@@ -68,7 +68,7 @@ export default function Home() {
     return (
         <Layout title={lang.pages.home.headTitle}>
             <Banner />
-            <div className={"bg-[#fffbf1]"}>
+            <div className={`${darkMode ? "bg-dark-bg-secondary text-dark-text-primary" : "bg-light-bg-secondary text-light-text-primary"}`}>
                 <Section title={lang.pages.home.sections.categories.title}>
                     <CollectionsView collections={collections} />
                 </Section>
@@ -169,10 +169,12 @@ function ProductsView({ products, href }) {
 
 function AboutUs() {
 
+    const { darkMode } = useAppContext();
+
     const lang = useGetLang();
 
     return (
-        <section className={"flex flex-col items-center gap-6 text-center bg-[#fffbf1]"}>
+        <section className={`flex flex-col items-center gap-6 text-center ${darkMode ? "bg-dark-bg-secondary text-dark-text-primary" : "bg-light-bg-secondary text-light-text-primary"}`}>
             <motion.div 
                 variants={container}
                 initial="hidden"
@@ -186,7 +188,7 @@ function AboutUs() {
                     <span className={"relative z-10 font-semibold md:font-medium"}>{lang.pages.home.aboutUs.title}</span>
                     <div className={"absolute bottom-0 md:bg-[rgba(202,164,46,.5)] h-4 w-full"}></div>
                 </motion.div>
-                <motion.div variants={item} className={"flex flex-col gap-8 md:text-lg text-neutral-700"}>
+                <motion.div variants={item} className={`flex flex-col gap-8 md:text-lg ${darkMode ? "text-dark-text-secondary" : "text-light-text-secondary"}`}>
                     <p className={"text-xl"}>{lang.pages.home.aboutUs.p1.text1} <span className={"text-main underline font-medium"}>{lang.pages.home.aboutUs.p1.text2}</span> {lang.pages.home.aboutUs.p1.text3}</p>
 
                     <div className={"flex flex-col gap-2"}>
