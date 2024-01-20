@@ -68,6 +68,11 @@ export default function Header() {
 
     const [ showAuthModal, setShowAuthModal ] = useState(false);
 
+    const handleChangeTheme = () => {
+        setDarkMode(!darkMode);
+        localStorage.setItem('theme', JSON.stringify(!darkMode));
+    }
+
     return (
         <header className={darkMode ? "bg-dark-bg-primary" : "bg-light-bg-primary"}>
             {/* Store message */}
@@ -87,7 +92,7 @@ export default function Header() {
                         <Link href={`/${contextLang}/collections/extensions`} className={"hover:underline text-main transition-colors"}>{lang.header.extensions}</Link>
                     </div>
                 </div>
-                <button onClick={() => setDarkMode(!darkMode)} className={`${styles.cartButton} w-20 text-2xl border-r ${darkMode ? "border-dark-border" : "border-light-border"}`}>
+                <button onClick={handleChangeTheme} className={`${styles.cartButton} w-20 text-2xl border-r ${darkMode ? "border-dark-border" : "border-light-border"}`}>
                     <i className={`fa-light ${darkMode ? "fa-sun" : "fa-moon"}`}></i>
                 </button>
                 <Link href={`/${contextLang}/cart`} className={`${styles.cartButton} hidden md:grid place-content-center w-20 border-r ${darkMode ? "border-dark-border" : "border-light-border"} transition-colors`}>
