@@ -6,6 +6,7 @@ import { useRouter } from "next/router"
 import Image from "next/image";
 // Components
 import Layout from "@/components/Layout"
+import TranslateText from "@/components/TranslateText";
 // Hooks
 import useCurrencyFormatter from "@/hooks/useCurrencyFormatter";
 import useAppContext from "@/hooks/useAppContext";
@@ -23,9 +24,10 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 // Markdown
 import ReactMarkdown from 'react-markdown'
+// Notifications
+import toast, { Toaster } from "react-hot-toast";
 // Styles
 import styles from './Product.module.css'
-import TranslateText from "@/components/TranslateText";
 
 const getWidth = () => (typeof window !== 'undefined') ? window.innerWidth : null;
 
@@ -78,6 +80,10 @@ export default function ProductPage() {
             count: productCount
         }
         useAddToCart(productData, setCart);
+        toast.success(lang.notifications.success.productAdded, {
+            position: 'top-right',
+            style: { boxShadow: '4px 4px 8px -6px rgba(0,0,0,0.22)', border: "1px solid rgb(240, 240, 240)" }
+        })
     }
     
     /* useEffect(() => {
@@ -106,6 +112,7 @@ export default function ProductPage() {
 
     return (
         <Layout title={lang.pages.product.headTitle}>
+            <Toaster />
             <section className={"flex items-start flex-col xl:flex-row xl:gap-0 gap-10"}>
                 <div className={"hidden xl:flex flex-col gap-36 w-3/5"}>
                     <div className={"flex flex-col gap-5"}>
