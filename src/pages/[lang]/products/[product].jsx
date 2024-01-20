@@ -107,7 +107,7 @@ export default function ProductPage() {
     return (
         <Layout title={lang.pages.product.headTitle}>
             <section className={"flex items-start flex-col xl:flex-row xl:gap-0 gap-10"}>
-                <div className={"hidden xl:flex flex-col gap-28 w-3/5"}>
+                <div className={"hidden xl:flex flex-col gap-36 w-3/5"}>
                     <div className={"flex flex-col gap-5"}>
                         <ProductImage img={imgs[0]?.attributes?.formats?.large?.url} />
                         {imgs[1] && (
@@ -121,9 +121,9 @@ export default function ProductPage() {
                         )}
                     </div>
                     {product?.attributes?.collections?.data[0]?.attributes?.url == 'extensions' && (
-                        <div className={`w-1/2 mx-auto ${styles.roulette}`} id={"colors"}>
+                        <div className={`w-2/3 mx-auto ${styles.roulette}`} id={"colors"}>
                             <div className={"image-container"}>
-                                <Image src={"/colors-roulette.webp?v=1"} fill className={"image"} alt={"Colors roulette"} />
+                                <Image src={"/colors-roulette.jpg?v=1"} fill className={"image"} alt={"Colors roulette"} />
                             </div>
                         </div>
                     )}
@@ -167,7 +167,7 @@ export default function ProductPage() {
                         <ProductCount count={productCount} setCount={setProductCount} darkMode={darkMode} />
                         <ProductSize product={product} setVariant={setVariant} darkMode={darkMode} />
                         {product?.attributes?.collections?.data[0]?.attributes?.url == 'extensions' && (
-                            <ProductColor product={product} setColor={setSelectedColor} />
+                            <ProductColor product={product} setColor={setSelectedColor} darkMode={darkMode} />
                         )}
                         {product?.attributes?.collections?.data[0]?.attributes?.url == 'wigs' && (
                             <ProductEncaje product={product} selected={selectedEncaje} setEncaje={setSelectedEncaje} />
@@ -266,7 +266,7 @@ function ProductSize({ product, setVariant, darkMode }) {
     )
 }
 
-function ProductColor({ product, setColor }) {
+function ProductColor({ product, setColor, darkMode }) {
 
     const lang = useGetLang();
 
@@ -287,7 +287,7 @@ function ProductColor({ product, setColor }) {
                         <i className="fa-regular fa-angle-down"></i>
                     </a>
                 </div>
-                <select onChange={e => handleClickVariant(e.target.value)} id={"product-colors"} className={"border border-neutral-300 rounded-md h-12 px-3 overflow-hidden select-none"}>
+                <select onChange={e => handleClickVariant(e.target.value)} id={"product-colors"} className={`border ${darkMode ? "border-dark-border bg-dark-bg-primary" : "border-light-border bg-light-bg-primary"} rounded-md h-12 px-3 overflow-hidden select-none`}>
                     {variants.map((variant, index) => (
                         <option key={index} value={variant.id}>{variant.nombre}</option>
                     ))}
