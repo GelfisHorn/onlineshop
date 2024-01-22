@@ -42,6 +42,10 @@ export default function ProductPage() {
     const [ selectedColor, setSelectedColor ] = useState({});
     const [ selectedEncaje, setSelectedEncaje ] = useState({});
     const [ price, setPrice ] = useState(0);
+    const [ showZoom, setShowZoom ] = useState({
+        src: "",
+        show: false
+    });
     // const [windowSize, setWindowSize] = useState(getWidth);
     const lang = useGetLang();
 
@@ -113,22 +117,28 @@ export default function ProductPage() {
     return (
         <Layout title={lang.pages.product.headTitle}>
             <Toaster />
+            {showZoom.show ? (
+                <ZoomImage src={showZoom.src} handleClose={() => setShowZoom({ src: "", show: false })} />
+            ) : null}
             <section className={"flex items-start flex-col xl:flex-row xl:gap-0 gap-10"}>
                 <div className={"hidden xl:flex flex-col gap-36 w-3/5"}>
                     <div className={"flex flex-col gap-5"}>
-                        <ProductImage img={imgs[0]?.attributes?.formats?.large?.url} />
+                        <ProductImage img={imgs[0]?.attributes?.formats?.large?.url} setShowZoom={setShowZoom} />
                         {imgs[1] && (
                             <div className={"grid grid-cols-2 gap-5"}>
                                 {imgs.map((img, index) => {
                                     if (index != 0) {
-                                        return <ProductImage key={index} img={img.attributes.formats.large.url} />
+                                        return <ProductImage key={index} img={img.attributes.formats.large.url} setShowZoom={setShowZoom} />
                                     }
                                 })}
                             </div>
                         )}
                     </div>
                     {product?.attributes?.collections?.data[0]?.attributes?.url == 'extensions' && (
-                        <div className={`w-2/3 mx-auto ${styles.roulette}`} id={"colors"}>
+                        <div className={`w-2/3 mx-auto ${styles.roulette}`} id={"colors"} onClick={() => setShowZoom({
+                            src: "/colors-roulette.jpg?v=1",
+                            show: true
+                        })}>
                             <div className={"image-container"}>
                                 <Image src={"/colors-roulette.jpg?v=1"} fill className={"image"} alt={"Colors roulette"} />
                             </div>
@@ -146,14 +156,14 @@ export default function ProductPage() {
                         className={"w-full"}
                     >
                         <SwiperSlide>
-                            <ProductImage img={imgs[0]?.attributes?.formats?.large?.url} />
+                            <ProductImage img={imgs[0]?.attributes?.formats?.large?.url} setShowZoom={setShowZoom} />
                         </SwiperSlide>
                         {imgs[1] && (
                             imgs.map((img, index) => {
                                 if (index != 0) {
                                     return (
                                         <SwiperSlide key={index}>
-                                            <ProductImage img={img.attributes.formats.large.url} />
+                                            <ProductImage img={img.attributes.formats.large.url} setShowZoom={setShowZoom} />
                                         </SwiperSlide>
                                     )
                                 }
@@ -212,11 +222,24 @@ export default function ProductPage() {
     )
 }
 
-function ProductImage({ img }) {
+function ProductImage({ img, setShowZoom }) {
+
+    const handleShow = () => setShowZoom({
+        src: `${process.env.NEXT_PUBLIC_STRAPI_URI}${img}`,
+        show: true
+    });
+
     return img ? (
-        <div className={"w-full h-full aspect-square overflow-hidden rounded-md border-[2px] border-main"}>
-            <div className={"image-container h-full"}>
-                <Image className={"image object-cover"} src={`${process.env.NEXT_PUBLIC_STRAPI_URI}${img}`} fill alt={"Product image"} />
+        <div 
+            className={"w-full h-full aspect-square overflow-hidden rounded-md border-[2px] border-main"}
+        >
+            <div className={"image-container h-full"} onClick={handleShow}>
+                <Image
+                    className={`image object-cover}`}
+                    src={`${process.env.NEXT_PUBLIC_STRAPI_URI}${img}`}
+                    fill
+                    alt={"Product image"}
+                />
             </div>
         </div>
     ) : (
@@ -392,5 +415,21 @@ function PayPalButton() {
                 }}
             />
         </PayPalScriptProvider>
+    )
+}
+
+function ZoomImage({ src, handleClose }) {
+    return (
+        <div className={styles.zoomImage}>
+            <button onClick={() => handleClose()} className={"fixed right-4 top-3 text-3xl text-white z-10"}>
+                <i className="fa-regular fa-xmark"></i>
+            </button>
+            <div onClick={() => handleClose()} className={"w-screen h-screen"} style={{ backgroundColor: 'rgba(0,0,0,.5)' }}></div>
+            <div className={"absolute top-0 flex justify-center h-screen w-full"}>
+                <div className={styles.imageContainer}>
+                    <Image className={styles.image} src={src} fill alt={"Product image"} />
+                </div>
+            </div>
+        </div>
     )
 }

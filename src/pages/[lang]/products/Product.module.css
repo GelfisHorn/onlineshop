@@ -13,3 +13,22 @@
         rotate: 360deg;
     }
 }
+
+.zoomImage {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 10;
+}
+
+.imageContainer {
+    width: 100%;
+    position: relative !important;
+}
+
+.imageContainer .image {
+    object-fit: contain;
+    width: 100% !important;
+    position: relative !important;
+    height: 100% !important;
+}
