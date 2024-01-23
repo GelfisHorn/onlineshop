@@ -51,7 +51,11 @@ export default function ProductPage() {
 
     const handleFetchProduct = async () => {
         try {
-            const { data } = await axios.post('/api/strapi/products/getOneByUrl', { url: productId });
+            const { data } = await axios.post('/api/strapi/products/getOneByUrl', { url: productId, locale: contextLang });
+            if(data?.data?.data?.length == 0) {
+                router.push('/')
+                return;
+            };
             setProduct(data.data?.data[0]);
             setVariant(data.data?.data[0]?.attributes.variante[0]);
             setSelectedColor(data.data?.data[0]?.attributes.colores[0] || data.data?.data[0]?.attributes.colores);
@@ -63,9 +67,9 @@ export default function ProductPage() {
     }
 
     useEffect(() => {
-        if(!productId) return;
+        if(!productId || !contextLang) return;
         handleFetchProduct();
-    }, [productId])
+    }, [productId, contextLang])
 
     const [ productCount, setProductCount ] = useState(1);
 

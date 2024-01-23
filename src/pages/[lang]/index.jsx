@@ -44,8 +44,8 @@ export default function Home() {
 
     function getProducts() {
         Promise.all([
-            axios.post('/api/strapi/products/getByLimit', { category: 'wigs', limit: 6 }),
-            axios.post('/api/strapi/products/getByLimit', { category: 'extensions', limit: 6 }),
+            axios.post('/api/strapi/products/getByLimit', { category: 'wigs', limit: 6, locale: contextlang }),
+            axios.post('/api/strapi/products/getByLimit', { category: 'extensions', limit: 6, locale: contextlang }),
             axios.post('/api/strapi/collections/getAll')
         ]).then(res => {
             const wigs = res[0]?.data?.data?.data;
@@ -62,8 +62,9 @@ export default function Home() {
     }
 
     useEffect(() => {
+        if(!contextlang) return;
         getProducts();
-    }, []);
+    }, [contextlang]);
 
     return (
         <Layout title={lang.pages.home.headTitle}>

@@ -8,11 +8,13 @@ import Layout from "@/components/Layout";
 import ProductsView from "@/components/ProductsView";
 // Hooks
 import useGetLang from "@/hooks/useGetLang";
+import useAppContext from "@/hooks/useAppContext";
 
 const ITEMS_PER_PAGE = 6;
 
 export default function Extensions() {
 
+    const { lang: contextLang } = useAppContext();
     const router = useRouter();
     const { collection: collectionUrl } = router.query;
     const lang = useGetLang();
@@ -28,7 +30,7 @@ export default function Extensions() {
         setLoading(true);
 
         Promise.all([
-            axios.post('/api/strapi/products/getByCollection', { page: actualPage, pageSize: ITEMS_PER_PAGE, collection: collectionUrl }),
+            axios.post('/api/strapi/products/getByCollection', { page: actualPage, pageSize: ITEMS_PER_PAGE, collection: collectionUrl, locale: contextLang }),
             axios.post('/api/strapi/collections/getOneByUrl', { url: collectionUrl })
         ]).then(res => {
             const products = res[0].data;
@@ -42,9 +44,9 @@ export default function Extensions() {
     }
 
     useEffect(() => {
-        if (!collectionUrl) return;
+        if (!collectionUrl || !contextLang) return;
         getProducts();
-    }, [actualPage, collectionUrl])
+    }, [actualPage, collectionUrl, contextLang])
 
     return (
         <Layout title={`${lang.pages.collections.extensions.title} ${collection?.attributes?.nombre || ""}`}>
