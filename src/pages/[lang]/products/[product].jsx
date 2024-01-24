@@ -143,8 +143,8 @@ export default function ProductPage() {
                             src: "/colors-roulette.jpg?v=1",
                             show: true
                         })}>
-                            <div className={"image-container"}>
-                                <Image src={"/colors-roulette.jpg?v=1"} fill className={"image"} alt={"Colors roulette"} />
+                            <div className={"image-container rounded-full overflow-hidden"}>
+                                <Image src={"/colors-roulette.jpg?v=1"} fill className={"image top-[10rem]"} alt={"Colors roulette"} />
                             </div>
                         </div>
                     )}
@@ -175,7 +175,7 @@ export default function ProductPage() {
                         )}
                     </Swiper>
                 </div>
-                <div className={"w-full xl:w-2/5 xl:px-10"}>
+                <div className={"flex flex-col gap-20 w-full xl:w-2/5 xl:px-10"}>
                     <div className={"flex flex-col gap-6"}>
                         <div className={"flex flex-col gap-1"}>
                             <span className={"uppercase font-medium"}>{product?.attributes?.collections?.data[0]?.attributes?.nombre}</span>
@@ -220,6 +220,16 @@ export default function ProductPage() {
                             </ProductDropdown>
                         </div>
                     </div>
+                    {product?.attributes?.collections?.data[0]?.attributes?.url == 'extensions' && (
+                        <div className={`w-2/3 mx-auto ${styles.roulette}`} id={"colors"} onClick={() => setShowZoom({
+                            src: "/colors-roulette.jpg?v=1",
+                            show: true
+                        })}>
+                            <div className={"image-container rounded-full overflow-hidden block xl:hidden"}>
+                                <Image src={"/colors-roulette.jpg?v=1"} fill className={"image top-[10rem]"} alt={"Colors roulette"} />
+                            </div>
+                        </div>
+                    )}
                 </div>
             </section>
         </Layout>
