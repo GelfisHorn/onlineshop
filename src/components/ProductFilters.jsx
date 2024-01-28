@@ -13,7 +13,7 @@ export function ProductFilters({ availability, price, sortBy, highestPrice, prod
 
     const router = useRouter();
 
-    const { currency } = useAppContext();
+    const { currency, darkMode } = useAppContext();
     const lang = useGetLang();
 
     // SortBy
@@ -80,12 +80,12 @@ export function ProductFilters({ availability, price, sortBy, highestPrice, prod
 
     return (
         <div className={"flex flex-col gap-3"}>
-            <div className={"border-b md:px-[5rem] lg:px-[10rem] py-5 md:h-20"}>
+            <div className={`border-b ${darkMode ? "border-dark-border" : "border-light-border"} md:px-[5rem] lg:px-[10rem] py-5 md:h-20`}>
                 <div className={"flex flex-col md:flex-row items-center md:justify-between h-full gap-5 md:gap-0"}>
                     <Button text={lang.product.filters.availability}>
-                        <Modal>
+                        <Modal darkMode={darkMode}>
                             <div className={"flex flex-col text-sm py-5 min-w-[300px]"}>
-                                <div className={"flex items-center justify-end border-b pb-5 px-5"}>
+                                <div className={`flex items-center justify-end border-b ${darkMode ? "border-dark-border" : "border-light-border"} pb-5 px-5`}>
                                     <button className={"underline"} onClick={() => { availability.set(null); removeQueryParams(["availability"]) }}>{lang.product.filters.clear}</button>
                                 </div>
                                 <div className={"flex flex-col gap-1 pt-5 px-5"}>
@@ -102,9 +102,9 @@ export function ProductFilters({ availability, price, sortBy, highestPrice, prod
                         </Modal>
                     </Button>
                     <Button text={lang.product.filters.price}>
-                        <Modal>
+                        <Modal darkMode={darkMode}>
                             <div className={"flex flex-col text-sm py-5 min-w-[300px]"}>
-                                <div className={"flex items-center justify-between border-b pb-5 px-5"}>
+                                <div className={`flex items-center justify-between border-b ${darkMode ? "border-dark-border" : "border-light-border"} pb-5 px-5`}>
                                     <div className={"flex items-center gap-1"}>
                                         {highestPrice > 0 && (
                                             <>
@@ -121,7 +121,7 @@ export function ProductFilters({ availability, price, sortBy, highestPrice, prod
                                             type="number"
                                             min={0}
                                             placeholder={lang.product.filters.from}
-                                            className={"border border-neutral-400 p-2 outline-none rounded-sm w-full"}
+                                            className={`border ${darkMode ? "border-dark-border" : "border-light-border"} bg-transparent p-2 outline-none rounded-sm w-full`}
                                             value={price.get.from || ""}
                                             onChange={(e) => handleUpdateFromPrice(Number(e.target.value))}
                                         />
@@ -131,7 +131,7 @@ export function ProductFilters({ availability, price, sortBy, highestPrice, prod
                                             type="number"
                                             min={0}
                                             placeholder={lang.product.filters.to}
-                                            className={"border border-neutral-400 p-2 outline-none rounded-sm w-full"}
+                                            className={`border ${darkMode ? "border-dark-border" : "border-light-border"} bg-transparent p-2 outline-none rounded-sm w-full`}
                                             value={price.get.to || ""}
                                             onChange={(e) => handleUpdateToPrice(Number(e.target.value))}
                                         />
@@ -150,7 +150,7 @@ export function ProductFilters({ availability, price, sortBy, highestPrice, prod
                                 <i className="fa-light fa-angle-down"></i>
                             </button>
                             {showSortModal && (
-                                <Modal>
+                                <Modal darkMode={darkMode}>
                                     <div className={"flex flex-col text-sm min-w-[200px]"}>
                                         <button onClick={() => handleUpdateSortBy("lowPrice")} className={`${sortBy.get == "lowPrice" ? "bg-main text-white" : ""} hover:bg-main hover:text-white transition-colors px-4 py-3`}>{lang.product.filters.lowPrice}</button>
                                         <button onClick={() => handleUpdateSortBy("highPrice")} className={`${sortBy.get == "highPrice" ? "bg-main text-white" : ""} hover:bg-main hover:text-white transition-colors px-4 py-3 rounded-b-md`}>{lang.product.filters.highPrice}</button>
@@ -159,7 +159,7 @@ export function ProductFilters({ availability, price, sortBy, highestPrice, prod
                             )}
                         </div>
                     </div>
-                    <div className={"hidden md:flex items-center gap-1 h-full text-neutral-500"}>
+                    <div className={`hidden md:flex items-center gap-1 h-full ${darkMode ? "text-dark-text-secondary" : "text-light-text-secondary"}`}>
                         <span className={"font-semibold"}>{totalProducts}</span>
                         <span>{lang.product.filters.products}</span>
                     </div>
@@ -205,11 +205,11 @@ function Button({ text, children }) {
     )
 }
 
-function Modal({ children }) {
+function Modal({ darkMode, children }) {
 
     return(
         <div 
-            className={"absolute top-10 md:top-16 left-1/2 -translate-x-1/2 bg-white shadow-md border rounded-md z-10 select-none"}
+            className={`absolute top-10 md:top-16 left-1/2 -translate-x-1/2 ${darkMode ? "border-dark-border bg-dark-bg-primary" : "border-light-border bg-light-bg-primary"} shadow-md border rounded-md z-10 select-none overflow-hidden`}
         >
             {children}
         </div>

@@ -19,7 +19,7 @@ import { AnimatePresence, motion } from "framer-motion";
 export default function CheckOut() {
 
     const router = useRouter();
-    const { lang: contextLang, cart, setCart, currency, auth } = useAppContext();
+    const { lang: contextLang, cart, setCart, currency, auth, darkMode } = useAppContext();
     const lang = useGetLang();
 
     const [ shipping, setShipping ] = useState({
@@ -99,7 +99,7 @@ export default function CheckOut() {
     }
 
     async function handleCheckCode(code) {
-        const total = cart?.products?.reduce((total, product) => total + (product.count * product.selectedVariant.precio), 0)
+        const total = cart?.products?.reduce((total, product) => total + ((product.selectedVariant.precio + (product.selectedColor?.precio || 0) + (product.selectedEncaje?.precio || 0)) * product.count), 0)
         if (!code) {
             return setFinalPrice(total)
         };
@@ -129,7 +129,9 @@ export default function CheckOut() {
     }, [discountCode, total])
 
     useEffect(() => {
-        setTotal(cart?.products?.reduce((total, product) => total + (product.count * product.selectedVariant.precio), 0))
+        const total = cart?.products?.reduce((total, product) => total + ((product.selectedVariant.precio + (product.selectedColor?.precio || 0) + (product.selectedEncaje?.precio || 0)) * product.count), 0);
+        setTotal(total);
+        handleCheckCode();
     }, [cart]);
 
     useEffect(() => {
@@ -158,13 +160,13 @@ export default function CheckOut() {
         })
     }, [auth])
 
-    console.log(finalPrice)
+    console.log(finalPrice);
 
     return (
         <Layout title={lang.pages.checkout.headTitle}>
             <Toaster />
             <section className={"flex items-start my-0"}>
-                <div className={"flex flex-col gap-10 w-full lg:w-1/2 md:p-10 py-20 lg:border-r h-full"}>
+                <div className={`flex flex-col gap-10 w-full lg:w-1/2 md:p-10 py-20 lg:border-r ${darkMode ? "border-dark-border" : "border-light-border"} h-full`}>
                     <div className={"block lg:hidden border-b"}>
                         <div className={"flex items-center justify-between"}>
                             <button onClick={handleShowResume} className={"flex items-center gap-2 h-14"}>
@@ -239,7 +241,7 @@ export default function CheckOut() {
                             <select 
                                 value={shipping.country} 
                                 onChange={e => setShipping({...shipping, country: e.target.value})}
-                                className={"p-3 w-full border rounded-md outline-none focus:border-main transition-colors"}
+                                className={`p-3 w-full border ${darkMode ? "border-dark-border bg-dark-bg-primary" : "border-light-border bg-light-bg-primary"} rounded-md outline-none focus:border-main transition-colors`}
                             >
                                 <option value="de">{lang.pages.checkout.forms.shipping.countries.de}</option>
                             </select>
@@ -275,7 +277,7 @@ export default function CheckOut() {
                                 />
                             </div>
                         </div> */}
-                        {finalPrice != 0 && (
+                        {finalPrice != 0 && !Object.values(shipping).includes(undefined) && (
                             <PayPalButton value={finalPrice} currency={currency} setPaymentDetails={setPaymentDetails} />
                         )}
                         {/* <button type={"submit"} className={"py-3 bg-main text-white hover:bg-main-hover transition-colors rounded-md disabled:bg-neutral-400"} disabled={(paymentMethod == '' || cart.length == 0) ? true : false}>{lang.pages.checkout.forms.submit}</button> */}
@@ -290,21 +292,21 @@ export default function CheckOut() {
                                 ))}
                             </div>
                             <div className={"flex flex-col divide-y"}>
-                                <div className={"flex items-center justify-between py-3"}>
+                                <div className={`flex items-center justify-between py-3`}>
                                     <div>Subtotal</div>
                                     <div className={"font-semibold"}>{CurrencyFormatter(total)}</div>
                                 </div>
-                                <div className={"flex items-end justify-between py-3"}>
+                                <div className={`flex items-end justify-between py-3 ${darkMode ? "border-dark-border" : "border-light-border"}`}>
                                     <div className={"font-semibold text-lg"}>Total</div>
                                     <div className={"flex flex-col gap-1 items-end"}>
                                         {discountCode.discount ? (
                                             <>
                                                 <div className={"flex items-center gap-2"}>
-                                                    <span className={"text-sm text-neutral-600"}>{currency}</span>
+                                                    <span className={`text-sm ${darkMode ? "text-dark-text-secondary" : "text-light-text-secondary"}`}>{currency}</span>
                                                     <div className={"line-through text-red-400 font-medium"}>{CurrencyFormatter(total || 0)}</div>
                                                 </div>
                                                 <div className={"flex items-center gap-2"}>
-                                                    <span className={"text-sm text-neutral-600"}>{currency}</span>
+                                                    <span className={`text-sm ${darkMode ? "text-dark-text-secondary" : "text-light-text-secondary"}`}>{currency}</span>
                                                     <div className={"flex items-center gap-1"}>
                                                         <span className={"font-medium"}>{CurrencyFormatter(discountPrice || 0)}</span>
                                                         <span className={"text-sm"}>{`(-${discountCode.discount}%)`}</span>
@@ -313,7 +315,7 @@ export default function CheckOut() {
                                             </>
                                         ) : (
                                             <div className={"flex items-center gap-2"}>
-                                                <span className={"text-sm text-neutral-600"}>{currency}</span>
+                                                <span className={`text-sm ${darkMode ? "text-dark-text-secondary" : "text-light-text-secondary"}`}>{currency}</span>
                                                 <div className={"font-medium"}>{CurrencyFormatter(total || 0)}</div>
                                             </div>
                                         )}
@@ -335,8 +337,18 @@ export default function CheckOut() {
 }
 
 function Product({ product }) {
+
+    const lang = useGetLang();
     
-    const { img, name, count, selectedVariant } = product;
+    const { img, name, count, selectedVariant, selectedColor, selectedEncaje } = product;
+
+    function calculatePrice() {
+        const colorPrice = selectedColor?.precio || 0;
+        const encajePrice = selectedEncaje?.precio || 0;
+        const variantPrice = selectedVariant.precio;
+
+        return (variantPrice + colorPrice + encajePrice) * count;
+    }
 
     const { currency } = useAppContext();
 
@@ -349,17 +361,32 @@ function Product({ product }) {
                     </div>
                     <div className={"absolute -top-2 -right-2 text-sm text-white font-medium bg-[rgba(0,0,0,.6)] w-5 h-5 rounded-full grid place-content-center"}>{count}</div>
                 </div>
-                <div>{name}</div>
+                <div className={"flex flex-col"}>
+                    <div>{name}</div>
+                    {selectedColor?.id && (
+                        <div>
+                            <span>{lang.pages.cart.color}: <span className={"font-semibold"}>{selectedColor.nombre}</span></span>
+                        </div>
+                    )}
+                    {selectedEncaje?.id && (
+                        <div>
+                            <span>{lang.pages.cart.encaje}: <span className={"font-semibold"}>{selectedEncaje.nombre}</span></span>
+                        </div>
+                    )}
+                </div>
             </div>
-            <div>{useCurrencyFormatter(currency).format(selectedVariant.precio)}</div>
+            <div>{useCurrencyFormatter(currency).format(calculatePrice())}</div>
         </div>
     )
 }
 
 function Input({ placeholder, type, value, setValue, autocomplete }) {
+
+    const { darkMode } = useAppContext();
+
     return (
         <input 
-            className={"p-3 w-full border rounded-md outline-none focus:border-main transition-colors"}
+            className={`p-3 w-full border ${darkMode ? "border-dark-border" : "border-light-border"} rounded-md outline-none focus:border-main transition-colors bg-transparent`}
             type={type} 
             placeholder={placeholder} 
             value={value} 

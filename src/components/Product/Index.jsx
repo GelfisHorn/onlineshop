@@ -23,7 +23,7 @@ const item = {
 export default function Product({ product }) {
 
     const { id, attributes } = product || {};
-    const { nombre, url, stock, descripcion, categoria, variante, img } = attributes || {};
+    const { nombre, url, stock, descripcion, categoria, variante, encaje, colores, img } = attributes || {};
 
     const { lang: contextLang, currency, setCart } = useAppContext();
     const lang = useGetLang();
@@ -34,6 +34,10 @@ export default function Product({ product }) {
             name: nombre,
             variants: variante,
             selectedVariant: variante[0],
+            colores,
+            selectedColor: colores[0] || {},
+            encaje,
+            selectedEncaje: encaje[0] || {},
             description: descripcion,
             img: img.data[0].attributes.formats.large.url,
             count: 1

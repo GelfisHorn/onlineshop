@@ -6,12 +6,14 @@ import Layout from "@/components/Layout";
 import ProductsView from "@/components/ProductsView";
 // Hooks
 import useGetLang from "@/hooks/useGetLang";
+import useAppContext from "@/hooks/useAppContext";
 
 const ITEMS_PER_PAGE = 6;
 
 export default function AllProducts() {
 
     const lang = useGetLang();
+    const { lang: contextLang } = useAppContext();
 
     const [ products, setProducts ] = useState([]);
     const [ actualPage, setActualPage ] = useState(null);
@@ -22,7 +24,7 @@ export default function AllProducts() {
         if(!actualPage) return;
         setLoading(true);
         try {
-            const { data } = await axios.post('/api/strapi/products/getAllByPage', { page: actualPage, pageSize: ITEMS_PER_PAGE });
+            const { data } = await axios.post('/api/strapi/products/getAllByPage', { page: actualPage, pageSize: ITEMS_PER_PAGE, locale: contextLang });
             setProducts(data.data.data);
             setTotalProducts(data.data.meta.pagination.total);
         } catch (error) {
@@ -33,8 +35,9 @@ export default function AllProducts() {
     }
 
     useEffect(() => {
+        if(!contextLang) return;
         getProducts();
-    }, [actualPage])
+    }, [actualPage, contextLang])
 
     return (
         <Layout title={lang.pages.collections.all.title}>

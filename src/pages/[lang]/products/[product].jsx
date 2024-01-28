@@ -6,6 +6,7 @@ import { useRouter } from "next/router"
 import Image from "next/image";
 // Components
 import Layout from "@/components/Layout"
+import TranslateText from "@/components/TranslateText";
 // Hooks
 import useCurrencyFormatter from "@/hooks/useCurrencyFormatter";
 import useAppContext from "@/hooks/useAppContext";
@@ -23,25 +24,42 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 // Markdown
 import ReactMarkdown from 'react-markdown'
+// Notifications
+import toast, { Toaster } from "react-hot-toast";
+// Styles
+import styles from './Product.module.css'
 
 const getWidth = () => (typeof window !== 'undefined') ? window.innerWidth : null;
 
 export default function ProductPage() {
 
     const router = useRouter();
-    const { currency, setCart } = useAppContext();
+    const { lang: contextLang, currency, setCart, darkMode } = useAppContext();
     const { product: productId } = router.query;
     const [ product, setProduct ] = useState({});
     const [ variant, setVariant ] = useState({});
     const [ imgs, setImgs ] = useState([]);
-    const [windowSize, setWindowSize] = useState(getWidth);
+    const [ selectedColor, setSelectedColor ] = useState({});
+    const [ selectedEncaje, setSelectedEncaje ] = useState({});
+    const [ price, setPrice ] = useState(0);
+    const [ showZoom, setShowZoom ] = useState({
+        src: "",
+        show: false
+    });
+    // const [windowSize, setWindowSize] = useState(getWidth);
     const lang = useGetLang();
 
     const handleFetchProduct = async () => {
         try {
-            const { data } = await axios.post('/api/strapi/products/getOneByUrl', { url: productId });
+            const { data } = await axios.post('/api/strapi/products/getOneByUrl', { url: productId, locale: contextLang });
+            if(data?.data?.data?.length == 0) {
+                router.push('/')
+                return;
+            };
             setProduct(data.data?.data[0]);
             setVariant(data.data?.data[0]?.attributes.variante[0]);
+            setSelectedColor(data.data?.data[0]?.attributes.colores[0] || data.data?.data[0]?.attributes.colores);
+            setSelectedEncaje(data.data?.data[0]?.attributes.encaje[0] || data.data?.data[0]?.attributes.encaje);
             setImgs(data.data?.data[0]?.attributes?.img?.data);
         } catch (error) {
             return;
@@ -49,9 +67,9 @@ export default function ProductPage() {
     }
 
     useEffect(() => {
-        if(!productId) return;
+        if(!productId || !contextLang) return;
         handleFetchProduct();
-    }, [productId])
+    }, [productId, contextLang])
 
     const [ productCount, setProductCount ] = useState(1);
 
@@ -61,14 +79,22 @@ export default function ProductPage() {
             name: product.attributes.nombre,
             variants: product.attributes.variante,
             selectedVariant: variant,
+            colores: product.attributes.colores,
+            selectedColor,
+            encaje: product.attributes.encaje,
+            selectedEncaje,
             description: product.attributes.descripcion,
             img: imgs[0].attributes.formats.large.url,
             count: productCount
         }
         useAddToCart(productData, setCart);
+        toast.success(lang.notifications.success.productAdded, {
+            position: 'top-right',
+            style: { boxShadow: '4px 4px 8px -6px rgba(0,0,0,0.22)', border: "1px solid rgb(240, 240, 240)" }
+        })
     }
     
-    useEffect(() => {
+    /* useEffect(() => {
         const handleResize = () => {
             setWindowSize(getWidth());
         };
@@ -78,20 +104,48 @@ export default function ProductPage() {
         return () => {
             window.removeEventListener('resize', handleResize);
         };
-    }, []);
+    }, []); */
+
+    function calculatePrice() {
+        const colorPrice = selectedColor?.precio || 0;
+        const encajePrice = selectedEncaje?.precio || 0;
+        const variantPrice = variant.precio;
+
+        setPrice((variantPrice + colorPrice + encajePrice) * productCount);
+    }
+
+    useEffect(() => {
+        calculatePrice();
+    }, [selectedColor, selectedEncaje, variant, productCount])
 
     return (
         <Layout title={lang.pages.product.headTitle}>
+            <Toaster />
+            {showZoom.show ? (
+                <ZoomImage src={showZoom.src} handleClose={() => setShowZoom({ src: "", show: false })} />
+            ) : null}
             <section className={"flex items-start flex-col xl:flex-row xl:gap-0 gap-10"}>
-                <div className={"hidden xl:flex flex-col gap-5 w-3/5"}>
-                    <ProductImage img={imgs[0]?.attributes?.formats?.large?.url} />
-                    {imgs[1] && (
-                        <div className={"grid grid-cols-2 gap-5"}>
-                            {imgs.map((img, index) => {
-                                if (index != 0) {
-                                    return <ProductImage key={index} img={img.attributes.formats.large.url} />
-                                }
-                            })}
+                <div className={"hidden xl:flex flex-col gap-36 w-3/5"}>
+                    <div className={"flex flex-col gap-5"}>
+                        <ProductImage img={imgs[0]?.attributes?.formats?.large?.url} setShowZoom={setShowZoom} />
+                        {imgs[1] && (
+                            <div className={"grid grid-cols-2 gap-5"}>
+                                {imgs.map((img, index) => {
+                                    if (index != 0) {
+                                        return <ProductImage key={index} img={img.attributes.formats.large.url} setShowZoom={setShowZoom} />
+                                    }
+                                })}
+                            </div>
+                        )}
+                    </div>
+                    {product?.attributes?.collections?.data[0]?.attributes?.url == 'extensions' && (
+                        <div className={`w-2/3 mx-auto ${styles.roulette}`} id={"colors"} onClick={() => setShowZoom({
+                            src: "/colors-roulette.jpg?v=1",
+                            show: true
+                        })}>
+                            <div className={"image-container rounded-full overflow-hidden"}>
+                                <Image src={"/colors-roulette.jpg?v=1"} fill className={"image top-[10rem]"} alt={"Colors roulette"} />
+                            </div>
                         </div>
                     )}
                 </div>
@@ -106,14 +160,14 @@ export default function ProductPage() {
                         className={"w-full"}
                     >
                         <SwiperSlide>
-                            <ProductImage img={imgs[0]?.attributes?.formats?.large?.url} />
+                            <ProductImage img={imgs[0]?.attributes?.formats?.large?.url} setShowZoom={setShowZoom} />
                         </SwiperSlide>
                         {imgs[1] && (
                             imgs.map((img, index) => {
                                 if (index != 0) {
                                     return (
                                         <SwiperSlide key={index}>
-                                            <ProductImage img={img.attributes.formats.large.url} />
+                                            <ProductImage img={img.attributes.formats.large.url} setShowZoom={setShowZoom} />
                                         </SwiperSlide>
                                     )
                                 }
@@ -121,7 +175,7 @@ export default function ProductPage() {
                         )}
                     </Swiper>
                 </div>
-                <div className={"w-full xl:w-2/5 xl:px-10"}>
+                <div className={"flex flex-col gap-20 w-full xl:w-2/5 xl:px-10"}>
                     <div className={"flex flex-col gap-6"}>
                         <div className={"flex flex-col gap-1"}>
                             <span className={"uppercase font-medium"}>{product?.attributes?.collections?.data[0]?.attributes?.nombre}</span>
@@ -129,10 +183,16 @@ export default function ProductPage() {
                         </div>
                         <div className={"flex flex-col"}>
                             <span className={""}>{lang.product.price}</span>
-                            <span className={"text-2xl font-medium text-main"}>{useCurrencyFormatter(currency).format(variant.precio * productCount)}</span>
+                            <span className={"text-2xl font-medium text-main"}>{useCurrencyFormatter(currency).format(price)}</span>
                         </div>
-                        <ProductCount count={productCount} setCount={setProductCount} />
-                        <ProductSize product={product} setVariant={setVariant} />
+                        <ProductCount count={productCount} setCount={setProductCount} darkMode={darkMode} />
+                        <ProductSize product={product} setVariant={setVariant} darkMode={darkMode} />
+                        {product?.attributes?.collections?.data[0]?.attributes?.url == 'extensions' && (
+                            <ProductColor product={product} setColor={setSelectedColor} darkMode={darkMode} />
+                        )}
+                        {product?.attributes?.collections?.data[0]?.attributes?.url == 'wigs' && (
+                            <ProductEncaje product={product} selected={selectedEncaje} setEncaje={setSelectedEncaje} />
+                        )}
                         <div className={"flex flex-col gap-3"}>
                             <button onClick={HandleAddToCart} className={"border border-main h-12 hover:bg-main hover:text-white text-main transition-colors rounded-md"}>{lang.product.addToCart}</button>
                             {/* <button className={"h-12 bg-main text-white transition-all rounded-md"}>Comprar</button> */}
@@ -140,7 +200,7 @@ export default function ProductPage() {
                         </div>
                         <div className={"flex flex-col gap-1"}>
                             <span className={"text-lg uppercase font-medium"}>{lang.product.description}</span>
-                            <p className={"text-neutral-600"}>{product?.attributes?.descripcion}</p>
+                            <p className={`${darkMode ? "text-dark-text-secondary" : "text-light-text-secondary"}`}>{product?.attributes?.descripcion}</p>
                         </div>
                         <div className={"flex flex-col"}>
                             <ProductDropdown icon={"fa-industry-windows"} title={"Material"}>
@@ -160,23 +220,50 @@ export default function ProductPage() {
                             </ProductDropdown>
                         </div>
                     </div>
+                    {product?.attributes?.collections?.data[0]?.attributes?.url == 'extensions' && (
+                        <div className={`w-2/3 mx-auto ${styles.roulette}`} id={"colors"} onClick={() => setShowZoom({
+                            src: "/colors-roulette.jpg?v=1",
+                            show: true
+                        })}>
+                            <div className={"image-container rounded-full overflow-hidden block xl:hidden"}>
+                                <Image src={"/colors-roulette.jpg?v=1"} fill className={"image top-[10rem]"} alt={"Colors roulette"} />
+                            </div>
+                        </div>
+                    )}
                 </div>
             </section>
         </Layout>
     )
 }
 
-function ProductImage({ img }) {
+function ProductImage({ img, setShowZoom }) {
+
+    const handleShow = () => setShowZoom({
+        src: `${process.env.NEXT_PUBLIC_STRAPI_URI}${img}`,
+        show: true
+    });
+
     return img ? (
-        <div className={"w-full h-full aspect-square overflow-hidden rounded-md"}>
-            <div className={"image-container h-full"}>
-                <Image className={"image object-cover"} src={`${process.env.NEXT_PUBLIC_STRAPI_URI}${img}`} fill alt={"Product image"} />
+        <div 
+            className={"w-full h-full aspect-square overflow-hidden rounded-md border-[2px] border-main"}
+        >
+            <div className={"image-container h-full"} onClick={handleShow}>
+                <Image
+                    className={`image object-cover}`}
+                    src={`${process.env.NEXT_PUBLIC_STRAPI_URI}${img}`}
+                    fill
+                    alt={"Product image"}
+                />
             </div>
         </div>
-    ) : <div className = { "bg-zinc-200 aspect-square rounded-md" }></div >
+    ) : (
+        <div className={"grid place-content-center bg-zinc-100 aspect-square rounded-md border-[2px] border-main"}>
+            <i className="fa-thin fa-image text-7xl text-neutral-300"></i>
+        </div>
+    )
 }
 
-function ProductCount({ count, setCount }) {
+function ProductCount({ count, setCount, darkMode }) {
 
     const lang = useGetLang();
 
@@ -191,16 +278,16 @@ function ProductCount({ count, setCount }) {
     return (
         <div className={"flex flex-col gap-1"}>
             <span>{lang.product.amount}</span>
-            <div className={"flex border border-neutral-300 rounded-md h-12 w-fit overflow-hidden select-none"}>
-                <button onClick={handleSubtract} className={"grid place-content-center w-12 hover:bg-main hover:text-white text-neutral-700 transition-colors"}><i className="fa-solid fa-minus text-sm"></i></button>
+            <div className={`flex border ${darkMode ? "border-dark-border" : "border-light-border"} rounded-md h-12 w-fit overflow-hidden select-none`}>
+                <button onClick={handleSubtract} className={`grid place-content-center w-12 hover:bg-main hover:text-white ${darkMode ? "text-dark-text-secondary" : "text-light-text-secondary"} transition-colors`}><i className="fa-solid fa-minus text-sm"></i></button>
                 <div className={"grid place-content-center w-12 font-medium"}>{count}</div>
-                <button onClick={handleSum} className={"grid place-content-center w-12 hover:bg-main hover:text-white text-neutral-700 transition-colors"}><i className="fa-solid fa-plus text-sm"></i></button>
+                <button onClick={handleSum} className={`grid place-content-center w-12 hover:bg-main hover:text-white ${darkMode ? "text-dark-text-secondary" : "text-light-text-secondary"} transition-colors`}><i className="fa-solid fa-plus text-sm"></i></button>
             </div>
         </div>
     )
 }
 
-function ProductSize({ product, setVariant }) {
+function ProductSize({ product, setVariant, darkMode }) {
 
     const lang = useGetLang();
 
@@ -214,11 +301,73 @@ function ProductSize({ product, setVariant }) {
     return (
         <div className={"flex flex-col gap-1"}>
             <label htmlFor="product-size">{lang.product.size}</label>
-            <select onChange={e => handleClickVariant(e.target.value)} id={"product-size"} className={"border border-neutral-300 rounded-md h-12 px-3 overflow-hidden select-none"}>
+            <select onChange={e => handleClickVariant(e.target.value)} id={"product-size"} className={`border ${darkMode ? "border-dark-border bg-dark-bg-primary" : "border-light-border bg-light-bg-primary"} rounded-md h-12 px-3 overflow-hidden select-none`}>
                 {variants.map((variant, index) => (
                     <option key={index} value={variant.id}>{`${variant.pulgadas}"`}</option>
                 ))}
             </select>
+        </div>
+    )
+}
+
+function ProductColor({ product, setColor, darkMode }) {
+
+    const lang = useGetLang();
+
+    const variants = product?.attributes?.colores || [];
+
+    const handleClickVariant = (variant) => {
+        const newVariant = variants.find(e => e.id == variant);
+        setColor(newVariant);
+    }
+
+    return (
+        <div className={"flex items-start gap-10"}>
+            <div className={"flex flex-col gap-1 flex-1"} >
+                <div className={"flex justify-between"}>
+                    <label htmlFor="product-colors">{lang.product.color}</label>
+                    <a href="#colors" className={"flex items-center gap-1 text-main"}>
+                        <span className={"hover:underline"}>Ver colores</span>
+                        <i className="fa-regular fa-angle-down"></i>
+                    </a>
+                </div>
+                <select onChange={e => handleClickVariant(e.target.value)} id={"product-colors"} className={`border ${darkMode ? "border-dark-border bg-dark-bg-primary" : "border-light-border bg-light-bg-primary"} rounded-md h-12 px-3 overflow-hidden select-none`}>
+                    {variants.map((variant, index) => (
+                        <option key={index} value={variant.id}>{variant.nombre}</option>
+                    ))}
+                </select>
+            </div>
+        </div>
+        
+    )
+}
+
+function ProductEncaje({ product, selected, setEncaje }) {
+
+    const lang = useGetLang();
+
+    const variants = product?.attributes?.encaje || [];
+
+    const handleClickVariant = (variant) => {
+        const newVariant = variants.find(e => e.id == variant);
+        setEncaje({});
+        setEncaje(newVariant);
+    }
+
+    return (
+        <div className={"flex flex-col gap-1"}>
+            <div>{lang.product.encaje}</div>
+            <div className={"flex items-start gap-2"}>
+                {variants.map((variant, index) => (
+                    <button 
+                        key={index}
+                        onClick={() => handleClickVariant(variant.id)} 
+                        className={`border rounded-lg py-1 px-3 ${selected.id === variant.id ? "bg-main text-white" : "hover:bg-main hover:text-white"} transition-colors font-medium`}
+                    >
+                        <span>{variant.nombre}</span>
+                    </button>
+                ))}
+            </div>
         </div>
     )
 }
@@ -280,5 +429,21 @@ function PayPalButton() {
                 }}
             />
         </PayPalScriptProvider>
+    )
+}
+
+function ZoomImage({ src, handleClose }) {
+    return (
+        <div className={styles.zoomImage}>
+            <button onClick={() => handleClose()} className={"fixed right-4 top-3 text-3xl text-white z-10"}>
+                <i className="fa-regular fa-xmark"></i>
+            </button>
+            <div onClick={() => handleClose()} className={"w-screen h-screen"} style={{ backgroundColor: 'rgba(0,0,0,.5)' }}></div>
+            <div className={"absolute top-0 flex justify-center h-screen w-full"}>
+                <div className={styles.imageContainer}>
+                    <Image className={styles.image} src={src} fill alt={"Product image"} />
+                </div>
+            </div>
+        </div>
     )
 }

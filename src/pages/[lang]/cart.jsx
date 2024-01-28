@@ -14,7 +14,7 @@ import { toast, Toaster } from "react-hot-toast";
 
 export default function Cart() {
 
-    const { lang: contextLang, currency, cart, setCart } = useAppContext();
+    const { lang: contextLang, currency, cart, setCart, darkMode } = useAppContext();
     const lang = useGetLang();
 
     const [ discountCode, setDiscountCode ] = useState({ code: "", discount: 0 });
@@ -36,7 +36,7 @@ export default function Cart() {
 
     useEffect(() => {
         if(!cart) return;
-        const total = cart?.products?.reduce((total, product) => total + (product.count * product.selectedVariant.precio), 0);
+        const total = cart?.products?.reduce((total, product) => total + ((product.selectedVariant.precio + (product.selectedColor?.precio || 0) + (product.selectedEncaje?.precio || 0)) * product.count), 0);
         setProductsTotal(total);
     }, [cart])
 
@@ -95,7 +95,7 @@ export default function Cart() {
             <Toaster />
             <section className={"flex flex-col"}>
                 <div className={"flex flex-col"}>
-                    <div className={"flex flex-col md:flex-row gap-4 md:gap-0 md:items-center justify-between py-14 border-b"}>
+                    <div className={`flex flex-col md:flex-row gap-4 md:gap-0 md:items-center justify-between py-14 border-b ${darkMode ? "border-dark-border" : "border-light-border"}`}>
                         <div className={"text-3xl font-semibold"}>{lang.pages.cart.headTitle}</div>
                         {cart && cart?.products?.length != 0 && (
                             <div className={"text-xl md:text-2xl font-semibold"}>{cart?.products?.length || 0} {lang.pages.cart.items}</div>
@@ -111,7 +111,7 @@ export default function Cart() {
                         </div>
                     )}
                     {cart && cart?.products?.length != 0 && (
-                        <div className={"flex flex-col gap-8 py-8 border-b"}>
+                        <div className={`flex flex-col gap-8 py-8 border-b ${darkMode ? "border-dark-border" : "border-light-border"}`}>
                             <div className={"flex items-center justify-between md:justify-start"}>
                                 <div className={"md:w-[45%] uppercase text-sm font-medium"}>{lang.pages.cart.productDetails}</div>
                                 <div className={"hidden md:block w-[20%] uppercase text-sm font-medium"}>{lang.pages.cart.size}</div>
@@ -129,7 +129,7 @@ export default function Cart() {
                         <form onSubmit={handleSubmit} className={"flex flex-col items-end gap-1"}>
                             <label htmlFor="discount-code" className={"font-medium"}>Código de descuento</label>
                             <div className={"flex gap-1"}>
-                                <input value={discountCode.code} onChange={e => setDiscountCode(current => { return { ...current, code: e.target.value } })} required={true} type="text" id="discount-code" className={"h-12 px-3 border rounded-sm outline-none"} placeholder={"Código de descuento"} />
+                                <input value={discountCode.code} onChange={e => setDiscountCode(current => { return { ...current, code: e.target.value } })} required={true} type="text" id="discount-code" className={`h-12 px-3 border ${darkMode ? "border-dark-border" : "border-light-border"} rounded-sm outline-none bg-transparent`} placeholder={"Código de descuento"} />
                                 <button type="submit" className={"bg-main h-12 px-3 text-white hover:bg-main-hover transition-colors rounded-sm"}>Aplicar</button>
                             </div>
                         </form>
@@ -159,13 +159,14 @@ export default function Cart() {
 
 function Product({ p, updateProducts, handleRemove }) {
 
-    const { currency } = useAppContext();
+    const { currency, darkMode } = useAppContext();
     const lang = useGetLang();
 
-    const { id, name, img, count: productCount } = p;
+    const { id, name, img, count: productCount, selectedColor, selectedEncaje } = p;
 
     const [ variants, setVariants ] = useState(p.variants);
     const [ selectedVariant, setSelectedVariant ] = useState(p.selectedVariant);
+    const [ price, setPrice ] = useState(0);
     const [ count, setCount ] = useState(productCount);
 
     const handleSetCount = (count) => {
@@ -182,6 +183,14 @@ function Product({ p, updateProducts, handleRemove }) {
         localStorage.setItem('cart', JSON.stringify({ ...cart, products: newCart }));
         updateProducts(current => { return { ...current, products: newCart } });
         setCount(count);
+    }
+
+    function calculatePrice() {
+        const colorPrice = selectedColor?.precio || 0;
+        const encajePrice = selectedEncaje?.precio || 0;
+        const variantPrice = selectedVariant.precio;
+
+        setPrice((variantPrice + colorPrice + encajePrice) * productCount);
     }
 
     const handleSetSize = (variant) => {
@@ -202,6 +211,10 @@ function Product({ p, updateProducts, handleRemove }) {
 
     const CurrencyFormatter = (price) => useCurrencyFormatter(currency).format(price);
 
+    useEffect(() => {
+        calculatePrice();
+    }, [])
+
     return (
         <div className={"flex items-start justify-between"}>
             <div className={"flex flex-col gap-5 w-full md:w-[45%]"}>
@@ -213,30 +226,40 @@ function Product({ p, updateProducts, handleRemove }) {
                         <div className={"flex flex-col gap-2"}>
                             <div className={"flex justify-between gap-4"}>
                                 <div className={"font-medium text-lg leading-5"}>{name}</div>
-                                <div className={"block md:hidden"}>{CurrencyFormatter(selectedVariant.precio * count)}</div>
+                                <div className={"block md:hidden"}>{CurrencyFormatter(price)}</div>
                             </div>
-                            <div className={"font-semibold text-lg"}>{CurrencyFormatter(selectedVariant.precio)}</div>
+                            {selectedColor?.id && (
+                                <div>
+                                    <span>{lang.pages.cart.color}: <span className={"font-semibold"}>{selectedColor.nombre}</span></span>
+                                </div>
+                            )}
+                            {selectedEncaje?.id && (
+                                <div>
+                                    <span>{lang.pages.cart.encaje}: <span className={"font-semibold"}>{selectedEncaje.nombre}</span></span>
+                                </div>
+                            )}
+                            <div className={"font-semibold text-lg"}>{CurrencyFormatter(price)}</div>
                         </div>
                         <button onClick={() => handleRemove(id)} className={"font-medium w-fit text-red-700 hover:text-red-800 transition-colors"}>{lang.pages.cart.removeProduct}</button>
                     </div>
                 </div>
                 <div className={"flex items-center justify-between"}>
-                    <div className={"block md:hidden"}><ProductSize variants={variants} setVariant={handleSetSize} /></div>
-                    <div className={"block md:hidden"}><ProductCount count={count} setCount={handleSetCount} /></div>
+                    <div className={"block md:hidden"}><ProductSize variants={variants} setVariant={handleSetSize} darkMode={darkMode} /></div>
+                    <div className={"block md:hidden"}><ProductCount count={count} setCount={handleSetCount} darkMode={darkMode} /></div>
                 </div>
             </div>
             <div className={"hidden md:block w-[20%]"}>
-                <ProductSize variants={variants} setVariant={handleSetSize} />
+                <ProductSize variants={variants} setVariant={handleSetSize} darkMode={darkMode} />
             </div>
             <div className={"hidden md:block w-[20%]"}>
-                <ProductCount count={count} setCount={handleSetCount} />
+                <ProductCount count={count} setCount={handleSetCount} darkMode={darkMode} />
             </div>
-            <div className={"hidden md:block w-[15%] text-right font-semibold"}>{CurrencyFormatter(selectedVariant.precio * count)}</div>
+            <div className={"hidden md:block w-[15%] text-right font-semibold"}>{CurrencyFormatter(price)}</div>
         </div>
     )
 }
 
-function ProductCount({ count, setCount }) {
+function ProductCount({ count, setCount, darkMode }) {
 
     const lang = useGetLang();
 
@@ -249,15 +272,15 @@ function ProductCount({ count, setCount }) {
     };
 
     return (
-        <div className={"flex border border-neutral-300 rounded-md h-12 w-fit overflow-hidden select-none"}>
-            <button onClick={handleSubtract} className={"grid place-content-center w-12 hover:bg-main hover:text-white text-neutral-700 transition-colors"}><i className="fa-solid fa-minus text-sm"></i></button>
+        <div className={`flex border ${darkMode ? "border-dark-border" : "border-light-border"} rounded-md h-12 w-fit overflow-hidden select-none`}>
+            <button onClick={handleSubtract} className={`grid place-content-center w-12 hover:bg-main hover:text-white ${darkMode ? "text-dark-text-secondary" : "text-light-text-secondary"} transition-colors`}><i className="fa-solid fa-minus text-sm"></i></button>
             <div className={"grid place-content-center w-12 font-medium"}>{count}</div>
-            <button onClick={handleSum} className={"grid place-content-center w-12 hover:bg-main hover:text-white text-neutral-700 transition-colors"}><i className="fa-solid fa-plus text-sm"></i></button>
+            <button onClick={handleSum} className={`grid place-content-center w-12 hover:bg-main hover:text-white ${darkMode ? "text-dark-text-secondary" : "text-light-text-secondary"} transition-colors`}><i className="fa-solid fa-plus text-sm"></i></button>
         </div>
     )
 }
 
-function ProductSize({ variants, setVariant }) {
+function ProductSize({ variants, setVariant, darkMode }) {
 
     const lang = useGetLang();
 
@@ -267,7 +290,7 @@ function ProductSize({ variants, setVariant }) {
     }
 
     return (
-        <select onChange={e => handleClickVariant(e.target.value)} id={"product-size"} className={"border border-neutral-300 rounded-md h-12 px-3 overflow-hidden select-none"}>
+        <select onChange={e => handleClickVariant(e.target.value)} id={"product-size"} className={`border ${darkMode ? "border-dark-border bg-dark-bg-primary" : "border-light-border bg-light-bg-primary"} rounded-md h-12 px-3 overflow-hidden select-none`}>
             {variants.map((variant, index) => (
                 <option key={index} value={variant.id}>{`${variant.pulgadas}"`}</option>
             ))}

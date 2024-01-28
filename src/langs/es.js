@@ -78,6 +78,8 @@ const es = {
             items: "Elementos",
             productDetails: "Detalles del producto",
             size: "Tamaño",
+            color: "Color",
+            encaje: "Encaje",
             amount: "Cantidad",
             total: "Total",
             removeProduct: "Eliminar",
@@ -324,7 +326,9 @@ const es = {
         description: "Descripción del producto",
         amount: "Cantidad",
         price: "Precio",
-        size: "Tamaño"
+        size: "Tamaño",
+        color: "Colores",
+        encaje: "Encaje"
     },
     notifications: {
         success: {

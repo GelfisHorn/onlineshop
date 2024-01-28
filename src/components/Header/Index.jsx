@@ -26,7 +26,7 @@ const FLAGS_SRC = {
 
 export default function Header() {
 
-    const { lang: contextLang, cart, auth } = useAppContext();
+    const { lang: contextLang, cart, auth, darkMode, setDarkMode } = useAppContext();
     const lang = useGetLang();
 
     const [ announcementBar, setAnnouncementBar ] = useState("");
@@ -68,26 +68,34 @@ export default function Header() {
 
     const [ showAuthModal, setShowAuthModal ] = useState(false);
 
+    const handleChangeTheme = () => {
+        setDarkMode(!darkMode);
+        localStorage.setItem('theme', JSON.stringify(!darkMode));
+    }
+
     return (
-        <header>
+        <header className={darkMode ? "bg-dark-bg-primary" : "bg-light-bg-primary"}>
             {/* Store message */}
             {announcementBar && (
                 <div className={"grid place-content-center py-2 px-5 bg-main text-white"}>
                     <span className={"font-medium text-sm md:text-base text-center"}>{announcementBar}</span>
                 </div>
             )}
-            <div className={"flex justify-between md:justify-normal h-20 border-b"}>
+            <div className={`flex justify-between md:justify-normal h-20 border-b ${darkMode ? "border-dark-border" : "border-light-border"}`}>
                 <Link href={`/${contextLang}`} className={"grid place-content-center w-40"}>
                     <Image src={"/logo.webp"} width={100} height={100} alt={"Logo"} />
                     {/* <span className={"font-semibold"}>ONLINESHOP.</span> */}
                 </Link>
-                <div className={"hidden md:grid place-content-center border-l border-r grow"}>
+                <div className={`hidden md:grid place-content-center border-l border-r grow ${darkMode ? "border-dark-border" : "border-light-border"}`}>
                     <div className={"hidden md:flex items-center gap-16"}>
                         <Link href={`/${contextLang}/collections/wigs`} className={"hover:underline text-main transition-colors"}>{lang.header.wigs}</Link>
                         <Link href={`/${contextLang}/collections/extensions`} className={"hover:underline text-main transition-colors"}>{lang.header.extensions}</Link>
                     </div>
                 </div>
-                <Link href={`/${contextLang}/cart`} className={`${styles.cartButton} hidden md:grid place-content-center w-20 border-r transition-colors`}>
+                <button onClick={handleChangeTheme} className={`${styles.cartButton} w-20 text-2xl border-r ${darkMode ? "border-dark-border" : "border-light-border"}`}>
+                    <i className={`fa-light ${darkMode ? "fa-sun" : "fa-moon"}`}></i>
+                </button>
+                <Link href={`/${contextLang}/cart`} className={`${styles.cartButton} hidden md:grid place-content-center w-20 border-r ${darkMode ? "border-dark-border" : "border-light-border"} transition-colors`}>
                     <div className={"text-2xl"}>
                         <i className="fa-light fa-bag-shopping relative">
                             {productsCount ? (
@@ -122,7 +130,7 @@ export default function Header() {
 
 function MobileMenu({ handleClose }) {
 
-    const { lang: contextLang, auth, setAuth } = useAppContext();
+    const { lang: contextLang, auth, setAuth, darkMode } = useAppContext();
     const lang = useGetLang();
 
     function Button({ children, hover, href, handleClick }) {
@@ -146,7 +154,7 @@ function MobileMenu({ handleClose }) {
     
     return (
         <motion.div 
-            className={"fixed top-0 right-0 w-screen h-screen bg-white no-scroll"}
+            className={`fixed top-0 right-0 w-screen h-screen ${darkMode ? "bg-dark-bg-primary text-dark-text-primary" : "bg-light-bg-primary text-light-text-primary"} no-scroll`}
             initial={{ opacity: 0, right: "-20vw" }}
             whileInView={{ opacity: 1, right: 0 }}
             exit={{ opacity: 0, right: "-20vw" }}
@@ -203,7 +211,7 @@ function MobileMenu({ handleClose }) {
 
 function LangCurrencyCard() {
 
-    const { lang: contextLang, setLang, currency, setCurrency } = useAppContext();
+    const { lang: contextLang, setLang, currency, setCurrency, darkMode } = useAppContext();
     const lang = useGetLang();
     
     const modalRef = useRef(null);
@@ -229,7 +237,7 @@ function LangCurrencyCard() {
     return (
         <div className={"fixed bottom-5 right-5"} style={{ zIndex: 101 }}>
             <div className={"relative"} ref={modalRef}>
-                <button onClick={handleShowModal} className={"py-2 px-4 border border-neutral-300 rounded-md bg-white"}>
+                <button onClick={handleShowModal} className={`py-2 px-4 border rounded-md ${darkMode ? "border-dark-border bg-dark-bg-primary" : "border-light-border bg-light-bg-primary"}`}>
                     <div>
                         <div className={"flex items-center gap-2"}>
                             <Image className={"rounded-md"} width={25} height={16.699} src={`${FLAGS_SRC.baseUrl}${FLAGS_SRC[contextLang]}`} alt={"Flag image"} />
@@ -239,10 +247,10 @@ function LangCurrencyCard() {
                 </button>
                 {showModal && (
                     <div className={"absolute bottom-12 w-full"}>
-                        <div className={"flex flex-col gap-4 py-4 px-4 border border-neutral-300 rounded-md bg-white"}>
+                        <div className={`flex flex-col gap-4 py-4 px-4 border rounded-md ${darkMode ? "border-dark-border bg-dark-bg-primary" : "border-light-border bg-light-bg-primary"}`}>
                             <div className={"flex flex-col gap-2"}>
                                 <span className={"font-medium"}>{lang.header.langs.language}</span>
-                                <button onClick={handleShowLangModal} className={"flex items-center gap-2 py-2 px-3 border rounded-md w-full"}>
+                                <button onClick={handleShowLangModal} className={`flex items-center gap-2 py-2 px-3 border ${darkMode ? "border-dark-border" : "border-light-border"} rounded-md w-full`}>
                                     <Image className={"rounded-md"} width={25} height={16.699} src={`${FLAGS_SRC.baseUrl}${FLAGS_SRC[contextLang]}`} alt={"Flag image"} />
                                     <div className={"flex items-center justify-between w-full"}>
                                         <span>{lang.header.langs[contextLang]}</span>
@@ -259,12 +267,13 @@ function LangCurrencyCard() {
                                         ]}
                                         setValue={handleSetLang}
                                         handleClose={handleShowLangModal}
+                                        darkMode={darkMode}
                                     />
                                 )}
                             </div>
                             <div className={"flex flex-col gap-2"}>
                                 <span className={"font-medium"}>{lang.header.currencies.currency}</span>
-                                <button onClick={handleShowCurrencyModal} className={"flex items-center gap-2 py-2 px-3 border rounded-md w-full"}>
+                                <button onClick={handleShowCurrencyModal} className={`flex items-center gap-2 py-2 px-3 border ${darkMode ? "border-dark-border" : "border-light-border"} rounded-md w-full`}>
                                     <Image className={"rounded-md"} width={25} height={16.699} src={`${FLAGS_SRC.baseUrl}${FLAGS_SRC[currency]}`} alt={"Flag image"} />
                                     <div className={"flex items-center justify-between w-full"}>
                                         <span>{lang.header.currencies[currency]}</span>
@@ -280,6 +289,7 @@ function LangCurrencyCard() {
                                         ]}
                                         setValue={handleSetCurrency}
                                         handleClose={handleShowCurrencyModal}
+                                        darkMode={darkMode}
                                     />
                                 )}
                             </div>
@@ -291,7 +301,7 @@ function LangCurrencyCard() {
     )
 }
 
-function ModalLang({ options, selected, setValue, handleClose }) {
+function ModalLang({ options, selected, setValue, handleClose, darkMode }) {
 
     const router = useRouter();
     const modalRef = useRef(null);
@@ -307,11 +317,11 @@ function ModalLang({ options, selected, setValue, handleClose }) {
     useClickOutside(modalRef, handleClose);
 
     return (
-        <div ref={modalRef} className={"flex flex-col border rounded-md overflow-hidden"}>
+        <div ref={modalRef} className={`flex flex-col border ${darkMode ? "border-dark-border" : "border-light-border"} rounded-md overflow-hidden`}>
             {options.map((option, index) => (
                 <button
                     onClick={() => handleSelectOption(option.value)} 
-                    className={`flex items-center gap-2 hover:bg-neutral-100 ${option.value == selected ? "bg-neutral-200" : ""} py-2 px-3`} 
+                    className={`flex items-center gap-2 ${darkMode ? "hover:bg-dark-bg-secondary" : "hover:bg-light-bg-secondary"} ${option.value == selected ? `${darkMode ? "bg-dark-bg-secondary" : "bg-light-bg-secondary"}` : ""} py-2 px-3`} 
                     key={index}
                 >
                     <Image className={"rounded-md"} width={25} height={16.699} src={option.img} alt={"Flag image"} />
@@ -322,7 +332,7 @@ function ModalLang({ options, selected, setValue, handleClose }) {
     )
 }
 
-function ModalCurrency({ options, selected, setValue, handleClose }) {
+function ModalCurrency({ options, selected, setValue, handleClose, darkMode }) {
 
     const modalRef = useRef(null);
 
@@ -335,11 +345,11 @@ function ModalCurrency({ options, selected, setValue, handleClose }) {
     useClickOutside(modalRef, handleClose);
 
     return (
-        <div ref={modalRef} className={"flex flex-col border rounded-md overflow-hidden"}>
+        <div ref={modalRef} className={`flex flex-col border ${darkMode ? "border-dark-border" : "border-light-border"} rounded-md overflow-hidden`}>
             {options.map((option, index) => (
                 <button
                     onClick={() => handleSelectOption(option.value)}
-                    className={`flex items-center gap-2 hover:bg-neutral-100 ${option.value == selected ? "bg-neutral-200" : ""} py-2 px-3`}
+                    className={`flex items-center gap-2 ${darkMode ? "hover:bg-dark-bg-secondary" : "hover:bg-light-bg-secondary"} ${option.value == selected ? `${darkMode ? "bg-dark-bg-secondary" : "bg-light-bg-secondary"}` : ""} py-2 px-3`}
                     key={index}
                 >
                     <Image className={"rounded-md"} width={25} height={16.699} src={option.img} alt={"Flag image"} />

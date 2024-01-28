@@ -25,6 +25,7 @@ export function AppContextProvider({ children }) {
         authenticated: false,
         loading: true
     });
+    const [ darkMode, setDarkMode ] = useState(false);
     const [ lang, setLang ] = useState("es");
     const [ currency, setCurrency ] = useState("EUR");
     const [ cart, setCart ] = useState(CART_DEFAULT);
@@ -40,6 +41,10 @@ export function AppContextProvider({ children }) {
         if(!lsCart) {
             localStorage.setItem('cart', JSON.stringify(CART_DEFAULT))
         }
+        // Theme
+        const theme = JSON.parse(localStorage.getItem('theme'));
+        if(!theme) localStorage.setItem('theme', false);
+        setDarkMode(theme || false)
     }
  
     function loadLanguage() {
@@ -93,6 +98,8 @@ export function AppContextProvider({ children }) {
         <AppContext.Provider value={{ 
             auth,
             setAuth,
+            darkMode,
+            setDarkMode,
             lang,
             setLang,
             currency,
