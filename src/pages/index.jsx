@@ -5,7 +5,7 @@ export default function Index() {
     const router = useRouter();
 
     useEffect(() => {
-        const lang = localStorage.getItem('lang') || 'de';
+        const lang = localStorage.getItem('lang') || 'es';
         router.push(`/${lang}`);
     }, []);
 

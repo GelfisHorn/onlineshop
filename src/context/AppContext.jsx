@@ -17,6 +17,8 @@ const CART_DEFAULT = {
 
 export function AppContextProvider({ children }) {
 
+    const router = useRouter();
+
     const [ auth, setAuth ] = useState({
         _id: "",
         name: "",
@@ -55,9 +57,10 @@ export function AppContextProvider({ children }) {
             setLang(newLang);
             localStorage.setItem('lang', newLang);
         } else {
-            setLang(localStorage.getItem('lang') || 'es');
+            const lang = localStorage.getItem('lang') || 'es'; 
+            setLang(lang);
+            router.push({ query: { ...router.query, lang } });
             if(newLang == "") return;
-            // router.push('/404');
         }
     }
 
