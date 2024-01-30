@@ -139,7 +139,7 @@ export default function ProductPage() {
                         )}
                     </div>
                     {product?.attributes?.collections?.data[0]?.attributes?.url == 'extensions' && (
-                        <div className={`w-2/3 mx-auto ${styles.roulette}`} id={"colors"} onClick={() => setShowZoom({
+                        <div className={`w-2/3 mx-auto ${styles.roulette} cursor-pointer`} id={"colors"} onClick={() => setShowZoom({
                             src: "/colors-roulette.jpg?v=1",
                             show: true
                         })}>
@@ -221,7 +221,7 @@ export default function ProductPage() {
                         </div>
                     </div>
                     {product?.attributes?.collections?.data[0]?.attributes?.url == 'extensions' && (
-                        <div className={`w-2/3 mx-auto ${styles.roulette}`} id={"colors"} onClick={() => setShowZoom({
+                        <div className={`w-2/3 mx-auto ${styles.roulette} cursor-pointer`} id={"colors"} onClick={() => setShowZoom({
                             src: "/colors-roulette.jpg?v=1",
                             show: true
                         })}>
