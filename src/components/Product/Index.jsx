@@ -52,7 +52,7 @@ export default function Product({ product }) {
     const CurrencyFormatter = (price, currency) => useCurrencyFormatter(currency).format(price);
 
     return attributes && (
-        <motion.div variants={item} className={`flex flex-col gap-3`}>
+        <motion.div variants={item} className={`flex flex-col justify-between gap-3`}>
             <Link href={`/${contextLang}/products/${url}`} className={`${styles.card} flex flex-col gap-3`}>
                 <div className={"image-container aspect-square overflow-hidden rounded-md border-[2px] border-main"}>
                     <Image className={"image hover:scale-[103%] image-hover"} src={`${process.env.NEXT_PUBLIC_STRAPI_URI}${img?.data[0]?.attributes?.formats?.large?.url}`} fill alt={"Product image"} />
