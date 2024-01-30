@@ -164,7 +164,7 @@ export default function ProductsView({ title, loading, products = [], totalProdu
                             variants={container}
                             initial="hidden"
                             animate="visible"
-                            className={"grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-x-6 gap-y-10"}
+                            className={"grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-x-16 gap-y-16"}
                         >
                             {(filteredProducts.length != 0 && productsCount != 0 && actualPage <= pagesCount) && filteredProducts.map((p, index) => (
                                 <Product key={index} product={p} />
