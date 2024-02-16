@@ -8,9 +8,9 @@ const nextConfig = {
                 port: '1337'
             },
             {
-                protocol: 'http',
-                hostname: '3.65.78.240',
-                port: '1337'
+                protocol: 'https',
+                hostname: 'onlineshop-strapi-production.up.railway.app',
+                port: ''
             },
         ],
     },
