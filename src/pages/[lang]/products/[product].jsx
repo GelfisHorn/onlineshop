@@ -125,7 +125,7 @@ export default function ProductPage() {
                 <ZoomImage src={showZoom.src} handleClose={() => setShowZoom({ src: "", show: false })} />
             ) : null}
             <section className={"flex items-start flex-col xl:flex-row xl:gap-0 gap-10"}>
-                <div className={"hidden xl:flex flex-col gap-36 w-3/5"}>
+                <div className={"hidden xl:flex flex-col gap-36 w-1/2"}>
                     <div className={"flex flex-col gap-5"}>
                         <ProductImage img={imgs[0]?.attributes?.formats?.large?.url} setShowZoom={setShowZoom} />
                         {imgs[1] && (
@@ -175,7 +175,7 @@ export default function ProductPage() {
                         )}
                     </Swiper>
                 </div>
-                <div className={"flex flex-col gap-20 w-full xl:w-2/5 xl:px-10"}>
+                <div className={"flex flex-col gap-20 w-full xl:w-1/2 xl:px-10"}>
                     <div className={"flex flex-col gap-6"}>
                         <div className={"flex flex-col gap-1"}>
                             <span className={"uppercase font-medium"}>{product?.attributes?.collections?.data[0]?.attributes?.nombre}</span>
