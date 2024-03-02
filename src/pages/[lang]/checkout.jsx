@@ -48,7 +48,10 @@ export default function CheckOut() {
                 img: p.img,
                 description: p.description,
                 price: p.selectedVariant.precio,
-                count: p.count
+                count: p.count,
+                wigInch: p.selectedVariant.pulgadas,
+                wigLace: p.selectedEncaje,
+                wigColor: p.selectedColor,
             }
         });
 
@@ -159,8 +162,6 @@ export default function CheckOut() {
             }
         })
     }, [auth])
-
-    console.log(finalPrice);
 
     return (
         <Layout title={lang.pages.checkout.headTitle}>
