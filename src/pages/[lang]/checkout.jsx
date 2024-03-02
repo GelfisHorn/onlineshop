@@ -104,7 +104,7 @@ export default function CheckOut() {
     async function handleCheckCode(code) {
         const total = cart?.products?.reduce((total, product) => total + ((product.selectedVariant.precio + (product.selectedColor?.precio || 0) + (product.selectedEncaje?.precio || 0)) * product.count), 0)
         if (!code) {
-            return setFinalPrice(total)
+            return setFinalPrice(total.toFixed(2))
         };
 
         try {
@@ -114,12 +114,12 @@ export default function CheckOut() {
             const discount = data.data.data[0].attributes.descuento;
             setDiscountCode(current => { return { ...current, discount } });
             setDiscountPrice(total - ((total * discount) / 100));
-            setFinalPrice(total - ((total * discount) / 100));
+            setFinalPrice((total - ((total * discount) / 100)).toFixed(2));
             return true;
         } catch (error) {
             setCart(current => { return { ...current, discountCode: "" } });
             localStorage.setItem('cart', JSON.stringify({ ...cart, discountCode: "" }));
-            setFinalPrice(total);
+            setFinalPrice(total.toFixed(2));
             return false;
         }
     }
