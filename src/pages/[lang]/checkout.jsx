@@ -80,10 +80,10 @@ export default function CheckOut() {
                 products: [],
                 discountCode: ""
             }));
-            router.push(`/${contextLang}/`);
+            router.push(`/${contextLang}/confirmation?type=success`);
             
         } catch (error) {
-            console.log(error);
+            router.push(`/${contextLang}/confirmation?type=error`);
         }
     }
 

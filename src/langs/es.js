@@ -250,6 +250,18 @@ const es = {
                 repeatPassword: "Repetir contraseña",
             },
             btnSubmit: "Actualizar perfil"
+        },
+        confirmation: {
+            success: {
+                title: "Gracias por su compra",
+                description: "Le hemos enviado un email con la confirmación de su orden",
+                button: "Volver a página de inicio"
+            },
+            error: {
+                title: "Hubo un error al procesar el pago",
+                description: "Por favor vuelva a intentar hacer el pago en unos minutos",
+                button: "Volver a página de inicio"
+            }
         }
     },
     header: {

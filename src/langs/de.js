@@ -249,6 +249,18 @@ const de = {
                 repeatPassword: "Passwort wiederholen",
             },
             btnSubmit: "Profil aktualisieren"
+        },
+        confirmation: {
+            success: {
+                title: "Vielen Dank für Ihren Einkauf",
+                description: "Wir haben Ihnen eine E-Mail mit der Bestätigung Ihrer Bestellung gesendet",
+                button: "Zurück zur Startseite"
+            },
+            error: {
+                title: "Es gab einen Fehler bei der Zahlungsabwicklung",
+                description: "Bitte versuchen Sie in ein paar Minuten erneut zu bezahlen",
+                button: "Zurück zur Startseite"
+            }
         }
     },
     header: {

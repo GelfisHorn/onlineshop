@@ -249,6 +249,18 @@ const en = {
                 repeatPassword: "Repeat Password",
             },
             btnSubmit: "Update profile"
+        },
+        confirmation: {
+            success: {
+                title: "Thank you for your purchase",
+                description: "We have sent you an email with the confirmation of your order",
+                button: "Return to homepage"
+            },
+            error: {
+                title: "There was an error processing the payment",
+                description: "Please try again to make the payment in a few minutes",
+                button: "Return to homepage"
+            }
         }
     },
     header: {
