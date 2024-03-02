@@ -211,6 +211,10 @@ function AboutUs() {
                     <p>{lang.pages.home.aboutUs.p8.text1} <span className={"text-main font-medium"}>{lang.pages.home.aboutUs.p8.text2}</span>{lang.pages.home.aboutUs.p8.text3}</p>
 
                     <p>{lang.pages.home.aboutUs.p9.text1}<span className={"text-main font-medium"}>{lang.pages.home.aboutUs.p9.text2}</span>{lang.pages.home.aboutUs.p9.text3}</p>
+                    <div className={"flex items-center justify-center gap-2 text-xl"}>
+                        <span className={"font-semibold text-main"}>Contacto:</span>
+                        <a href={"mailto:salonwigseloisa@gmail.com"} className={"underline"}>salonwigseloisa@gmail.com</a>
+                    </div>
                 </motion.div>
             </motion.div>
         </section>
