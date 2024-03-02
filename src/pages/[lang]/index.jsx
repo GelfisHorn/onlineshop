@@ -158,7 +158,7 @@ function ProductsView({ products, href }) {
                 variants={container}
                 initial="hidden"
                 whileInView="visible"
-                className={"grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-x-8 gap-y-16"}
+                className={"grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-x-16 gap-y-16"}
             >
                 {products && products.map((p, index) => (
                     <Product key={index} product={p} />

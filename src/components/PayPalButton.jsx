@@ -2,7 +2,7 @@ import { useEffect } from "react";
 
 export default function PayPalButton({ value, currency, setPaymentDetails }) {
     useEffect(() => {
-        console.log(window.paypal)
+        // console.log(window.paypal)
         if(window.paypal) {
             paypal.Buttons({
                 createOrder: (data, actions) => {
