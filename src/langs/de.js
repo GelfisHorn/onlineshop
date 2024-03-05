@@ -277,7 +277,11 @@ const de = {
             EUR: "EUR (€)",
             USD: "USD ($)"
         },
-        apply: "Anwenden"
+        apply: "Anwenden",
+        myProfile: "Mein Profil",
+        myPurchases: "Meine Einkäufe",
+        login: "Anmeldung",
+        register: "Benutzerkonto erstellen",
     },
     footer: {
         columns: {

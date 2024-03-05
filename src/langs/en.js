@@ -277,7 +277,11 @@ const en = {
             EUR: "EUR (€)",
             USD: "USD ($)"
         },
-        apply: "Apply"
+        apply: "Apply",
+        myProfile: "My profile",
+        myPurchases: "My shopping",
+        login: "Log in",
+        register: "Create Account",
     },
     footer: {
         columns: {

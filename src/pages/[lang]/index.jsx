@@ -175,21 +175,21 @@ function AboutUs() {
     const lang = useGetLang();
 
     return (
-        <section className={`flex flex-col items-center gap-6 text-center ${darkMode ? "bg-dark-bg-secondary text-dark-text-primary" : "bg-light-bg-secondary text-light-text-primary"}`}>
+        <section className={`flex flex-col items-center gap-6 text-center ${darkMode ? "bg-dark-bg-secondary text-dark-text-primary" : "bg-light-bg-secondary text-light-text-primary"} overflow-x-hidden`}>
             <motion.div 
                 variants={container}
                 initial="hidden"
                 whileInView="visible"
-                className={"flex flex-col items-center gap-10 md:w-2/3 2xl:w-1/2"}
+                className={"flex flex-col items-center gap-10 w-full md:w-2/3 2xl:w-1/2"}
             >
                 <motion.div 
                     variants={item}
-                    className={"relative text-4xl w-fit"}
+                    className={"relative text-4xl"}
                 >
                     <span className={"relative z-10 font-semibold md:font-medium"}>{lang.pages.home.aboutUs.title}</span>
                     <div className={"absolute bottom-0 md:bg-[rgba(202,164,46,.5)] h-4 w-full"}></div>
                 </motion.div>
-                <motion.div variants={item} className={`flex flex-col gap-8 md:text-lg ${darkMode ? "text-dark-text-secondary" : "text-light-text-secondary"}`}>
+                <motion.div variants={item} className={`flex flex-col gap-8 w-full md:text-lg ${darkMode ? "text-dark-text-secondary" : "text-light-text-secondary"}`}>
                     <p className={"text-xl"}>{lang.pages.home.aboutUs.p1.text1} <span className={"text-main underline font-medium"}>{lang.pages.home.aboutUs.p1.text2}</span> {lang.pages.home.aboutUs.p1.text3}</p>
 
                     <div className={"flex flex-col gap-2"}>
@@ -211,7 +211,7 @@ function AboutUs() {
                     <p>{lang.pages.home.aboutUs.p8.text1} <span className={"text-main font-medium"}>{lang.pages.home.aboutUs.p8.text2}</span>{lang.pages.home.aboutUs.p8.text3}</p>
 
                     <p>{lang.pages.home.aboutUs.p9.text1}<span className={"text-main font-medium"}>{lang.pages.home.aboutUs.p9.text2}</span>{lang.pages.home.aboutUs.p9.text3}</p>
-                    <div className={"flex items-center justify-center gap-2 text-xl"}>
+                    <div className={"flex flex-col sm:flex-row items-center justify-center gap-2 text-xl"}>
                         <span className={"font-semibold text-main"}>Contacto:</span>
                         <a href={"mailto:salonwigseloisa@gmail.com"} className={"underline"}>salonwigseloisa@gmail.com</a>
                     </div>

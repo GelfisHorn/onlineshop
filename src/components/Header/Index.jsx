@@ -92,31 +92,33 @@ export default function Header() {
                         <Link href={`/${contextLang}/collections/extensions`} className={"hover:underline text-main transition-colors"}>{lang.header.extensions}</Link>
                     </div>
                 </div>
-                <button onClick={handleChangeTheme} className={`${styles.cartButton} w-20 text-2xl border-r ${darkMode ? "border-dark-border" : "border-light-border"}`}>
-                    <i className={`fa-light ${darkMode ? "fa-sun" : "fa-moon"}`}></i>
-                </button>
-                <Link href={`/${contextLang}/cart`} className={`${styles.cartButton} hidden md:grid place-content-center w-20 border-r ${darkMode ? "border-dark-border" : "border-light-border"} transition-colors`}>
-                    <div className={"text-2xl"}>
-                        <i className="fa-light fa-bag-shopping relative">
-                            {productsCount ? (
-                                <div className={`${styles.cartCount} grid place-content-center transition-colors rounded-full w-[1.15rem] h-[1.15rem]`}>{productsCount}</div>
-                            ) : null}
-                        </i>
-                    </div>
-                </Link>
-                <div className={`relative ${styles.cartButton} hidden md:grid place-content-center w-20 transition-colors`}>
-                    <button onClick={() => setShowAuthModal(true)} className={"w-20 h-20"}>
+                <div className={"flex items-center h-20"}>
+                    <button onClick={handleChangeTheme} className={`${styles.cartButton} hidden md:grid place-content-center w-20 h-full text-2xl border-r ${darkMode ? "border-dark-border" : "border-light-border"}`}>
+                        <i className={`fa-light ${darkMode ? "fa-sun" : "fa-moon"}`}></i>
+                    </button>
+                    <Link href={`/${contextLang}/cart`} className={`${styles.cartButton} hidden md:grid place-content-center w-20 h-full border-r ${darkMode ? "border-dark-border" : "border-light-border"} transition-colors`}>
                         <div className={"text-2xl"}>
-                            <i className="fa-light fa-user relative"></i>
+                            <i className="fa-light fa-bag-shopping relative">
+                                {productsCount ? (
+                                    <div className={`${styles.cartCount} grid place-content-center transition-colors rounded-full w-[1.15rem] h-[1.15rem]`}>{productsCount}</div>
+                                ) : null}
+                            </i>
+                        </div>
+                    </Link>
+                    <div className={`relative ${styles.cartButton} hidden md:grid place-content-center w-20 h-full transition-colors`}>
+                        <button onClick={() => setShowAuthModal(true)} className={"w-20 h-20"}>
+                            <div className={"text-2xl"}>
+                                <i className="fa-light fa-user relative"></i>
+                            </div>
+                        </button>
+                        <AuthModal auth={auth} show={showAuthModal} setShow={setShowAuthModal} />
+                    </div>
+                    <button onClick={handleShowModal} className={`relative ${styles.cartButton} grid md:hidden place-content-center w-20 h-full transition-colors`}>
+                        <div className={"text-2xl"}>
+                            <i className="fa-light fa-bars relative"></i>
                         </div>
                     </button>
-                    <AuthModal auth={auth} show={showAuthModal} setShow={setShowAuthModal} />
                 </div>
-                <button onClick={handleShowModal} className={`relative ${styles.cartButton} grid md:hidden place-content-center w-20 transition-colors`}>
-                    <div className={"text-2xl"}>
-                        <i className="fa-light fa-bars relative"></i>
-                    </div>
-                </button>
             </div>
             <LangCurrencyCard />
             <AnimatePresence>
@@ -130,7 +132,7 @@ export default function Header() {
 
 function MobileMenu({ handleClose }) {
 
-    const { lang: contextLang, auth, setAuth, darkMode } = useAppContext();
+    const { lang: contextLang, auth, setAuth, darkMode, setDarkMode, cart } = useAppContext();
     const lang = useGetLang();
 
     function Button({ children, hover, href, handleClick }) {
@@ -152,6 +154,17 @@ function MobileMenu({ handleClose }) {
         Cookies.remove('token');
     }
     
+    const [productsCount, setProductsCount] = useState(0);
+
+    useEffect(() => {
+        setProductsCount(cart?.products?.length);
+    }, [cart]);
+
+    const handleChangeTheme = () => {
+        setDarkMode(!darkMode);
+        localStorage.setItem('theme', JSON.stringify(!darkMode));
+    }
+
     return (
         <motion.div 
             className={`fixed top-0 right-0 w-screen h-screen ${darkMode ? "bg-dark-bg-primary text-dark-text-primary" : "bg-light-bg-primary text-light-text-primary"} no-scroll`}
@@ -174,35 +187,42 @@ function MobileMenu({ handleClose }) {
                             <Link href={`/${contextLang}/collections/wigs`} className={"underline hover:text-main transition-colors"}>{lang.header.wigs}</Link>
                             <Link href={`/${contextLang}/collections/extensions`} className={"underline hover:text-main transition-colors"}>{lang.header.extensions}</Link>
                         </div>
-                        <div className={"flex flex-col gap-3 items-center border-t py-6"}>
+                        <div className={"flex flex-col gap-3 items-center border-y py-6"}>
                             {auth.authenticated ? (
                                 <>
-                                    <Button href={`/${contextLang}/account/profile`}>Mi perfil</Button>
-                                    <Button href={`/${contextLang}/account/orders`}>Mis compras</Button>
+                                    <Button href={`/${contextLang}/account/profile`}>{lang.header.myProfile}</Button>
+                                    <Button href={`/${contextLang}/account/orders`}>{lang.header.myPurchases}</Button>
                                 </>
                             ) : (
                                 <>
-                                    <Button href={`/${contextLang}/login`}>Iniciar sesión</Button>
-                                    <Button href={`/${contextLang}/register`}>Registrar cuenta</Button>
+                                    <Button href={`/${contextLang}/login`}>{lang.header.login}</Button>
+                                    <Button href={`/${contextLang}/register`}>{lang.header.register}</Button>
                                 </>
                             )}
                         </div>
-                    </div>
-                </div>
-                <div className={"flex flex-col justify-center items-center gap-8"}>
-                    <Link href={`/${contextLang}/cart`} className={`grid place-content-center transition-colors hover:text-main`}>
-                        <div className={"text-3xl"}>
-                            <i className="fa-light fa-bag-shopping relative">
-                                <div className={`${styles.cartCount} grid place-content-center transition-colors rounded-full w-[1.15rem] h-[1.15rem]`}>3</div>
-                            </i>
+                        <div className={"flex flex-col justify-center items-center gap-8 py-6"}>
+                            <div className={"flex items-center justify-center gap-8"}>
+                                <button onClick={handleChangeTheme} className={`text-3xl`}>
+                                    <i className={`fa-light ${darkMode ? "fa-sun" : "fa-moon"}`}></i>
+                                </button>
+                                <Link href={`/${contextLang}/cart`} className={`grid place-content-center transition-colors hover:text-main`}>
+                                    <div className={"text-3xl"}>
+                                        <i className="fa-light fa-bag-shopping relative">
+                                            {productsCount ? (
+                                                <div className={`${styles.cartCount} grid place-content-center transition-colors rounded-full w-[1.15rem] h-[1.15rem]`}>{productsCount}</div>
+                                            ) : null}
+                                        </i>
+                                    </div>
+                                </Link>
+                            </div>
+                            {auth.authenticated ? (
+                                <button onClick={handleLogOut} className={`flex items-center gap-2 transition-colors text-red-700`}>
+                                    <span className={"font-semibold"}>Cerrar sesión</span>
+                                    <i className="fa-solid fa-arrow-right-from-bracket text-xl"></i>
+                                </button>
+                            ) : null}
                         </div>
-                    </Link>
-                    {auth.authenticated ? (
-                        <button onClick={handleLogOut} className={`flex items-center gap-2 transition-colors text-red-700`}>
-                            <span className={"font-semibold"}>Cerrar sesión</span>
-                            <i className="fa-solid fa-arrow-right-from-bracket text-xl"></i>
-                        </button>
-                    ) : null}
+                    </div>
                 </div>
             </div>
         </motion.div>
