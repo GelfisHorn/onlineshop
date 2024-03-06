@@ -96,7 +96,7 @@ export default function Header() {
                     <button onClick={handleChangeTheme} className={`${styles.cartButton} hidden md:grid place-content-center w-20 h-full text-2xl border-r ${darkMode ? "border-dark-border" : "border-light-border"}`}>
                         <i className={`fa-light ${darkMode ? "fa-sun" : "fa-moon"}`}></i>
                     </button>
-                    <Link href={`/${contextLang}/cart`} className={`${styles.cartButton} hidden md:grid place-content-center w-20 h-full border-r ${darkMode ? "border-dark-border" : "border-light-border"} transition-colors`}>
+                    <Link href={`/${contextLang}/cart`} className={`${styles.cartButton} grid place-content-center w-16 md:w-20 h-full border-r ${darkMode ? "border-dark-border" : "border-light-border"} transition-colors`}>
                         <div className={"text-2xl"}>
                             <i className="fa-light fa-bag-shopping relative">
                                 {productsCount ? (
@@ -113,7 +113,7 @@ export default function Header() {
                         </button>
                         <AuthModal auth={auth} show={showAuthModal} setShow={setShowAuthModal} />
                     </div>
-                    <button onClick={handleShowModal} className={`relative ${styles.cartButton} grid md:hidden place-content-center w-20 h-full transition-colors`}>
+                    <button onClick={handleShowModal} className={`relative ${styles.cartButton} grid md:hidden place-content-center w-16 h-full transition-colors`}>
                         <div className={"text-2xl"}>
                             <i className="fa-light fa-bars relative"></i>
                         </div>

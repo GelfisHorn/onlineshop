@@ -105,7 +105,7 @@ function Banner() {
                 className={"image-container h-[40rem] overflow-hidden"}
             >
                 <div className={"w-full h-full bg-[rgba(0,0,0,.4)] relative z-10"}></div>
-                <Image className={"object-cover object-top"} fill src={"/banner.png?v=1"} alt={"Banner image"} />
+                <Image className={"object-cover object-top object-left md:object-center"} fill src={"/banner.png?v=1"} alt={"Banner image"} />
             </div>
             <div className={"absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 flex flex-col items-center justify-center gap-16 sm:w-1/2 text-white z-10 text-center"}>
                 <div className={"flex flex-col gap-4 items-center"}>
