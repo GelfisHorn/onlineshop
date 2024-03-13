@@ -5,6 +5,7 @@ import Link from "next/link";
 import useAppContext from "@/hooks/useAppContext";
 // Animations
 import { motion } from "framer-motion";
+import useGetLang from "@/hooks/useGetLang";
 const container = {
     hidden: { opacity: 0 },
     visible: {
@@ -41,17 +42,18 @@ export default function CollectionsView({ collections }) {
 
 function Collection({ collection }) {
 
-    const { lang } = useAppContext();
+    const { lang: contextLang } = useAppContext();
+    const lang = useGetLang();
     const { img, nombre, url } = collection || {};
 
     return (
         <motion.div variants={item}>
-            <Link href={`/${lang}/collections/${url}`} className={"flex flex-col gap-2"}>
+            <Link href={`/${contextLang}/collections/${url}`} className={"flex flex-col gap-2"}>
                 <div className={"image-container overflow-hidden aspect-square rounded-md border-[2px] border-main"}>
                     <Image src={`${process.env.NEXT_PUBLIC_STRAPI_URI}${img?.data?.attributes?.formats?.large?.url}`} className={"image image-hover"} fill alt={"Product image"} />
                 </div>
                 <div className={"flex items-center gap-2"}>
-                    <span className={"text-lg"}>{nombre}</span>
+                    <span className={"text-lg"}>{lang.collections[url] || nombre}</span>
                     <i className="fa-regular fa-arrow-right"></i>
                 </div>
             </Link>

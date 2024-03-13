@@ -49,9 +49,9 @@ export default function Extensions() {
     }, [actualPage, collectionUrl, contextLang])
 
     return (
-        <Layout title={`${lang.pages.collections.extensions.title} ${collection?.attributes?.nombre || ""}`}>
+        <Layout title={`${lang.pages.collections.extensions.title} ${lang.collections[collection?.attributes?.url] || collection?.attributes?.nombre}`}>
             <ProductsView
-                title={`${lang.pages.collections.extensions.title} ${collection?.attributes?.nombre || ""}`}
+                title={`${lang.pages.collections.extensions.title} ${lang.collections[collection?.attributes?.url] || collection?.attributes?.nombre}`}
                 products={products}
                 itemsPerPage={ITEMS_PER_PAGE}
                 actualPage={actualPage}

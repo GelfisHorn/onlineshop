@@ -376,6 +376,10 @@ const de = {
             discountCode: "Dieser Code existiert nicht oder kann nicht mehr verwendet werden.",
             alreadyHasDiscountCode: "Sie haben bereits einen Rabattcode verwendet"
         }
+    },
+    collections: {
+        extensions: 'Erweiterungen',
+        wigs: 'Perücken'
     }
 }
 

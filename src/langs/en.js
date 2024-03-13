@@ -376,6 +376,10 @@ const en = {
             discountCode: "This code does not exist or can no longer be used.",
             alreadyHasDiscountCode: "You have already used a discount code"
         }
+    },
+    collections: {
+        extensions: 'Extensions',
+        wigs: 'Wigs'
     }
 }
 

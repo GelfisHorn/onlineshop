@@ -377,6 +377,10 @@ const es = {
             discountCode: "Este código no existe o ya no puede ser usado",
             alreadyHasDiscountCode: "Ya has usado un código de descuento"
         }
+    },
+    collections: {
+        extensions: 'Extensiones',
+        wigs: 'Pelucas'
     }
 }
 

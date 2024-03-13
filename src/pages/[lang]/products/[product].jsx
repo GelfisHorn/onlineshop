@@ -178,7 +178,9 @@ export default function ProductPage() {
                 <div className={"flex flex-col gap-20 w-full xl:w-1/2 xl:px-10"}>
                     <div className={"flex flex-col gap-6"}>
                         <div className={"flex flex-col gap-1"}>
-                            <span className={"uppercase font-medium"}>{product?.attributes?.collections?.data[0]?.attributes?.nombre}</span>
+                            <span className={"uppercase font-medium"}>
+                                {product?.attributes?.collections?.data[0]?.attributes?.nombre ? lang.collections[product?.attributes?.collections?.data[0]?.attributes?.url] || product?.attributes?.collections?.data[0]?.attributes?.nombre : ""}
+                            </span>
                             <h2 className={"text-4xl"}>{product?.attributes?.nombre}</h2>
                         </div>
                         <div className={"flex flex-col"}>
